@@ -2,6 +2,11 @@
   "name": "threerest",
   "version": "1.0.0",
   "description": "Module de validation",
-  "dependencies": {  },
+  "dependencies": {
+    "express": "4.13.4"
+  },
+  "devDependencies": {
+    "supertest": "1.1.0"
+  },
   "author": "wilfried Moulin"
 }
