@@ -4,6 +4,13 @@ import Service from "../service";
 
 export default class Method {
 
+  static METHODS = {
+    get: true,
+    post: false,
+    delete: false,
+    update: false
+  };
+
   static get(path) {
     return function (target, key, descriptor) {
       applyOnFunction(target, key, descriptor, "get", path);
@@ -21,7 +28,7 @@ export default class Method {
 */
 function applyOnFunction(target, key, descriptor, methodName, path) {
 
-  let methodHttp = methodName.toUpperCase();
+  let methodHttp = methodName;
   if (!target[Service.globalKey]) {
     target[Service.globalKey] = {};
   }
