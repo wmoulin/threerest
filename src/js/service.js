@@ -1,6 +1,7 @@
 "use strict";
 
-import * as Express from "express";
+import {Router} from "express";
+import Method from "./methods/method";
 
 export default class Service {
 
@@ -22,16 +23,21 @@ export default class Service {
       }
       target.prototype[Service.globalKey][Service.pathKey] = path;
 
+      console.log(target.prototype[Service.globalKey]);
+
       if (!target.prototype[Service.loadFct]) {
         target.prototype[Service.loadFct] = function(expressInst) {
+          console.log("Chargement des routes...");
           let childsValidate = [];
-          if (target[Service.globalKey]) {
-            console.log("target[Service.globalKey]", target[Service.globalKey]);
+          if (target.prototype[Service.globalKey]) {
+            console.log("target.prototype[Service.globalKey]", target.prototype[Service.globalKey]);
 
             for (var attrib in target.prototype[Service.globalKey]) {
-              if (Express.methods[attrib]) {
-                var router = Express.Router();
-                router[attrib].call(target.prototype[Service.globalKey][attrib][Service.pathKey], (req, res, next) => {target.prototype[Service.globalKey][attrib][Service.fctKey](req, res, next)});
+              console.log("methode HTTP", attrib);
+              if (Method.METHODS[attrib]) {
+                let fct = target.prototype[Service.globalKey][attrib][Service.fctKey];
+                let router = Router();
+                router[attrib](target.prototype[Service.globalKey][attrib][Service.pathKey], (req, res, next) => {console.log("fct", fct);fct.call(this, req, res, next)});
                 expressInst.use(target.prototype[Service.globalKey][Service.pathKey], router);
               }
             }
