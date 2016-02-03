@@ -6,7 +6,6 @@ export default class ServiceTest {
 
   @Method.get("/");
   testGet(req, res, next) {
-    console.log("coucou");
     res.send("coucou");
   }
 
