@@ -11,6 +11,10 @@ export default class Method {
     update: false
   };
 
+  /**
+  * Décorateur pour les méthodes de service 'GET'.
+  * @param {string} path - path du sercice Rest.
+  */
   static get(path) {
     return function (target, key, descriptor) {
       applyOnFunction(target, key, descriptor, "get", path);
