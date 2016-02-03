@@ -12,7 +12,7 @@ export default class Service {
 
 
   /**
-  * initailise un servcie.
+  * Décorateur pour initialiser un service.
   * @param {string} path - path du sercice Rest.
   */
   static path(path) {
