@@ -12,7 +12,7 @@ export default class Service {
 
 
   /**
-  * Décorateur pour initialiser un service.
+  * initailise un servcie.
   * @param {string} path - path du sercice Rest.
   */
   static path(path) {
@@ -23,21 +23,34 @@ export default class Service {
       }
       target.prototype[Service.globalKey][Service.pathKey] = path;
 
-      console.log(target.prototype[Service.globalKey]);
-
       if (!target.prototype[Service.loadFct]) {
         target.prototype[Service.loadFct] = function(expressInst) {
-          console.log("Chargement des routes...");
+
           let childsValidate = [];
           if (target.prototype[Service.globalKey]) {
-            console.log("target.prototype[Service.globalKey]", target.prototype[Service.globalKey]);
 
             for (var attrib in target.prototype[Service.globalKey]) {
-              console.log("methode HTTP", attrib);
+
               if (Method.METHODS[attrib]) {
                 let fct = target.prototype[Service.globalKey][attrib][Service.fctKey];
                 let router = Router();
-                router[attrib](target.prototype[Service.globalKey][attrib][Service.pathKey], (req, res, next) => {console.log("fct", fct);fct.call(this, req, res, next)});
+                router[attrib](target.prototype[Service.globalKey][attrib][Service.pathKey], (req, res, next) => {
+                  let p = new Promise((resolve) => { resolve(req.params||true); });
+                  if (fct.convertBefore) {
+                    p = p.then((params)=> {
+                      return fct.convertBefore(params);
+                    }).then((value) => {
+                      return fct.call(this, value, req, res, next);
+                    });
+                  } else {
+                    p = p.then(() => {
+                      return fct.call(this, req, res, next);
+                    });
+                  }
+                  p.then((value) => {
+                    res.send(value);
+                  });
+                });
                 expressInst.use(target.prototype[Service.globalKey][Service.pathKey], router);
               }
             }

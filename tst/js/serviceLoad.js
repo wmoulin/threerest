@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 var express = require('express');
 var request = require('supertest');
@@ -14,8 +14,8 @@ describe('Laod service rest', function(){
     serviceLoader.loadService(app, new serviceOne());
 
     request(app)
-    .get('/test')
-    .expect('coucou', done);
+    .get('/test/12')
+    .expect('{"id":"12"}', done);
   });
 
   it.skip('should return the value', function(done){
