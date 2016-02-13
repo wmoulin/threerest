@@ -1,5 +1,5 @@
 "use strict";
-import serviceTest from"./serviceTest";
+import * as services from"./serviceTest";
 import * as serviceLoader from"./service-loader";
 
 import express from "express";
@@ -11,6 +11,7 @@ app.get("/", function(req, res){
 });
 
 
-serviceLoader.loadService(app, new serviceTest());
+serviceLoader.loadService(app, new services.ServiceTest());
+serviceLoader.loadService(app, new services.ServiceError());
 
 app.listen(3000, () => {console.log("Express start...");});

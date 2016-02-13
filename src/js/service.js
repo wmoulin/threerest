@@ -2,6 +2,8 @@
 
 import {Router} from "express";
 import Method from "./methods/method";
+import RestError from "./exceptions/restError";
+import NotFoundError from "./exceptions/notFoundError";
 
 export default class Service {
 
@@ -47,10 +49,16 @@ export default class Service {
                       return fct.call(this, req, res, next);
                     });
                   }
-                  p.then((value) => {
+                  p = p.then((value) => {
                     res.send(value);
-                  });
-                });
+                  })
+                  .catch((e) => {
+                    if (e.code) {
+                      res.status(e.code).send(e.message);
+                    } else {
+                      res.send(e);
+                    }
+                  });                });
                 expressInst.use(target.prototype[Service.globalKey][Service.pathKey], router);
               }
             }
