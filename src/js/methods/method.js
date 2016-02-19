@@ -6,9 +6,10 @@ export default class Method {
 
   static METHODS = {
     get: true,
-    post: false,
-    delete: false,
-    update: false
+    post: true,
+    delete: true,
+    put: true,
+    patch: true
   };
 
   /**
@@ -18,6 +19,46 @@ export default class Method {
   static get(path) {
     return function (target, key, descriptor) {
       applyOnFunction(target, key, descriptor, "get", path);
+    };
+  }
+
+  /**
+  * Décorateur pour les méthodes de service 'POST'.
+  * @param {string} path - path du sercice Rest.
+  */
+  static post(path) {
+    return function (target, key, descriptor) {
+      applyOnFunction(target, key, descriptor, "post", path);
+    };
+  }
+
+  /**
+  * Décorateur pour les méthodes de service 'PUT'.
+  * @param {string} path - path du sercice Rest.
+  */
+  static put(path) {
+    return function (target, key, descriptor) {
+      applyOnFunction(target, key, descriptor, "put", path);
+    };
+  }
+
+  /**
+  * Décorateur pour les méthodes de service 'DELETE'.
+  * @param {string} path - path du sercice Rest.
+  */
+  static delete(path) {
+    return function (target, key, descriptor) {
+      applyOnFunction(target, key, descriptor, "delete", path);
+    };
+  }
+
+  /**
+  * Décorateur pour les méthodes de service 'PATCH'.
+  * @param {string} path - path du sercice Rest.
+  */
+  static patch(path) {
+    return function (target, key, descriptor) {
+      applyOnFunction(target, key, descriptor, "patch", path);
     };
   }
 };
