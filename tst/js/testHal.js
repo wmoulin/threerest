@@ -15,7 +15,7 @@ describe('Laod service rest', function(){
 
     request(app)
     .get('/hal/12')
-    .expect('{"id":"12"}', done);
+    .expect('{"id":"12","self":"/hal/12"}', done);
   });
 
 });
