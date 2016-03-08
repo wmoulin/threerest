@@ -12,7 +12,7 @@ export default class Hal {
   halEntity() {
     return function decorate(target) {
       if (!target.halLink) {
-        Object.defineProperty(Person.prototype, 'halLink', {
+        Object.defineProperty(target, 'halLink', {
           value : function(){ return "link" }
         });
       }
@@ -22,7 +22,7 @@ export default class Hal {
   resourceId() {
     return function decorate(target, key, descriptor) {
       if (!target.halRessourceId) {
-        Object.defineProperty(Person.prototype, 'halRessourceId', {
+        Object.defineProperty(target, 'halRessourceId', {
           get : function(){ return target[key]; }
         });
       }
