@@ -42,11 +42,11 @@ export default class Service {
                     p = p.then((params)=> {
                       return fct.convertBefore(params);
                     }).then((value) => {
-                      return fct.call(this, value, req, res, next);
+                      return fct.call(this, value, req, res);
                     });
                   } else {
                     p = p.then(() => {
-                      return fct.call(this, req, res, next);
+                      return fct.call(this, req, res);
                     });
                   }
                   p = p.then((value) => {
@@ -56,9 +56,10 @@ export default class Service {
                     if (e.code) {
                       res.status(e.code).send(e.message);
                     } else {
-                      res.send(e);
+                      res.status(500).send(e);
                     }
-                  });                });
+                  });
+                });
                 expressInst.use(target.prototype[Service.globalKey][Service.pathKey], router);
               }
             }

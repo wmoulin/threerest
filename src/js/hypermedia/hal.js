@@ -1,15 +1,26 @@
 export default class Hal {
 
-  halServiceMethod(paginator) {
+  static halServiceMethod(paginator) {
     return function decorate(target, key, descriptor) {
       let oldFunct = descriptor.value;
+
       descriptor.value = function() {
-        return oldFunct.apply(this.caller, arguments);
+        let p = new Promise((resolve) => { resolve(true); });
+        p = p.then(()=> {
+          var result = oldFunct.apply(this.caller, arguments);
+          result.self = arguments[1].originalUrl;
+          return result;
+        });
+        return p;
       };
+
+      if (oldFunct.convertBefore) {
+        descriptor.value.convertBefore = oldFunct.convertBefore;
+      }
     }
   }
 
-  halEntity() {
+  static halEntity() {
     return function decorate(target) {
       if (!target.halLink) {
         Object.defineProperty(target, 'halLink', {
@@ -19,7 +30,7 @@ export default class Hal {
     }
   }
 
-  resourceId() {
+  static resourceId() {
     return function decorate(target, key, descriptor) {
       if (!target.halRessourceId) {
         Object.defineProperty(target, 'halRessourceId', {
