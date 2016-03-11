@@ -14,3 +14,14 @@ export default class ServiceTest {
     return value;
   }
 }
+
+@Service.path("/whatever")
+export class ServiceWhatever {
+
+  @Method.get("/:id")
+  @Hal.halServiceMethod()
+  @convert(Param)
+  testGet(value) {
+    return value;
+  }
+}
