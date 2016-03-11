@@ -1,6 +1,10 @@
 "use strict";
 import RestError from "./restError";
 
+/**
+* Not Found Rest service error
+* @class
+*/
 export default class NotFoundError extends RestError {
 
   constructor(message) {

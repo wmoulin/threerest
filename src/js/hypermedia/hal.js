@@ -1,3 +1,8 @@
+"use strict";
+
+import HalFlux from "./halFlux";
+var pathToRegexp = require("path-to-regexp");
+
 export default class Hal {
 
   static halServiceMethod(paginator) {
@@ -7,8 +12,17 @@ export default class Hal {
       descriptor.value = function() {
         let p = new Promise((resolve) => { resolve(true); });
         p = p.then(()=> {
-          var result = oldFunct.apply(this.caller, arguments);
-          result.self = arguments[1].originalUrl;
+          var result = new HalFlux(oldFunct.apply(this.caller, arguments));
+          result.selfLink = arguments[1].originalUrl || arguments[0].originalUrl;
+
+          if (Array.isArray(result.data)) {
+            result.data.forEach((elt, index) => {
+              if (elt.halLink) {
+                HalFlux.decorateSimpleObject(result.data[index], elt.halLink.apply(elt));
+              }
+            });
+          }
+
           return result;
         });
         return p;
@@ -20,12 +34,13 @@ export default class Hal {
     }
   }
 
-  static halEntity() {
+  static halEntity(link) {
     return function decorate(target) {
       if (!target.halLink) {
-        Object.defineProperty(target, 'halLink', {
-          value : function(){ return "link" }
-        });
+        target.pathToRegexp = pathToRegexp.compile(link);
+        target.prototype.halLink = function() {
+          return target.pathToRegexp({ id: this.halRessourceId() });
+        };
       }
     }
   }
@@ -33,9 +48,9 @@ export default class Hal {
   static resourceId() {
     return function decorate(target, key, descriptor) {
       if (!target.halRessourceId) {
-        Object.defineProperty(target, 'halRessourceId', {
-          get : function(){ return target[key]; }
-        });
+        target.halRessourceId = function() {
+          return this[key];
+        };
       }
     }
   }

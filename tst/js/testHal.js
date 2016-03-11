@@ -15,7 +15,10 @@ describe('Laod service rest', function(){
 
     request(app)
     .get('/hal/12')
-    .expect('{"id":"12","self":"/hal/12"}', done);
+    .expect(function(res) {
+      console.log(res.body);
+      assert.equal(res.body._links.self, '/hal/12');
+    }).end(done);
   });
 
 });

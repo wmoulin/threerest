@@ -7,7 +7,8 @@
   },
   "dependencies": {
     "bluebird": "^3.2.1",
-    "express": "4.13.4"
+    "express": "4.13.4",
+    "path-to-regexp": "^1.2.1"
   },
   "devDependencies": {
     "supertest": "1.1.0"

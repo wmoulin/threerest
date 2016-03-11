@@ -11,6 +11,19 @@ export default class ServiceTest {
   @Hal.halServiceMethod()
   @convert(Param)
   testGet(value) {
-    return value;
+    return [new User(1, "firstName1", "lastName1"), new User(2, "firstName2", "lastName2")];
+  }
+}
+
+@Hal.halEntity("monApi/toto/:id")
+class User {
+
+  @Hal.resourceId()
+  id = 0;
+
+  constructor(id, firstName, lastName) {
+    this.id = id;
+    this.firstName = firstName;
+    this.lastName = lastName;
   }
 }
