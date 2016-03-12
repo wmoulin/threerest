@@ -4,7 +4,7 @@ var express = require('express');
 var request = require('supertest');
 
 import serviceHal from"./serviceHal";
-var serviceLoader = require("../../src/js/service-loader");
+var serviceLoader = require("../../../src/js/service-loader");
 var assert = require("assert");
 
 describe('Laod service rest', function(){

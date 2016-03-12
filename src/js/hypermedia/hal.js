@@ -5,7 +5,7 @@ var pathToRegexp = require("path-to-regexp");
 
 export default class Hal {
 
-  static halServiceMethod(paginator) {
+  static halServiceMethod(limit, offset) {
     return function decorate(target, key, descriptor) {
       let oldFunct = descriptor.value;
 
