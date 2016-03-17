@@ -13,9 +13,7 @@ export default class Pagination {
         p = p.then(()=> {
           return oldFunct.apply(this, arguments);
         }).then((array)=> {
-          return managePagination(array, arguments[1].query, limit, offset);
-        }).catch((e)=> {
-          console.log("e", e);
+          return managePagination(array, arguments[0].query || arguments[1].query, limit, offset);
         });
         return p;
       };
