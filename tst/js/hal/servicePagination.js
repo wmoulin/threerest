@@ -1,7 +1,8 @@
 import Hal from "../../../src/js/hypermedia/hal";
 import Service from "../../../src/js/service";
-import Method from "../../../src/js/methods/method";
+import Method from "../../../src/js/services/methods";
 import convert from "../../../src/js/convert";
+import Pagination from "../../../src/js/services/pagination";
 import Param from "../param";
 
 @Service.path("/pagination")
@@ -23,8 +24,13 @@ export default class ServicePagination {
 @Service.path("/paginationCustom")
 export class ServicePaginationCustom {
 
+  constructor() {
+    this.coucou = "voila";
+  }
+
   @Method.get("/:id")
-  @Hal.halServiceMethod("limite", "offset2")
+  @Hal.halServiceMethod()
+  @Pagination.paginate("limite", "offset2")
   @convert(Param)
   testGet(value) {
     return [

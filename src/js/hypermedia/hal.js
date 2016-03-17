@@ -5,14 +5,16 @@ var pathToRegexp = require("path-to-regexp");
 
 export default class Hal {
 
-  static halServiceMethod(limit, offset) {
+  static halServiceMethod() {
     return function decorate(target, key, descriptor) {
       let oldFunct = descriptor.value;
 
       descriptor.value = function() {
         let p = new Promise((resolve) => { resolve(true); });
         p = p.then(()=> {
-          var result = new HalFlux(oldFunct.apply(this.caller, arguments));
+          return oldFunct.apply(this, arguments);
+        }).then((resultFct)=> {
+          var result = new HalFlux(resultFct);
           result.selfLink = arguments[1].originalUrl || arguments[0].originalUrl;
 
           if (Array.isArray(result.data)) {

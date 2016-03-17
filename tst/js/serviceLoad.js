@@ -18,7 +18,7 @@ describe('Laod service rest', function(){
     .expect('{"id":"12"}', done);
   });
 
-  it.skip('should return the value', function(done){
+  it('should return the value', function(done){
     var app = express();
 
     app.route('/:foo')

@@ -8,7 +8,7 @@ var serviceLoader = require("../../../src/js/service-loader");
 var assert = require("assert");
 
 describe('Laod service rest', function(){
-  it('should return a new route', function(done){
+  it('should add self link', function(done){
 
     var app = express();
     serviceLoader.loadService(app, new serviceHal());
@@ -16,8 +16,7 @@ describe('Laod service rest', function(){
     request(app)
     .get('/hal/12')
     .expect(function(res) {
-      console.log(res.body);
-      assert.equal(res.body._links.self, '/hal/12');
+      assert.equal(res.body._links.self.href, '/hal/12');
     }).end(done);
   });
 

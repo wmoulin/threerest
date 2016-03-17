@@ -1,5 +1,5 @@
 import Service from "../../src/js/service";
-import Method from "../../src/js/methods/method";
+import Method from "../../src/js/services/methods";
 import convert from "../../src/js/convert";
 import Param from "./param";
 

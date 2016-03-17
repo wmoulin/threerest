@@ -8,93 +8,24 @@ import {ServicePaginationCustom as servicePaginationCustom} from"./servicePagina
 var serviceLoader = require("../../../src/js/service-loader");
 var assert = require("assert");
 
-describe.skip('Check Pagination all result', function(){
-  it('should return a new route', function(done){
 
-    var app = express();
-    serviceLoader.loadService(app, new servicePagination());
-
-    request(app)
-    .get('/pagination/666')
-    .expect('[{"firstName":"John","lastName":"Doe"},{"firstName":"Anna","lastName":"Smith"},{"firstName":"Peter","lastName":"Jones"},{"_links":{"self":{"href":"/pagination/666"}}}]', done);
-  });
-
-});
-
-describe.skip('Check Pagination only with limite', function(){
-  it('should return a new route', function(done){
-
-    var app = express();
-    serviceLoader.loadService(app, new servicePaginationCustom());
-
-    request(app)
-    .get('/paginationCustom/666?limite=2')
-    .expect('[{"firstName":"John","lastName":"Doe"},{"firstName":"Anna","lastName":"Smith"},{"_links":{"self":{"href":"/paginationCustom/666?limite=2"}}}]', done);
-  });
-
-});
-
-describe.skip('Check Pagination only with offset2', function(){
-  it('should return a new route', function(done){
-
-    var app = express();
-    serviceLoader.loadService(app, new servicePaginationCustom());
-
-    request(app)
-    .get('/paginationCustom/666?offset2=1')
-    .expect('[{"firstName":"Anna","lastName":"Smith"},{"firstName":"Peter","lastName":"Jones"},{"_links":{"self":{"href":"/paginationCustom/666?offset2=1"}}}]', done);
-  });
-
-});
-
-describe.skip('Check Pagination with limite and offset2', function(){
-  it('should return a new route', function(done){
+describe('Check Pagination with limite and offset2', function(){
+  it('should return array part', function(done){
 
     var app = express();
     serviceLoader.loadService(app, new servicePaginationCustom());
 
     request(app)
     .get('/paginationCustom/666?limite=1&offset2=0')
-    .expect('[{"firstName":"John","lastName":"Doe"},{"_links":{"self":{"href":"/paginationCustom/666?limite=1&offset2=0"}}}]', done);
-  });
-
-});
-
-describe.skip('Check Pagination with limit', function(){
-  it('should return a new route', function(done){
-
-    var app = express();
-    serviceLoader.loadService(app, new servicePagination());
-
-    request(app)
-    .get('/pagination/666?limit=2')
-    .expect('[{"firstName":"John","lastName":"Doe"},{"firstName":"Anna","lastName":"Smith"},{"_links":{"self":{"href":"/pagination/666?limit=2"}}}]', done);
-  });
-
-});
-
-describe.skip('Check Pagination with limit and offset', function(){
-  it('should return a new route', function(done){
-
-    var app = express();
-    serviceLoader.loadService(app, new servicePagination());
-
-    request(app)
-    .get('/pagination/666?offset=2')
-    .expect('[{"firstName":"Peter","lastName":"Jones"},{"_links":{"self":{"href":"/pagination/666?offset=2"}}}]', done);
-  });
-
-});
-
-describe.skip('Check Pagination with limit and offset', function(){
-  it('should return a new route', function(done){
-
-    var app = express();
-    serviceLoader.loadService(app, new servicePagination());
-
-    request(app)
-    .get('/pagination/666?limit=2&offset=1')
-    .expect('[{"firstName":"Anna","lastName":"Smith"},{"firstName":"Peter","lastName":"Jones"},{"_links":{"self":{"href":"/pagination/666?limit=2&offset=1"}}}]', done);
+    .expect(function(res) {
+      let expected = { _links:
+        { self: {
+          href:"/paginationCustom/666?limite=1&offset2=0"}
+        }, data: [{firstName:"John",lastName:"Doe"}]}
+      assert.equal(res.body._links.self.href, expected._links.self.href);
+      assert.equal(res.body.data.length, expected.data.length);
+      assert.equal(res.body.data[0].firstname, expected.data[0].firstname);
+    }).end(done);
   });
 
 });

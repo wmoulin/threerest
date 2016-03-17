@@ -13,19 +13,19 @@ export default class halFlux {
   }
 
   set selfLink(value) {
-    this._links[SELF_LINK_PROP] = value;
+    this._links[SELF_LINK_PROP] = {href: value};
   }
 
   set nextLink(value) {
-    this._links[NEXT_LINK_PROP] = value;
+    this._links[NEXT_LINK_PROP] = {href: value};
   }
 
   set previousLink(value) {
-    this._links[PREVIOUS_LINK_PROP] = value;
+    this._links[PREVIOUS_LINK_PROP] = {href: value};
   }
 
   static decorateSimpleObject(objet, selfLink) {
     objet._links = {};
-    objet._links[SELF_LINK_PROP] = selfLink;
+    objet._links[SELF_LINK_PROP] = {href: selfLink};
   }
 }

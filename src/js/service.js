@@ -1,7 +1,7 @@
 "use strict";
 
 import {Router} from "express";
-import Method from "./methods/method";
+import Method from "./services/methods";
 import RestError from "./exceptions/restError";
 import NotFoundError from "./exceptions/notFoundError";
 

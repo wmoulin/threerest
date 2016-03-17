@@ -17,6 +17,6 @@ export function loadServices(expressInst, serviceDirPath) {
 export function loadService(expressInst, service) {
 
   if (service[Service.loadFct]) {
-    service[Service.loadFct](expressInst);
+    service[Service.loadFct].call(service, expressInst);
   }
 };
