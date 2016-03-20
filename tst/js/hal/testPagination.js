@@ -126,27 +126,3 @@ describe('Check Pagination with normal keyword for limit and offset', function()
     }).end(done);
   });
 });
-
-
-/*describe('Check Pagination with custom keyword for limit and offset', function(){
-  it('should return the first result of the list', function(done){
-
-    var app = express();
-    serviceLoader.loadService(app, new servicePaginationCustom());
-
-    request(app)
-    .get('/paginationCustom/666?limite=1&offset2=0')
-    .expect(function(res) {
-      let expected = { _links:
-        { self: {
-          href:"/paginationCustom/666?limite=1&offset2=0"}
-        }, data: [{firstName:"Peter", lastName:"Parker", secretIdentity: "Spiderman", offset:"0"}]}
-      assert.equal(res.body._links.self.href, expected._links.self.href);
-      assert.equal(res.body.data.length, expected.data.length);
-
-      DataHelper.testData(res.body.data, expected.data, 0, 1);
-
-    }).end(done);
-  });
-
-});*/

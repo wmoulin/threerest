@@ -17,20 +17,3 @@ export default class ServicePagination {
     return DataHelper.getTestData();
   }
 }
-
-
-/*@Service.path("/paginationCustom")
-export class ServicePaginationCustom {
-
-  constructor() {
-    this.coucou = "voila";
-  }
-
-  @Method.get("/:id")
-  @Hal.halServiceMethod()
-  @Pagination.paginate("limite", "offset2")
-  @convert(Param)
-  testGet(value) {
-    return DataHelper.getTestData();
-  }
-}*/
