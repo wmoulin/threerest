@@ -33,7 +33,7 @@ describe('Check Pagination with normal keyword for limit and offset', function()
   });
 
 
-  it('should return the four first result', function(done){
+  it.skip('should return the four first result', function(done){
 
     var app = express();
     serviceLoader.loadService(app, new servicePagination());
@@ -57,7 +57,7 @@ describe('Check Pagination with normal keyword for limit and offset', function()
     }).end(done);
   });
 
-  it('should return all the result from offset 8', function(done){
+  it.skip('should return all the result from offset 8', function(done){
 
     var app = express();
     serviceLoader.loadService(app, new servicePagination());
@@ -82,7 +82,7 @@ describe('Check Pagination with normal keyword for limit and offset', function()
     }).end(done);
   });
 
-  it('should return the first three result', function(done){
+  it.skip('should return the first three result', function(done){
 
     var app = express();
     serviceLoader.loadService(app, new servicePagination());
@@ -105,7 +105,7 @@ describe('Check Pagination with normal keyword for limit and offset', function()
     }).end(done);
   });
 
-  it('should return the two result start with offset 5', function(done){
+  it.skip('should return the two result start with offset 5', function(done){
 
     var app = express();
     serviceLoader.loadService(app, new servicePagination());

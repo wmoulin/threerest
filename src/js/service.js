@@ -14,8 +14,9 @@ export default class Service {
 
 
   /**
-  * initailise un servcie.
-  * @param {string} path - path du sercice Rest.
+  * initialize a service.
+  *
+  * @param {string} path - the path of the service Rest.
   */
   static path(path) {
 
