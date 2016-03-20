@@ -4,7 +4,14 @@ import HalFlux from "./halFlux";
 var pathToRegexp = require("path-to-regexp");
 
 export default class Hal {
-
+  /**
+   * Add a link on the result object. It represent the
+   * state of the application. We used hal spec to represent this state.
+   * The decorator is add on a method service.
+   *
+   * @method
+   * @returns {json} the result with the hal links
+   */
   static halServiceMethod() {
     return function decorate(target, key, descriptor) {
       let oldFunct = descriptor.value;
@@ -36,6 +43,15 @@ export default class Hal {
     }
   }
 
+  /**
+   * Add a link on the result object. It represent the
+   * state of the application. We used hal spec to represent this state.
+   * The decorator is add on a entity.
+   *
+   * @method
+  * @param {string} link - the link.
+   * @returns {function} the decorator
+   */
   static halEntity(link) {
     return function decorate(target) {
       if (!target.halLink) {
@@ -47,6 +63,14 @@ export default class Hal {
     }
   }
 
+  /**
+   * Add a link on the result object. It represent the
+   * state of the application. We used hal spec to represent this state.
+   * The decorator is add on a ressource.
+   *
+   * @method
+   * @returns {function} the decorator
+   */
   static resourceId() {
     return function decorate(target, key, descriptor) {
       if (!target.halRessourceId) {

@@ -14,7 +14,7 @@ export default class ArrayHelper {
     if (limit && offset) {
       // TODO gestion du code retour
       //res.status(206);
-      return result.slice(offset, offset + limit);
+      return result.slice(offset, parseInt(offset) + parseInt(limit));
     } else if (limit) {
       //res.status(206);
       return result.slice(0, limit);

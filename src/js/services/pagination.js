@@ -4,6 +4,14 @@ import ArrayHelper from "../helpers/arrayHelper";
 
 export default class Pagination {
 
+  /**
+   * Orchester pagination based on keywords parameter.
+   *
+   * @method
+   * @param {String} [limit] - The keyword for limit. It can be null.
+   * @param {String} [offset] - The keyword for offset. It can be null.
+   * @returns {json} the result with pagination
+   */
   static paginate(limit, offset) {
     return function decorate(target, key, descriptor) {
       let oldFunct = descriptor.value;
