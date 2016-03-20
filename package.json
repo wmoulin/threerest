@@ -2,9 +2,6 @@
   "name": "threerest",
   "version": "1.0.0",
   "description": "Module de validation",
-  "scripts": {
-    "start": "node ./dist/js/server"
-  },
   "dependencies": {
     "bluebird": "^3.2.1",
     "express": "4.13.4",
@@ -13,5 +10,6 @@
   "devDependencies": {
     "supertest": "1.1.0"
   },
-  "author": "wilfried Moulin"
+  "author": "wilfried Moulin",
+  "main": "./src/js/threerest.js"
 }
