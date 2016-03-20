@@ -3,25 +3,25 @@
 var express = require('express');
 var request = require('supertest');
 
-import servicePagination from"./servicePagination";
+import serviceCustomPagination from"./serviceCustomPagination";
 import DataHelper from "../helpers/dataHelper";
 
 var serviceLoader = require("../../../src/js/service-loader");
 var assert = require("assert");
 
-describe('Check Pagination with normal keyword for limit and offset', function(){
+describe('Check Pagination with custom keyword for limit and offset', function(){
 
   it('should return all the result', function(done){
 
     var app = express();
-    serviceLoader.loadService(app, new servicePagination());
+    serviceLoader.loadService(app, new serviceCustomPagination());
     var data = DataHelper.getTestData();
     request(app)
-    .get('/pagination/666')
+    .get('/paginationCustom/666')
     .expect(function(res) {
       let expected = { _links:
         { self: {
-          href:"/pagination/666"}
+          href:"/paginationCustom/666"}
         }, data: data}
 
       assert.equal(res.body._links.self.href, expected._links.self.href);
@@ -36,14 +36,14 @@ describe('Check Pagination with normal keyword for limit and offset', function()
   it('should return the four first result', function(done){
 
     var app = express();
-    serviceLoader.loadService(app, new servicePagination());
+    serviceLoader.loadService(app, new serviceCustomPagination());
 
     request(app)
-    .get('/pagination/666?limit=4')
+    .get('/paginationCustom/666?limite=4')
     .expect(function(res) {
       let expected = { _links:
         { self: {
-          href:"/pagination/666?limit=4"}
+          href:"/paginationCustom/666?limite=4"}
         }, data: [{firstName:"Peter", lastName:"Parker", secretIdentity: "Spiderman", offset:"0"},
         {firstName:"Bruce", lastName:"Wayne", secretIdentity: "Batman", offset:"1"},
         {firstName:"Clark", lastName:"Kent", secretIdentity: "Superman", offset:"2"},
@@ -60,14 +60,14 @@ describe('Check Pagination with normal keyword for limit and offset', function()
   it('should return all the result from offset 8', function(done){
 
     var app = express();
-    serviceLoader.loadService(app, new servicePagination());
+    serviceLoader.loadService(app, new serviceCustomPagination());
 
     request(app)
-    .get('/pagination/666?offset=8')
+    .get('/paginationCustom/666?index=8')
     .expect(function(res) {
       let expected = { _links:
         { self: {
-          href:"/pagination/666?offset=8"}
+          href:"/paginationCustom/666?index=8"}
         }, data: [{firstName:"Matt", lastName:"Murdock", secretIdentity: "Daredevil", offset:"8"},
         {firstName:"Wade", lastName:"Wilson", secretIdentity: "Deadpool", offset:"9"},
         {firstName:"Elektra", lastName:"Natchios", secretIdentity: "Elektra", offset:"10"},
@@ -85,14 +85,14 @@ describe('Check Pagination with normal keyword for limit and offset', function()
   it('should return the first three result', function(done){
 
     var app = express();
-    serviceLoader.loadService(app, new servicePagination());
+    serviceLoader.loadService(app, new serviceCustomPagination());
 
     request(app)
-    .get('/pagination/666?limit=3&offset=0')
+    .get('/paginationCustom/666?limite=3&index=0')
     .expect(function(res) {
       let expected = { _links:
         { self: {
-          href:"/pagination/666?limit=3&offset=0"}
+          href:"/paginationCustom/666?limite=3&index=0"}
         }, data: [{firstName:"Peter", lastName:"Parker", secretIdentity: "Spiderman", offset:"0"},
         {firstName:"Bruce", lastName:"Wayne", secretIdentity: "Batman", offset:"1"},
         {firstName:"Clark", lastName:"Kent", secretIdentity: "Superman", offset:"2"}]}
@@ -108,14 +108,14 @@ describe('Check Pagination with normal keyword for limit and offset', function()
   it('should return the two result start with offset 5', function(done){
 
     var app = express();
-    serviceLoader.loadService(app, new servicePagination());
+    serviceLoader.loadService(app, new serviceCustomPagination());
 
     request(app)
-    .get('/pagination/666?limit=2&offset=5')
+    .get('/paginationCustom/666?limite=2&index=5')
     .expect(function(res) {
       let expected = { _links:
         { self: {
-          href:"/pagination/666?limit=2&offset=5"}
+          href:"/paginationCustom/666?limite=2&index=5"}
         }, data: [{firstName:"Bruce", lastName:"Banner", secretIdentity: "Hulk", offset:"5"},
                 {firstName:"Natasha", lastName:"Romanoff", secretIdentity: "Black Widow", offset:"6"}]}
 
@@ -126,27 +126,3 @@ describe('Check Pagination with normal keyword for limit and offset', function()
     }).end(done);
   });
 });
-
-
-/*describe('Check Pagination with custom keyword for limit and offset', function(){
-  it('should return the first result of the list', function(done){
-
-    var app = express();
-    serviceLoader.loadService(app, new servicePaginationCustom());
-
-    request(app)
-    .get('/paginationCustom/666?limite=1&offset2=0')
-    .expect(function(res) {
-      let expected = { _links:
-        { self: {
-          href:"/paginationCustom/666?limite=1&offset2=0"}
-        }, data: [{firstName:"Peter", lastName:"Parker", secretIdentity: "Spiderman", offset:"0"}]}
-      assert.equal(res.body._links.self.href, expected._links.self.href);
-      assert.equal(res.body.data.length, expected.data.length);
-
-      DataHelper.testData(res.body.data, expected.data, 0, 1);
-
-    }).end(done);
-  });
-
-});*/

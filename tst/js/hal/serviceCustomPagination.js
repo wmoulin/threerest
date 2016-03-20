@@ -6,21 +6,8 @@ import Pagination from "../../../src/js/services/pagination";
 import DataHelper from "../helpers/dataHelper";
 import Param from "../param";
 
-@Service.path("/pagination")
-export default class ServicePagination {
-
-  @Method.get("/:id")
-  @Hal.halServiceMethod()
-  @Pagination.paginate()
-  @convert(Param)
-  testGet(value) {
-    return DataHelper.getTestData();
-  }
-}
-
-
-/*@Service.path("/paginationCustom")
-export class ServicePaginationCustom {
+@Service.path("/paginationCustom")
+export default class ServicePaginationCustom {
 
   constructor() {
     this.coucou = "voila";
@@ -28,9 +15,9 @@ export class ServicePaginationCustom {
 
   @Method.get("/:id")
   @Hal.halServiceMethod()
-  @Pagination.paginate("limite", "offset2")
+  @Pagination.paginate("limite", "index")
   @convert(Param)
   testGet(value) {
     return DataHelper.getTestData();
   }
-}*/
+}

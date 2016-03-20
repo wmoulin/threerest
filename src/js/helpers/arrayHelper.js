@@ -11,10 +11,14 @@ export default class ArrayHelper {
    * @returns {json}
    */
   static paginatesList(result, limit, offset) {
+/*    console.log("limit");
+    console.log(limit);
+    console.log("offset");
+    console.log(offset);*/
     if (limit && offset) {
       // TODO gestion du code retour
       //res.status(206);
-      return result.slice(offset, offset + limit);
+      return result.slice(offset, parseInt(offset) + parseInt(limit));
     } else if (limit) {
       //res.status(206);
       return result.slice(0, limit);
