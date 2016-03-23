@@ -15,7 +15,7 @@ export default class ServiceTest {
   }
 }
 
-@Hal.halEntity("monApi/toto/:id")
+@Hal.halEntity("/monApi/:id/:halId")
 class User {
 
   @Hal.resourceId()

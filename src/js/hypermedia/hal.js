@@ -27,7 +27,7 @@ export default class Hal {
           if (Array.isArray(result.data)) {
             result.data.forEach((elt, index) => {
               if (elt.halLink) {
-                HalFlux.decorateSimpleObject(result.data[index], elt.halLink.apply(elt));
+                HalFlux.decorateSimpleObject(result.data[index], elt.halLink.call(elt, arguments[1].params || arguments[0].params));
               }
             });
           }
@@ -49,24 +49,24 @@ export default class Hal {
    * The decorator is add on a entity.
    *
    * @method
-  * @param {string} link - the link.
+   * @param {string} link - the link.
    * @returns {function} the decorator
    */
   static halEntity(link) {
     return function decorate(target) {
       if (!target.halLink) {
         target.pathToRegexp = pathToRegexp.compile(link);
-        target.prototype.halLink = function() {
-          return target.pathToRegexp({ id: this.halRessourceId() });
+        target.prototype.halLink = function(requestParameters) {
+          let params = requestParameters || {};
+          params.halId = this.halRessourceId();
+          return target.pathToRegexp(params);
         };
       }
     }
   }
 
   /**
-   * Add a link on the result object. It represent the
-   * state of the application. We used hal spec to represent this state.
-   * The decorator is add on a ressource.
+   * Mark the id for HAL entity.
    *
    * @method
    * @returns {function} the decorator
