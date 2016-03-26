@@ -15,7 +15,7 @@ export default class ServiceTest {
   }
 }
 
-@Hal.halEntity("/monApi/:id/:halId")
+@Hal.halEntity("/monApi/:id/:halId", "halId")
 class User {
 
   @Hal.resourceId()
@@ -25,5 +25,17 @@ class User {
     this.id = id;
     this.firstName = firstName;
     this.lastName = lastName;
+    this.contact = new Contact("email@toto.fr");
+  }
+}
+
+@Hal.halEntity("/monApi/:id/contact")
+class Contact {
+
+  @Hal.resourceId()
+  id = 0;
+
+  constructor(email) {
+    this.email = email;
   }
 }

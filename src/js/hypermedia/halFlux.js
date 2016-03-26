@@ -4,7 +4,7 @@ var SELF_LINK_PROP = "self";
 var NEXT_LINK_PROP = "nextLink";
 var PREVIOUS_LINK_PROP = "previousLink";
 
-export default class halFlux {
+export default class HalFlux {
 
   constructor(data) {
 
@@ -24,8 +24,15 @@ export default class halFlux {
     this._links[PREVIOUS_LINK_PROP] = {href: value};
   }
 
-  static decorateSimpleObject(objet, selfLink) {
-    objet._links = {};
-    objet._links[SELF_LINK_PROP] = {href: selfLink};
+  static decorateSimpleObject(object, requestParameters) {
+    if (object.halLink) {
+      object._links = {};
+      object._links[SELF_LINK_PROP] = {href: object.halLink.call(object, requestParameters)};
+    }
+    for (let attrib in object) {
+      if (object[attrib].halLink) {
+        HalFlux.decorateSimpleObject(object[attrib], requestParameters);
+      }
+    }
   }
 }

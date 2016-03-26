@@ -27,9 +27,11 @@ export default class Hal {
           if (Array.isArray(result.data)) {
             result.data.forEach((elt, index) => {
               if (elt.halLink) {
-                HalFlux.decorateSimpleObject(result.data[index], elt.halLink.call(elt, arguments[1].params || arguments[0].params));
+                HalFlux.decorateSimpleObject(elt, arguments[1].params || arguments[0].params);
               }
             });
+          } else {
+            HalFlux.decorateSimpleObject(result, arguments[1].params || arguments[0].params);
           }
 
           return result;
@@ -50,15 +52,16 @@ export default class Hal {
    *
    * @method
    * @param {string} link - the link.
+   * @param {string} paramName - the link parameter name to replace bi the id.
    * @returns {function} the decorator
    */
-  static halEntity(link) {
+  static halEntity(link, paramName) {
     return function decorate(target) {
       if (!target.halLink) {
         target.pathToRegexp = pathToRegexp.compile(link);
         target.prototype.halLink = function(requestParameters) {
           let params = requestParameters || {};
-          params.halId = this.halRessourceId();
+          params[paramName] = this.halRessourceId();
           return target.pathToRegexp(params);
         };
       }
