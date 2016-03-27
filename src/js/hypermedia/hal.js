@@ -62,6 +62,7 @@ export default class Hal {
         target.prototype.halLink = function(requestParameters) {
           let params = requestParameters || {};
           params[paramName] = this.halRessourceId();
+          requestParameters[paramName] = this.halRessourceId();
           return target.pathToRegexp(params);
         };
       }
