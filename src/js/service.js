@@ -35,33 +35,35 @@ export default class Service {
             for (var attrib in target.prototype[Service.globalKey]) {
 
               if (Method.METHODS[attrib]) {
-                let fct = target.prototype[Service.globalKey][attrib][Service.fctKey];
-                let router = Router();
-                router[attrib](target.prototype[Service.globalKey][attrib][Service.pathKey], (req, res, next) => {
-                  let p = new Promise((resolve) => { resolve(req.params||true); });
-                  if (fct.convertBefore) {
-                    p = p.then((params)=> {
-                      return fct.convertBefore(params);
-                    }).then((value) => {
-                      return fct.call(this, value, req, res);
-                    });
-                  } else {
-                    p = p.then(() => {
-                      return fct.call(this, req, res);
-                    });
-                  }
-                  p = p.then((value) => {
-                    res.send(value);
-                  })
-                  .catch((e) => {
-                    if (e.code) {
-                      res.status(e.code).send(e.message);
+                for (var fctName in target.prototype[Service.globalKey][attrib]) {
+                  let fct = target.prototype[Service.globalKey][attrib][fctName][Service.fctKey];
+                  let router = Router();
+                  router[attrib](target.prototype[Service.globalKey][attrib][fctName][Service.pathKey], (req, res, next) => {
+                    let p = new Promise((resolve) => { resolve(req.params||true); });
+                    if (fct.convertBefore) {
+                      p = p.then((params)=> {
+                        return fct.convertBefore(params);
+                      }).then((value) => {
+                        return fct.call(this, value, req, res);
+                      });
                     } else {
-                      res.status(500).send(e);
+                      p = p.then(() => {
+                        return fct.call(this, req, res);
+                      });
                     }
+                    p = p.then((value) => {
+                      res.send(value);
+                    })
+                    .catch((e) => {
+                      if (e.code) {
+                        res.status(e.code).send(e.message);
+                      } else {
+                        res.status(500).send(e);
+                      }
+                    });
                   });
-                });
-                expressInst.use(target.prototype[Service.globalKey][Service.pathKey], router);
+                  expressInst.use(target.prototype[Service.globalKey][Service.pathKey], router);
+                }
               }
             }
           }
