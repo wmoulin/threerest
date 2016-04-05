@@ -9,7 +9,7 @@ import DataHelper from "../helpers/dataHelper";
 var serviceLoader = require("../../../src/js/service-loader");
 var assert = require("assert");
 
-describe('Check Pagination with normal keyword for limit and offset', function(){
+describe.skip('Check Pagination with normal keyword for limit and offset', function(){
 
   it('should return all the result', function(done){
 

@@ -27,11 +27,11 @@ export default class Hal {
           if (Array.isArray(result.data)) {
             result.data.forEach((elt, index) => {
               if (elt.halLink) {
-                HalFlux.decorateSimpleObject(elt, arguments[1].params || arguments[0].params);
+                HalFlux.decorateSimpleObject(elt, arguments[1].params || arguments[0].params || {});
               }
             });
           } else {
-            HalFlux.decorateSimpleObject(result, arguments[1].params || arguments[0].params);
+            HalFlux.decorateSimpleObject(result, arguments[1].params || arguments[0].params || {});
           }
 
           return result;
@@ -61,8 +61,9 @@ export default class Hal {
         target.pathToRegexp = pathToRegexp.compile(link);
         target.prototype.halLink = function(requestParameters) {
           let params = requestParameters || {};
-          params[paramName] = this.halRessourceId();
-          requestParameters[paramName] = this.halRessourceId();
+          let paramId = paramName || "id";
+          params[paramId] = this.halRessourceId();
+          requestParameters[paramId] = this.halRessourceId();
           return target.pathToRegexp(params);
         };
       }

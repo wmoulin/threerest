@@ -35,9 +35,9 @@ export default class Service {
             for (var attrib in target.prototype[Service.globalKey]) {
 
               if (Method.METHODS[attrib]) {
+                let router = Router();
                 for (var fctName in target.prototype[Service.globalKey][attrib]) {
                   let fct = target.prototype[Service.globalKey][attrib][fctName][Service.fctKey];
-                  let router = Router();
                   router[attrib](target.prototype[Service.globalKey][attrib][fctName][Service.pathKey], (req, res, next) => {
                     let p = new Promise((resolve) => { resolve(req.params||true); });
                     if (fct.convertBefore) {
@@ -62,8 +62,8 @@ export default class Service {
                       }
                     });
                   });
-                  expressInst.use(target.prototype[Service.globalKey][Service.pathKey], router);
                 }
+                expressInst.use(target.prototype[Service.globalKey][Service.pathKey], router);
               }
             }
           }

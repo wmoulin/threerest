@@ -77,9 +77,9 @@ function applyOnFunction(target, key, descriptor, methodName, path) {
   if (!target[Service.globalKey]) {
     target[Service.globalKey] = {};
   }
-  target[Service.globalKey][methodHttp] = {};
-  target[Service.globalKey][methodHttp][descriptor.name] = {};
-  target[Service.globalKey][methodHttp][descriptor.name][Service.pathKey] = path;
-  target[Service.globalKey][methodHttp][descriptor.name][Service.fctKey] = descriptor.value;
+  if(!target[Service.globalKey][methodHttp]) {target[Service.globalKey][methodHttp] = {}};
+  target[Service.globalKey][methodHttp][key] = {};
+  target[Service.globalKey][methodHttp][key][Service.pathKey] = path;
+  target[Service.globalKey][methodHttp][key][Service.fctKey] = descriptor.value;
 
 };
