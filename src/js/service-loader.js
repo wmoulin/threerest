@@ -2,8 +2,8 @@
 import Service from "./service";
 
 /**
-* load a service.
-
+* load all services in directory.
+* @method
 * @param {object} expressInst - the express context
 * @param {string} service - the full path of the service directory
 */
@@ -22,7 +22,7 @@ export function loadServices(expressInst, serviceDirPath) {
 
 /**
 * load a service.
-
+* @method
 * @param {object} expressInst - the express application
 * @param {object} service - the service
 */

@@ -4,7 +4,10 @@ import {Router} from "express";
 import Method from "./services/methods";
 import RestError from "./exceptions/restError";
 import NotFoundError from "./exceptions/notFoundError";
-
+/**
+ * Class for Decorator REST service (entrypoint).
+ * @class
+ */
 export default class Service {
 
   static globalKey = "__3rest__";
@@ -14,8 +17,8 @@ export default class Service {
 
 
   /**
-  * initialize a service.
-  *
+  * Decorator for REST service class. Must use with method decorators.
+  * @method
   * @param {string} path - the path of the service Rest.
   */
   static path(path) {

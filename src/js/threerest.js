@@ -7,6 +7,11 @@ import Convert from "./convert";
 import Pagination from "./services/pagination";
 import * as ServiceLoader from"./service-loader";
 
+/**
+ * @project threerest
+ * @author Wilfried Moulin
+ * @license See LICENSE.md file included in this distribution.
+ */
 
 export {
   ServiceLoader,

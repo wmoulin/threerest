@@ -2,6 +2,10 @@
 
 import Promise from "bluebird";
 
+/**
+ * Decorator for convert simple object method parameter into another class.
+ * @method
+ */
 export default function convert(ConvertClass) {
   return function(target, key, descriptor) {
 

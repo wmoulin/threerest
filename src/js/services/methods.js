@@ -2,6 +2,10 @@
 
 import Service from "../service";
 
+/**
+* Classe for all verbs HTTP decorator.
+* @class
+*/
 export default class Method {
 
   static METHODS = {
@@ -13,8 +17,9 @@ export default class Method {
   };
 
   /**
-  * Décorateur pour les méthodes de service 'GET'.
-  * @param {string} path - path du sercice Rest.
+  * Decorator for 'GET' method.
+  * @method
+  * @param {string} path - path for Rest service.
   */
   static get(path) {
     return function (target, key, descriptor) {
@@ -23,8 +28,9 @@ export default class Method {
   }
 
   /**
-  * Décorateur pour les méthodes de service 'POST'.
-  * @param {string} path - path du sercice Rest.
+  * Decorator for 'POST' method.
+  * @method
+  * @param {string} path - path for Rest service.
   */
   static post(path) {
     return function (target, key, descriptor) {
@@ -33,8 +39,9 @@ export default class Method {
   }
 
   /**
-  * Décorateur pour les méthodes de service 'PUT'.
-  * @param {string} path - path du sercice Rest.
+  * Decorator for 'PUT' method.
+  * @method
+  * @param {string} path - path for Rest service.
   */
   static put(path) {
     return function (target, key, descriptor) {
@@ -43,8 +50,9 @@ export default class Method {
   }
 
   /**
-  * Décorateur pour les méthodes de service 'DELETE'.
-  * @param {string} path - path du sercice Rest.
+  * Decorator for 'DELETE' method.
+  * @method
+  * @param {string} path - path for Rest service.
   */
   static delete(path) {
     return function (target, key, descriptor) {
@@ -53,8 +61,9 @@ export default class Method {
   }
 
   /**
-  * Décorateur pour les méthodes de service 'PATCH'.
-  * @param {string} path - path du sercice Rest.
+  * Decorator for 'PATCH' method.
+  * @method
+  * @param {string} path - path for Rest service.
   */
   static patch(path) {
     return function (target, key, descriptor) {
@@ -64,12 +73,13 @@ export default class Method {
 };
 
 /**
-* Ajout d'un décorateur Rest sur une fonction.
-* @param {Object|function} target - instance ou constructeur de l'objet à décorer .
-* @param {string} key - nom de l'attribut concerné par le decorateur.
-* @param {Object} descriptor - descripteur de la propriété (attribut / fonction).
-* @param {string} methodName - nom de la méthode http.
-* @param {string} path - chemin de la requête déclenchant la méthode du service.
+* Add REST decorator on function.
+* @method
+* @param {Object|function} target - instance to decorate.
+* @param {string} key - attribute name.
+* @param {Object} descriptor - property descriptor.
+* @param {string} methodName - HTTP method name.
+* @param {string} path - Url for REST service.
 */
 function applyOnFunction(target, key, descriptor, methodName, path) {
 

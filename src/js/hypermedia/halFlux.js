@@ -4,6 +4,10 @@ var SELF_LINK_PROP = "self";
 var NEXT_LINK_PROP = "nextLink";
 var PREVIOUS_LINK_PROP = "previousLink";
 
+/**
+ * Class for decorate data with HAL metadata.
+ * @class
+ */
 export default class HalFlux {
 
   constructor(data) {

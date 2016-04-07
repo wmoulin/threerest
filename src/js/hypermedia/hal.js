@@ -3,6 +3,10 @@
 import HalFlux from "./halFlux";
 var pathToRegexp = require("path-to-regexp");
 
+/**
+* Hal decorators
+* @class
+*/
 export default class Hal {
   /**
    * Add a link on the result object. It represent the
