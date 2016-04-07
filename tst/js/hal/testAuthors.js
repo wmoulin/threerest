@@ -16,9 +16,6 @@ describe('Load service rest Authors', function(){
     request(app)
     .get('/authors')
     .expect(function(res) {
-      console.log(res.body);
-      // console.log(res.body.data[0].series[0]._links);
-      // console.log(res.body.data[4].series);
 
       assert.equal(res.body._links.self.href, '/authors');
       assert.equal(res.body.data[0]._links.self.href, '/authors/0');
@@ -51,9 +48,6 @@ describe('Load service rest Authors', function(){
     request(app)
     .get('/authors/2')
     .expect(function(res) {
-      // console.log(res.body.data);
-      // console.log(res.body.data[0].series[0]._links);
-      // console.log(res.body.data[4].series);
 
       assert.equal(res.body._links.self.href, '/authors/2');
       assert.equal(res.body.data.id, 2);
@@ -76,8 +70,7 @@ describe('Load service rest Authors', function(){
       assert.equal(res.body.data.series[4].idSerie, 5);
       assert.equal(res.body.data.series[4].name, 'Temps des loups (Le)');
       assert.equal(res.body.data.series[4]._links.self.href, '/series/5');
-
-
+      
     }).end(done);
   });
 

@@ -6,23 +6,9 @@ import Param from "../param";
 import Pagination from "../../../src/js/services/pagination";
 import NotFoundError from "../../../src/js/exceptions/NotFoundError";
 import DataHelper from "../helpers/dataHelper";
-// import Param from "../param";
-
-
-
-
-
 
 @Service.path("/pagination")
 export default class ServicePagination {
-
-  // @Method.get("/:id")
-  // @Hal.halServiceMethod()
-  // @Pagination.paginate()
-  // @convert(Param)
-  // testGet(value) {
-  //   return DataHelper.getTestData();
-  // }
 
   @Methods.get("/")
   @Hal.halServiceMethod()
