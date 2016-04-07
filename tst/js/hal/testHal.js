@@ -12,13 +12,26 @@ describe.skip('Load service rest', function(){
 
     var app = express();
     serviceLoader.loadService(app, new serviceHal());
-
     request(app)
     .get('/hal/12')
     .expect(function(res) {
+      console.log(res.body);
       assert.equal(res.body._links.self.href, '/hal/12');
       assert.equal(res.body.data[0]._links.self.href, '/monApi/12/1');
     }).end(done);
   });
 
+  it('should add all self link', function(done){
+
+    var app = express();
+    serviceLoader.loadService(app, new serviceHal());
+
+    request(app)
+    .get('/hal')
+    .expect(function(res) {
+      console.log(res.body);
+      assert.equal(res.body._links.self.href, '/hal/12');
+      assert.equal(res.body.data[0]._links.self.href, '/monApi/12/1');
+    }).end(done);
+  });
 });
