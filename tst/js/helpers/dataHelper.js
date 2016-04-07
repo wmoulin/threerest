@@ -1,4 +1,5 @@
 var assert = require("assert");
+var assert = require("assert");
 
 export default class DataHelper {
 
@@ -47,8 +48,6 @@ export default class DataHelper {
    */
   static testData(data, expected, index, length) {
     for (var i = index; i < length; i++) {
-      //console.log(data[i]);
-      //console.log(expected[i]);
       DataHelper.testOneEntry(data[i], expected[i]);
     }
   }

@@ -13,6 +13,14 @@ export default class ServiceTest {
   testGet(value) {
     return [new User(1, "firstName1", "lastName1"), new User(2, "firstName2", "lastName2")];
   }
+
+  @Method.get("/")
+  @Hal.halServiceMethod()
+  @convert(Param)
+  testGetAll(value) {
+    return [new User(1, "firstName1", "lastName1"), new User(2, "firstName2", "lastName2")
+  , new User(3, "firstName3", "lastName3"),, new User(4, "firstName4", "lastName4")];
+  }
 }
 
 @Hal.halEntity("/monApi/:id/:halId", "halId")
