@@ -6,6 +6,8 @@ import Methods from "./services/methods";
 import Convert from "./convert";
 import Pagination from "./services/pagination";
 import * as ServiceLoader from"./service-loader";
+import NotFoundError from"./exceptions/notFoundError";
+import RestError from"./exceptions/restError";
 
 /**
  * @project threerest
@@ -19,5 +21,7 @@ export {
   Hal,
   Methods,
   Convert,
-  Pagination
+  Pagination,
+  NotFoundError,
+  RestError
 };

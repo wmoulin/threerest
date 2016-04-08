@@ -3,6 +3,7 @@ import Service from "../../../src/js/service";
 import Method from "../../../src/js/services/methods";
 import convert from "../../../src/js/convert";
 import Param from "../param";
+import NotFoundError from "../../../src/js/exceptions/NotFoundError";
 
 @Service.path("/hal")
 export default class ServiceTest {
@@ -11,19 +12,20 @@ export default class ServiceTest {
   @Hal.halServiceMethod()
   @convert(Param)
   testGet(value) {
-    return [new User(1, "firstName1", "lastName1"), new User(2, "firstName2", "lastName2")];
+    if (value && value.id == 1) {
+      return new User(1, "firstName1", "lastName1");
+    }
+    throw new NotFoundError();
   }
 
   @Method.get("/")
   @Hal.halServiceMethod()
-  @convert(Param)
-  testGetAll(value) {
-    return [new User(1, "firstName1", "lastName1"), new User(2, "firstName2", "lastName2")
-  , new User(3, "firstName3", "lastName3"),, new User(4, "firstName4", "lastName4")];
+  testGetAll() {
+    return [new User(1, "firstName1", "lastName1"), new User(2, "firstName2", "lastName2")];
   }
 }
 
-@Hal.halEntity("/monApi/:id/:halId", "halId")
+@Hal.halEntity("/monApi/:halId", "halId")
 class User {
 
   @Hal.resourceId()

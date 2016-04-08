@@ -14,6 +14,6 @@ export default class ServicePagination {
   @Hal.halServiceMethod()
   @Pagination.paginate()
   getAll() {
-    return getAuthors(db);
+    return DataHelper.getTestData();
   }
 }

@@ -1,18 +1,25 @@
 {
   "name": "threerest",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Module de developpement de services REST",
   "repository" : {
         "type" : "git",
         "url" : "https://github.com/wmoulin/threerest.git"
   },
   "licenses" : "SEE LICENSE IN https://github.com/wmoulin/threerest/blob/master/LICENSE",
+  "keywords": [
+    "framework",
+    "service",
+    "web",
+    "rest",
+    "restful"
+  ],
   "dependencies": {
     "bluebird": "^3.2.1",
-    "express": "4.13.4",
     "path-to-regexp": "^1.2.1"
   },
   "devDependencies": {
+    "express": "4.13.4",
     "supertest": "1.1.0"
   },
   "author": "wilfried Moulin",

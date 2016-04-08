@@ -7,7 +7,7 @@ import serviceOne from"./serviceOne";
 var serviceLoader = require("../../src/js/service-loader");
 var assert = require("assert");
 
-describe.skip('Laod simple service rest', function(){
+describe('Laod simple service rest', function(){
   it('should return a new route', function(done){
 
     var app = express();

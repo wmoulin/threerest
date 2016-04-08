@@ -29,19 +29,21 @@ export default class HalFlux {
   }
 
   static decorateSimpleObject(object, requestParameters) {
-    if (object && object.halLink) {
-      object._links = {};
-      object._links[SELF_LINK_PROP] = {href: object.halLink.call(object, requestParameters)};
-    }
-    for (let attrib in object) {
-      if (object[attrib] && Array.isArray(object[attrib])) {
-        object[attrib].forEach((elt, index) => {
-          if (elt && elt.halLink) {
-            HalFlux.decorateSimpleObject(elt, requestParameters);
-          }
-        });
-      } else if (object[attrib] && object[attrib].halLink) {
-        HalFlux.decorateSimpleObject(object[attrib], requestParameters);
+    if (object) {
+      if (object.halLink) {
+        object._links = {};
+        object._links[SELF_LINK_PROP] = {href: object.halLink.call(object, requestParameters)};
+      }
+      for (let attrib in object) {
+        if (object[attrib] && Array.isArray(object[attrib])) {
+          object[attrib].forEach((elt, index) => {
+            if (elt && elt.halLink) {
+              HalFlux.decorateSimpleObject(elt, requestParameters);
+            }
+          });
+        } else if (object[attrib] && object[attrib].halLink) {
+          HalFlux.decorateSimpleObject(object[attrib], requestParameters);
+        }
       }
     }
   }

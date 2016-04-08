@@ -40,7 +40,7 @@ describe('Load service rest Authors', function(){
     }).end(done);
   });
 
-  it.skip('should add only one self link', function(done){
+  it('should add only one self link', function(done){
 
     var app = express();
     serviceLoader.loadService(app, new ServiceAuthors());
@@ -70,7 +70,7 @@ describe('Load service rest Authors', function(){
       assert.equal(res.body.data.series[4].idSerie, 5);
       assert.equal(res.body.data.series[4].name, 'Temps des loups (Le)');
       assert.equal(res.body.data.series[4]._links.self.href, '/series/5');
-      
+
     }).end(done);
   });
 
