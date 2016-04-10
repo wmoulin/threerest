@@ -29,7 +29,7 @@ export default class Pagination {
       if (oldFunct.convertBefore) {
         descriptor.value.convertBefore = oldFunct.convertBefore;
       }
-    }
+    };
   }
 }
 

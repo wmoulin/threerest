@@ -46,7 +46,7 @@ export default class Hal {
       if (oldFunct.convertBefore) {
         descriptor.value.convertBefore = oldFunct.convertBefore;
       }
-    }
+    };
   }
 
   /**
@@ -71,7 +71,7 @@ export default class Hal {
           return target.pathToRegexp(params);
         };
       }
-    }
+    };
   }
 
   /**
@@ -87,7 +87,7 @@ export default class Hal {
           return this[key];
         };
       }
-    }
+    };
   }
 
 }
