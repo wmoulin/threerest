@@ -3,6 +3,8 @@
 var SELF_LINK_PROP = "self";
 var NEXT_LINK_PROP = "nextLink";
 var PREVIOUS_LINK_PROP = "previousLink";
+var FIRST_LINK_PROP = "first";
+var LAST_LINK_PROP = "last";
 
 /**
  * Class for decorate data with HAL metadata.
@@ -26,6 +28,14 @@ export default class HalFlux {
 
   set previousLink(value) {
     this._links[PREVIOUS_LINK_PROP] = {href: value};
+  }
+
+  set firstLink(value) {
+    this._links[FIRST_LINK_PROP] = {href: value};
+  }
+
+  set lastLink(value) {
+     this._links[LAST_LINK_PROP] = {href: value};
   }
 
   static decorateSimpleObject(object, requestParameters) {

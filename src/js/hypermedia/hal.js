@@ -14,9 +14,10 @@ export default class Hal {
    * The decorator is add on a method service.
    *
    * @method
+   * @param {boolean} bPaginate - activate le hal pagination metadata
    * @returns {json} the result with the hal links
    */
-  static halServiceMethod() {
+  static halServiceMethod(bPaginate) {
     return function decorate(target, key, descriptor) {
       let oldFunct = descriptor.value;
 
@@ -26,6 +27,38 @@ export default class Hal {
           return oldFunct.apply(this, arguments);
         }).then((resultFct)=> {
           var result = new HalFlux(resultFct);
+
+          if (bPaginate) {
+           +            result = new HalFlux(resultFct, resultFct.pagination);
+           +            result.data = result.data.list;
+           +            // Compute the HAL link for pagination
+           +            var nextOffset = parseInt(result.pagination.offset) + parseInt(result.pagination.limit);
+           +            var prevOffset = parseInt(result.pagination.offset) - parseInt(result.pagination.limit);
+           +            if (prevOffset < 0) {
+           +              prevOffset = 0;
+           +            }
+           +            if (nextOffset > result.pagination.total) {
+           +              nextOffset = parseInt(result.pagination.total) - parseInt(result.pagination.limit);
+           +            }
+           +            var lastOffset = parseInt(result.pagination.total) - parseInt(result.pagination.limit);
+           +            result.nextLink = arguments[1].req.baseUrl + "?" + result.pagination.limitTerm + "=" + result.pagination.limit + "&" + result.pagination.offsetTerm + "=" + nextOffset || arguments[0].req.baseUrl;
+           +            result.previousLink = arguments[1].req.baseUrl + "?" + result.pagination.limitTerm + "=" + result.pagination.limit + "&" + result.pagination.offsetTerm + "=" + prevOffset || arguments[0].req.baseUrl;
+           +            result.firstLink = arguments[1].req.baseUrl + "?" + result.pagination.limitTerm + "=" + result.pagination.limit + "&" + result.pagination.offsetTerm + "=0" || arguments[0].req.baseUrl;
+           +            result.lastLink = arguments[1].req.baseUrl + "?" + result.pagination.limitTerm + "=" + result.pagination.limit + "&" + result.pagination.offsetTerm + "=" + lastOffset || arguments[0].req.baseUrl;
+           +          } else {
+           +            result = new HalFlux(resultFct);
+           +          }
+
+
+
+
+
+
+
+
+
+
+
           result.selfLink = arguments[1].originalUrl || arguments[0].originalUrl;
 
           if (Array.isArray(result.data)) {
