@@ -25,7 +25,29 @@ export default class Hal {
         p = p.then(()=> {
           return oldFunct.apply(this, arguments);
         }).then((resultFct)=> {
-          var result = new HalFlux(resultFct);
+          var result;
+          // TODO VPD PART
+          if (resultFct.pagination) {
+            result = new HalFlux(resultFct, resultFct.pagination);
+            result.data = result.data.list;
+            // Compute the HAL link for pagination
+            var nextOffset = parseInt(result.pagination.offset) + parseInt(result.pagination.limit);
+            var prevOffset = parseInt(result.pagination.offset) - parseInt(result.pagination.limit);
+            if (prevOffset < 0) {
+              prevOffset = 0;
+            }
+            if (nextOffset > result.pagination.total) {
+              nextOffset = parseInt(result.pagination.total) - parseInt(result.pagination.limit);
+            }
+            var lastOffset = parseInt(result.pagination.total) - parseInt(result.pagination.limit);
+            result.nextLink = arguments[1].req.baseUrl + "?" + result.pagination.limitTerm + "=" + result.pagination.limit + "&" + result.pagination.offsetTerm + "=" + nextOffset || arguments[0].req.baseUrl;
+            result.previousLink = arguments[1].req.baseUrl + "?" + result.pagination.limitTerm + "=" + result.pagination.limit + "&" + result.pagination.offsetTerm + "=" + prevOffset || arguments[0].req.baseUrl;
+            result.firstLink = arguments[1].req.baseUrl + "?" + result.pagination.limitTerm + "=" + result.pagination.limit + "&" + result.pagination.offsetTerm + "=0" || arguments[0].req.baseUrl;
+            result.lastLink = arguments[1].req.baseUrl + "?" + result.pagination.limitTerm + "=" + result.pagination.limit + "&" + result.pagination.offsetTerm + "=" + lastOffset || arguments[0].req.baseUrl;
+          } else {
+            result = new HalFlux(resultFct);
+          }
+          // END TODO VPD PART
           result.selfLink = arguments[1].originalUrl || arguments[0].originalUrl;
 
           if (Array.isArray(result.data)) {

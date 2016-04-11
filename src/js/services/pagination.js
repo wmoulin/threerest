@@ -49,7 +49,9 @@ export default class Pagination {
 function managePagination(result, query, limit = "limit", offset =  "offset") {
 
   if (query[limit] || query[offset]) {
-    result = ArrayHelper.paginatesList(result, query[limit], query[offset]);
+    var pagination = {"limitTerm": limit, "limit": query[limit], "offsetTerm": offset, "offset": query[offset], "total": result.length };
+    result = {"pagination": pagination, "list":  ArrayHelper.paginatesList(result, query[limit], query[offset])};
+    //result = ArrayHelper.paginatesList(result, query[limit], query[offset]);
   }
   return result;
 }

@@ -14,9 +14,9 @@ describe('Load service rest Authors', function(){
     serviceLoader.loadService(app, new ServiceAuthors());
 
     request(app)
-    .get('/authors')
+    .get('/authors?limit=2&offset=1')
     .expect(function(res) {
-
+      console.log(res.body);
       assert.equal(res.body._links.self.href, '/authors');
       assert.equal(res.body.data[0]._links.self.href, '/authors/0');
       assert.equal(res.body.data[1]._links.self.href, '/authors/1');
