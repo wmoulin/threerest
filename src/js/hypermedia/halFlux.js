@@ -1,15 +1,18 @@
 "use strict";
 
 var SELF_LINK_PROP = "self";
-var NEXT_LINK_PROP = "nextLink";
-var PREVIOUS_LINK_PROP = "previousLink";
+var NEXT_LINK_PROP = "next";
+var PREVIOUS_LINK_PROP = "prev";
+var FIRST_LINK_PROP = "first";
+var LAST_LINK_PROP = "last";
 
 export default class HalFlux {
 
-  constructor(data) {
+  constructor(data, pagination) {
 
     this._links = {};
     this.data = data;
+    this.pagination = pagination;
   }
 
   set selfLink(value) {
@@ -22,6 +25,14 @@ export default class HalFlux {
 
   set previousLink(value) {
     this._links[PREVIOUS_LINK_PROP] = {href: value};
+  }
+
+  set firstLink(value) {
+    this._links[FIRST_LINK_PROP] = {href: value};
+  }
+
+  set lastLink(value) {
+    this._links[LAST_LINK_PROP] = {href: value};
   }
 
   static decorateSimpleObject(object, requestParameters) {
