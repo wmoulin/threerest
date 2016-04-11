@@ -111,3 +111,47 @@ So when you add a author in your response, Threerest will add a structure with l
   }
 }
 ```
+
+### Work with pagination
+
+If your service returns a given list, you can easily paginate the return using the decorator @Pagination.paginate()
+```
+import { Pagination } from "threerest";
+  ...
+  @Methods.get("/")
+  @Hal.halServiceMethod()
+  @Pagination.paginate()
+  getAll() {
+    ....
+  }
+```
+In this case, threerest react when tou add the parameter limit and/or offset in your request. For example, the URI myAPI/authors send all the authors. If you want only the first 5 results, you just add have to send this request
+```
+  myAPI/authors?limit=5
+```
+With the decorator, the pagination will be automatical executed.
+If you want to start to any other position, you must use offet
+```
+  myAPI/authors?limit=5&offset=2
+```
+This URI send the first 5 results from the position 2 of the list.
+
+#### Configure pagination
+
+If you want to use other terms that limit and offset , you can specify them in the decorator.
+
+```
+import { Pagination } from "threerest";
+  ...
+  @Methods.get("/")
+  @Hal.halServiceMethod()
+  @Pagination.paginate("anotherlimit","index")
+  getAll() {
+    ....
+  }
+```
+
+The URI becomes 
+```
+  myAPI/authors?anotherlimit=5&index=2
+```
