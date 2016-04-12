@@ -8,11 +8,11 @@ export default class Pagination {
    * Orchester pagination based on keywords parameter.
    *
    * @method
-   * @param {String} [limit] - The keyword for limit. It can be null.
-   * @param {String} [offset] - The keyword for offset. It can be null.
+   * @param {String} [pageSize] - The keyword for pageSize. It can be null.
+   * @param {String} [pageIdx] - The keyword for pageIdx. It can be null.
    * @returns {json} the result with pagination
    */
-  static paginate(limit, offset) {
+  static paginate(pageSize, pageIdx) {
     return function decorate(target, key, descriptor) {
       let oldFunct = descriptor.value;
 
@@ -21,7 +21,7 @@ export default class Pagination {
         p = p.then(()=> {
           return oldFunct.apply(this, arguments);
         }).then((array)=> {
-          return managePagination(array, arguments[0].query || arguments[1].query, limit, offset);
+          return managePagination(array, arguments[0].query || arguments[1].query, pageSize, pageIdx);
         });
         return p;
       };
@@ -31,25 +31,47 @@ export default class Pagination {
       }
     };
   }
-}
 
-/**
- * Manage if pagination is neeccessary or not.
- * If there are pagination, the keywords for the limit and the
- * offset must be set.
- * Then the result is slicing by this two params.
- *
- * @method
- * @param {json} result - The result from the service.
- * @param {json} query - The query to the service.
- * @param {String} [limit=limit] - The keyword for limit. It can be null.
- * @param {String} [offset=offset] - The keyword for offset. It can be null.
- * @returns {json}
- */
-function managePagination(result, query, limit = "limit", offset =  "offset") {
+  /**
+   * Manage if pagination is neeccessary or not.
+   * If there are pagination, the keywords for the pageSize and the
+   * pageIdx must be set.
+   * Then the result is slicing by this two params.
+   *
+   * @method
+   * @param {json} result - The result from the service.
+   * @param {json} query - The query to the service.
+   * @param {String} [pageSize=pageSize] - The keyword for pageSize. It can be null.
+   * @param {String} [pageIdx=pageIdx] - The keyword for pageIdx. It can be null.
+   * @returns {json}
+   */
+  static managePagination(result, query, pageSize = "pageSize", pageIdx =  "pageIdx") {
 
-  if (query[limit] || query[offset]) {
-    result = ArrayHelper.paginatesList(result, query[limit], query[offset]);
+    if (query[pageSize] || query[pageIdx]) {
+      result = ArrayHelper.paginatesList(result, query[pageSize], query[pageIdx]);
+    }
+    return result;
   }
-  return result;
+
+  /**
+   * Manage if pagination is neeccessary or not.
+   * If there are pagination, the keywords for the pageSize and the
+   * pageIdx must be set.
+   * Then the result is slicing by this two params.
+   *
+   * @method
+   * @param {json} result - The result from the service.
+   * @param {json} query - The query to the service.
+   * @param {String} [pageSize=pageSize] - The keyword for pageSize. It can be null.
+   * @param {String} [pageIdx=pageIdx] - The keyword for pageIdx. It can be null.
+   * @returns {json}
+   */
+  static extractPaginationData(result, query, pageSize = "pageSize", pageIdx =  "pageIdx") {
+
+    if (query) {
+      return {pageSize: query[pageSize], pageIdx: query[pageIdx]};
+    }
+    return {};
+
+  }
 }

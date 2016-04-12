@@ -1,10 +1,6 @@
 "use strict";
 
 var SELF_LINK_PROP = "self";
-var NEXT_LINK_PROP = "nextLink";
-var PREVIOUS_LINK_PROP = "previousLink";
-var FIRST_LINK_PROP = "first";
-var LAST_LINK_PROP = "last";
 
 /**
  * Class for decorate data with HAL metadata.
@@ -12,7 +8,7 @@ var LAST_LINK_PROP = "last";
  */
 export default class HalFlux {
 
-  constructor(data) {
+  constructor(data, bPaginate) {
 
     this._links = {};
     this.data = data;
@@ -22,20 +18,8 @@ export default class HalFlux {
     this._links[SELF_LINK_PROP] = {href: value};
   }
 
-  set nextLink(value) {
-    this._links[NEXT_LINK_PROP] = {href: value};
-  }
-
-  set previousLink(value) {
-    this._links[PREVIOUS_LINK_PROP] = {href: value};
-  }
-
-  set firstLink(value) {
-    this._links[FIRST_LINK_PROP] = {href: value};
-  }
-
-  set lastLink(value) {
-     this._links[LAST_LINK_PROP] = {href: value};
+  updateLinks(currentUrl) {
+    this._links[SELF_LINK_PROP] = {href: currentUrl};
   }
 
   static decorateSimpleObject(object, requestParameters) {

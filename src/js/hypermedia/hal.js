@@ -1,6 +1,9 @@
 "use strict";
 
 import HalFlux from "./halFlux";
+import HalPaginateFlux from "./halPaginateFlux";
+import Pagination from "../services/pagination";
+import PaginationData from "../services/paginationData";
 var pathToRegexp = require("path-to-regexp");
 
 /**
@@ -17,62 +20,67 @@ export default class Hal {
    * @param {boolean} bPaginate - activate le hal pagination metadata
    * @returns {json} the result with the hal links
    */
-  static halServiceMethod(bPaginate) {
+  static halServiceMethod(pagination) {
     return function decorate(target, key, descriptor) {
       let oldFunct = descriptor.value;
+      let paginateObject = undefined;
+
+      if (pagination) {
+        if(typeof(pagination) === "boolean"){
+          paginateObject = {};
+        } else if (typeof(pagination) === "object") {
+          paginateObject = pagination;
+        }
+      }
 
       descriptor.value = function() {
         let p = new Promise((resolve) => { resolve(true); });
         p = p.then(()=> {
           return oldFunct.apply(this, arguments);
-        }).then((resultFct)=> {
-          var result = new HalFlux(resultFct);
+        })
 
-          if (bPaginate) {
-           +            result = new HalFlux(resultFct, resultFct.pagination);
-           +            result.data = result.data.list;
-           +            // Compute the HAL link for pagination
-           +            var nextOffset = parseInt(result.pagination.offset) + parseInt(result.pagination.limit);
-           +            var prevOffset = parseInt(result.pagination.offset) - parseInt(result.pagination.limit);
-           +            if (prevOffset < 0) {
-           +              prevOffset = 0;
-           +            }
-           +            if (nextOffset > result.pagination.total) {
-           +              nextOffset = parseInt(result.pagination.total) - parseInt(result.pagination.limit);
-           +            }
-           +            var lastOffset = parseInt(result.pagination.total) - parseInt(result.pagination.limit);
-           +            result.nextLink = arguments[1].req.baseUrl + "?" + result.pagination.limitTerm + "=" + result.pagination.limit + "&" + result.pagination.offsetTerm + "=" + nextOffset || arguments[0].req.baseUrl;
-           +            result.previousLink = arguments[1].req.baseUrl + "?" + result.pagination.limitTerm + "=" + result.pagination.limit + "&" + result.pagination.offsetTerm + "=" + prevOffset || arguments[0].req.baseUrl;
-           +            result.firstLink = arguments[1].req.baseUrl + "?" + result.pagination.limitTerm + "=" + result.pagination.limit + "&" + result.pagination.offsetTerm + "=0" || arguments[0].req.baseUrl;
-           +            result.lastLink = arguments[1].req.baseUrl + "?" + result.pagination.limitTerm + "=" + result.pagination.limit + "&" + result.pagination.offsetTerm + "=" + lastOffset || arguments[0].req.baseUrl;
-           +          } else {
-           +            result = new HalFlux(resultFct);
-           +          }
+        if (paginateObject) { // if paginate, extract the page and create hal paginate flux
+          p = p.then((resultFct)=> {
 
+            try{
+              if (Array.isArray(resultFct)) {
+                let currentQuery = arguments[0].query || arguments[1].query;
+                let paginationData = Pagination.extractPaginationData(currentQuery, paginateObject.pageSize, paginateObject.pageIdx);
+                let dataPage = Pagination.managePagination(resultFct, currentQuery, paginateObject.pageSize, paginateObject.pageIdx);
+                return new HalPaginateFlux(dataPage, new PaginationData(paginationData.pageIdx, paginationData.pageSize, resultFct.length));
+              }
+            } catch(e){console.log(e)}
+              console.log("2");
+              return new HalFlux(resultFct);
+          });
+        } else { // if no paginate, create hal flux
+          p = p.then((resultFct)=> {
+            return new HalFlux(resultFct);
+          });
+        }
 
-
-
-
-
-
-
-
-
-
-          result.selfLink = arguments[1].originalUrl || arguments[0].originalUrl;
-
-          if (Array.isArray(result.data)) {
-            result.data.forEach((elt, index) => {
+        p = p.then((halFlux)=> { // add hal metadata for all hal entity
+          let queryParams = arguments[1].params || arguments[0].params || {};
+          if (Array.isArray(halFlux.data)) {
+            halFlux.data.forEach((elt, index) => {
               if (elt.halLink) {
-                HalFlux.decorateSimpleObject(elt, arguments[1].params || arguments[0].params || {});
+                HalFlux.decorateSimpleObject(elt, queryParams);
               }
             });
           } else {
-            HalFlux.decorateSimpleObject(result, arguments[1].params || arguments[0].params || {});
+            HalFlux.decorateSimpleObject(halFlux, queryParams);
           }
-
-          return result;
+          return halFlux;
+        }).then((halFlux)=> { // update link for all flux type
+          let currentRequest = arguments[0] || arguments[1];
+          try{
+          halFlux.updateLinks(currentRequest.originalUrl, currentRequest.baseUrl, paginateObject);
+        }  catch(e) {
+          console.log(e);
+        }
+          return halFlux;
         });
+
         return p;
       };
 

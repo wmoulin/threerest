@@ -11,8 +11,7 @@ import DataHelper from "../helpers/dataHelper";
 export default class ServicePagination {
 
   @Methods.get("/")
-  @Hal.halServiceMethod()
-  @Pagination.paginate()
+  @Hal.halServiceMethod(true)
   getAll() {
     return DataHelper.getTestData();
   }
