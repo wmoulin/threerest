@@ -21,8 +21,8 @@ export default class ServiceAuthors {
 
   @Methods.get("/:id")
   @Hal.halServiceMethod()
-  getswitchId(value) {
-    var id = value.params.id;
+  getswitchId(params) {
+    var id = params.id;
   	var result = BdHelper.searchParams(db, 'authors', 'id', id);
   	if (result) {
       return BdHelper.getAuthor(result, id);

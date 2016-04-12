@@ -1,10 +1,6 @@
 # Threerest -  A Hypermedia Framework#
 
-<<<<<<< HEAD
   Threerest is a light and powerful framework for creating hypermedia API for [node](http://nodejs.org). For the moment, only HAL concept is implement.
-=======
-  Threerest is a light and powerful framework for creating hypermedia API for [node](http://nodejs.org).
->>>>>>> 59d7411d5370b91acce8bd5ccfe5880bca473512
 
 ## Installation
 
@@ -12,19 +8,13 @@
   ```
   npm install threerest --save
   ```
-<<<<<<< HEAD
   or manually add the dependency in ```package.json```
 
 ## Using Threerest
 
   Threerest is base on the ES7 decorator. You just have to put a service decorator on a class to transform into service REST. To create a method, you can use the method decorators and if you want to make your service a Hypermedia Service, you must add the Hal decorator, it's so simple. This is an example, it's more telling :
-=======
-  
-## Using Threerest
 
-  Threerest is base on the ES7 decorator.You just have to put a Service decorator on a class to transform into service. To create a method, you can use the Method decorator ans if you wnat to make your service a Hypermedia Service, you must add the Hal decorator. This is an example :
->>>>>>> 59d7411d5370b91acce8bd5ccfe5880bca473512
-  ```
+  ```javascript
   import { Service } from "threerest";
   import { Methods } from "threerest";
   import { Hal } from "threerest";
@@ -39,13 +29,12 @@
     }
   }
   ```
-<<<<<<< HEAD
 
 ### REST level 2
 
 If you don't need hypermedia, threerest can do it. You must just mark the class with service decorator, the methods with http verb method decorators and use service utility for load router in express.
 
-```JavaScript
+```javascript
 import { Convert, Methods, Service } from "threerest";
 import Param from "./param";
 
@@ -63,23 +52,51 @@ export default class ServiceTest {
 #### Service decorator
 
 This decorator take only one parameter and he must place on a class. the parameter is the basic path for the service.
-```JavaScript
+```javascript
 @Service.path("/test")
 ```
-In this sample, the service can be execute with the  url ``` http:\\localhost:1234\test ```
+In the example, the service can be execute with the  url ``` http:\\localhost:1234\test ```
 
 #### Method decorator
 
 For the moment, only GET, POST, DELETE, PUT and PATCH are implements
+```javascript
+@Method.get("/:id")
+```
+In the example, the service method will be execute using the  url ``` http:\\localhost:1234\test\12 ```. Without convert, the method will call with :
++ request parameters
++ request
++ response
 
+Without convert, the method will call with :
++ convert object with the request parameters
++ request
++ response
+
+#### Convert decorator
+
+Using for convert the parameter(s) into particular JavaScript object.
+In the example, we convert the request parameter, into Param object :
+
+```javascript
+export default class Param {
+
+  id = undefined;
+  name = "";
+
+  constructor(name, password) {
+    this.name = name;
+    this.password = password;
+  }
+
+};
+```
+And the first parameter method contain an object ```Param``` with the property id witch contain the value of the request parameter.
 
 ### REST level 3
 
-=======
-  
->>>>>>> 59d7411d5370b91acce8bd5ccfe5880bca473512
   When you add a Hal decorator, the response of your service is compose like that :
-  ```
+  ```json
   {
     "_links": {
       "self": {
@@ -92,16 +109,11 @@ For the moment, only GET, POST, DELETE, PUT and PATCH are implements
   }
   ```
   Data is the original response of your service.
-<<<<<<< HEAD
 
 #### Work with model
-=======
-  
-### Work with model
->>>>>>> 59d7411d5370b91acce8bd5ccfe5880bca473512
 
 If you want to add link to entity, you must decorate the entity class like that :
-```
+```javascript
 @Hal.halEntity("/authors/:id")
 export default class Author {
 
@@ -117,12 +129,8 @@ export default class Author {
 }
 ```
 The @Hal.halEntity decorator indicate to the framework the URI to find this resource. The ID is specified by putting a @Hal.resourceId() decorator on the right properties.
-<<<<<<< HEAD
 So when you add a author in your response, Threerest will add a structure with link and data.
-=======
-So when you add a author in your response, Threerest will add a structure with link and data. 
->>>>>>> 59d7411d5370b91acce8bd5ccfe5880bca473512
-```
+```json
 {
   "_links": {
     "self": {
@@ -171,58 +179,44 @@ So when you add a author in your response, Threerest will add a structure with l
 }
 ```
 
-<<<<<<< HEAD
 #### Work with pagination
-=======
-### Work with pagination
->>>>>>> 59d7411d5370b91acce8bd5ccfe5880bca473512
 
 If your service returns a given list, you can easily paginate the return using the decorator @Pagination.paginate()
-```
+```javascript
 import { Pagination } from "threerest";
   ...
   @Methods.get("/")
-  @Hal.halServiceMethod()
-  @Pagination.paginate()
+  @Hal.halServiceMethod(true)
   getAll() {
     ....
   }
 ```
-In this case, threerest react when tou add the parameter limit and/or offset in your request. For example, the URI myAPI/authors send all the authors. If you want only the first 5 results, you just add have to send this request
+In this case, threerest react when tou add the parameter pageSize and/or pageIdx in your request. For example, the URI myAPI/authors send all the authors. If you want only the first 5 results, you just add have to send this request
 ```
-  myAPI/authors?limit=5
+  myAPI/authors?pageSize=5
 ```
 With the decorator, the pagination will be automatical executed.
 If you want to start to any other position, you must use offet
 ```
-  myAPI/authors?limit=5&offset=2
+  myAPI/authors?pageSize=5&pageIdx=2
 ```
 This URI send the first 5 results from the position 2 of the list.
 
-<<<<<<< HEAD
 ##### Configure pagination
-=======
-#### Configure pagination
->>>>>>> 59d7411d5370b91acce8bd5ccfe5880bca473512
 
 If you want to use other terms that limit and offset , you can specify them in the decorator.
 
-```
+```javascript
 import { Pagination } from "threerest";
   ...
   @Methods.get("/")
-  @Hal.halServiceMethod()
-  @Pagination.paginate("anotherlimit","index")
+  @Hal.halServiceMethod({pageSize:"anotherlimit",pageIdx:"index"})
   getAll() {
     ....
   }
 ```
 
-<<<<<<< HEAD
 The URI becomes
-=======
-The URI becomes 
->>>>>>> 59d7411d5370b91acce8bd5ccfe5880bca473512
 ```
   myAPI/authors?anotherlimit=5&index=2
 ```

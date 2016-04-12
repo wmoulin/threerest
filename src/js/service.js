@@ -50,8 +50,8 @@ export default class Service {
                         return fct.call(this, value, req, res);
                       });
                     } else {
-                      p = p.then(() => {
-                        return fct.call(this, req, res);
+                      p = p.then((params) => {
+                        return fct.call(this, params, req, res);
                       });
                     }
                     p = p.then((value) => {
