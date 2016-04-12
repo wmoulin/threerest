@@ -1,6 +1,10 @@
 # Threerest -  A Hypermedia Framework#
 
+<<<<<<< HEAD
   Threerest is a light and powerful framework for creating hypermedia API for [node](http://nodejs.org). For the moment, only HAL concept is implement.
+=======
+  Threerest is a light and powerful framework for creating hypermedia API for [node](http://nodejs.org).
+>>>>>>> 59d7411d5370b91acce8bd5ccfe5880bca473512
 
 ## Installation
 
@@ -8,11 +12,18 @@
   ```
   npm install threerest --save
   ```
+<<<<<<< HEAD
   or manually add the dependency in ```package.json```
 
 ## Using Threerest
 
   Threerest is base on the ES7 decorator. You just have to put a service decorator on a class to transform into service REST. To create a method, you can use the method decorators and if you want to make your service a Hypermedia Service, you must add the Hal decorator, it's so simple. This is an example, it's more telling :
+=======
+  
+## Using Threerest
+
+  Threerest is base on the ES7 decorator.You just have to put a Service decorator on a class to transform into service. To create a method, you can use the Method decorator ans if you wnat to make your service a Hypermedia Service, you must add the Hal decorator. This is an example :
+>>>>>>> 59d7411d5370b91acce8bd5ccfe5880bca473512
   ```
   import { Service } from "threerest";
   import { Methods } from "threerest";
@@ -28,6 +39,7 @@
     }
   }
   ```
+<<<<<<< HEAD
 
 ### REST level 2
 
@@ -63,6 +75,9 @@ For the moment, only GET, POST, DELETE, PUT and PATCH are implements
 
 ### REST level 3
 
+=======
+  
+>>>>>>> 59d7411d5370b91acce8bd5ccfe5880bca473512
   When you add a Hal decorator, the response of your service is compose like that :
   ```
   {
@@ -77,8 +92,13 @@ For the moment, only GET, POST, DELETE, PUT and PATCH are implements
   }
   ```
   Data is the original response of your service.
+<<<<<<< HEAD
 
 #### Work with model
+=======
+  
+### Work with model
+>>>>>>> 59d7411d5370b91acce8bd5ccfe5880bca473512
 
 If you want to add link to entity, you must decorate the entity class like that :
 ```
@@ -97,7 +117,11 @@ export default class Author {
 }
 ```
 The @Hal.halEntity decorator indicate to the framework the URI to find this resource. The ID is specified by putting a @Hal.resourceId() decorator on the right properties.
+<<<<<<< HEAD
 So when you add a author in your response, Threerest will add a structure with link and data.
+=======
+So when you add a author in your response, Threerest will add a structure with link and data. 
+>>>>>>> 59d7411d5370b91acce8bd5ccfe5880bca473512
 ```
 {
   "_links": {
@@ -147,7 +171,11 @@ So when you add a author in your response, Threerest will add a structure with l
 }
 ```
 
+<<<<<<< HEAD
 #### Work with pagination
+=======
+### Work with pagination
+>>>>>>> 59d7411d5370b91acce8bd5ccfe5880bca473512
 
 If your service returns a given list, you can easily paginate the return using the decorator @Pagination.paginate()
 ```
@@ -171,7 +199,11 @@ If you want to start to any other position, you must use offet
 ```
 This URI send the first 5 results from the position 2 of the list.
 
+<<<<<<< HEAD
 ##### Configure pagination
+=======
+#### Configure pagination
+>>>>>>> 59d7411d5370b91acce8bd5ccfe5880bca473512
 
 If you want to use other terms that limit and offset , you can specify them in the decorator.
 
@@ -186,7 +218,11 @@ import { Pagination } from "threerest";
   }
 ```
 
+<<<<<<< HEAD
 The URI becomes
+=======
+The URI becomes 
+>>>>>>> 59d7411d5370b91acce8bd5ccfe5880bca473512
 ```
   myAPI/authors?anotherlimit=5&index=2
 ```
