@@ -2,30 +2,21 @@
 
 export default class PaginationDate {
 
-  constructor(currentIdx, pageSize=10, length) {
+  constructor(currentIdx=0, pageSize, length) {
     this.currentIdx = parseInt(currentIdx);
-    this.pageSize = parseInt(pageSize);
+    this.pageSize = parseInt(pageSize || length);
     this.length = parseInt(length);
 
     if (pageSize <= 0) {
-      throw new RangeError("pageSize must be greater than zéro.");
+      throw new Error("pageSize must be greater than zéro.");
     }
-  }
-
-  set currentIdx(value) {
-    this.currentIdx = value;
-  }
-
-  set pageSize(value) {
-    this.pageSize = value;
-  }
-
-  set length(value) {
-    this.length = value;
   }
 
   getPageMetadata() {
     let metaData = {};
+    metaData.currentIdx = this.currentIdx
+    metaData.pageSize = this.pageSize
+    metaData.length = this.length
     metaData.nextIdx = this.currentIdx + this.pageSize;
     metaData.prevIdx = this.currentIdx + this.pageSize;
 

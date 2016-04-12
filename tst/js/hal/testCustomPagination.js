@@ -23,7 +23,6 @@ describe('Check Pagination with custom keyword for limit and offset', function()
         { self: {
           href:"/paginationCustom/666"}
         }, data: data}
-
       assert.equal(res.body._links.self.href, expected._links.self.href);
       assert.equal(res.body.data.length, expected.data.length);
 

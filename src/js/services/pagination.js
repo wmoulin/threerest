@@ -21,7 +21,9 @@ export default class Pagination {
         p = p.then(()=> {
           return oldFunct.apply(this, arguments);
         }).then((array)=> {
-          return managePagination(array, arguments[0].query || arguments[1].query, pageSize, pageIdx);
+          let currentQuery = arguments[0].query || arguments[1].query;
+          let paginationData = Pagination.extractPaginationData(currentQuery, pageSize, pageIdx);
+          return Pagination.managePagination(array, paginationData.pageSize, paginationData.pageIdx);
         });
         return p;
       };
@@ -40,15 +42,13 @@ export default class Pagination {
    *
    * @method
    * @param {json} result - The result from the service.
-   * @param {json} query - The query to the service.
-   * @param {String} [pageSize=pageSize] - The keyword for pageSize. It can be null.
-   * @param {String} [pageIdx=pageIdx] - The keyword for pageIdx. It can be null.
+   * @param {String} [pageSize=result.length] - The keyword for pageSize. It can be null.
+   * @param {String} [pageIdx=0] - The keyword for pageIdx. It can be null.
    * @returns {json}
    */
-  static managePagination(result, query, pageSize = "pageSize", pageIdx =  "pageIdx") {
-
-    if (query[pageSize] || query[pageIdx]) {
-      result = ArrayHelper.paginatesList(result, query[pageSize], query[pageIdx]);
+  static managePagination(result, pageSize, pageIdx =  0) {
+    if (result) {
+      result = ArrayHelper.paginatesList(result, pageSize || result.length, pageIdx);
     }
     return result;
   }
@@ -66,7 +66,7 @@ export default class Pagination {
    * @param {String} [pageIdx=pageIdx] - The keyword for pageIdx. It can be null.
    * @returns {json}
    */
-  static extractPaginationData(result, query, pageSize = "pageSize", pageIdx =  "pageIdx") {
+  static extractPaginationData(query, pageSize = "pageSize", pageIdx =  "pageIdx") {
 
     if (query) {
       return {pageSize: query[pageSize], pageIdx: query[pageIdx]};

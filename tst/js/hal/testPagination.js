@@ -38,11 +38,11 @@ describe('Check Pagination with normal keyword for limit and offset', function()
     serviceLoader.loadService(app, new servicePagination());
 
     request(app)
-    .get('/pagination?limit=4')
+    .get('/pagination?pageSize=4')
     .expect(function(res) {
       let expected = { _links:
         { self: {
-          href:"/pagination?limit=4"}
+          href:"/pagination?pageSize=4"}
         }, data: [{firstName:"Peter", lastName:"Parker", secretIdentity: "Spiderman", offset:"0"},
         {firstName:"Bruce", lastName:"Wayne", secretIdentity: "Batman", offset:"1"},
         {firstName:"Clark", lastName:"Kent", secretIdentity: "Superman", offset:"2"},
@@ -62,11 +62,11 @@ describe('Check Pagination with normal keyword for limit and offset', function()
     serviceLoader.loadService(app, new servicePagination());
 
     request(app)
-    .get('/pagination?offset=8')
+    .get('/pagination?pageIdx=8')
     .expect(function(res) {
       let expected = { _links:
         { self: {
-          href:"/pagination?offset=8"}
+          href:"/pagination?pageIdx=8"}
         }, data: [{firstName:"Matt", lastName:"Murdock", secretIdentity: "Daredevil", offset:"8"},
         {firstName:"Wade", lastName:"Wilson", secretIdentity: "Deadpool", offset:"9"},
         {firstName:"Elektra", lastName:"Natchios", secretIdentity: "Elektra", offset:"10"},
@@ -87,11 +87,11 @@ describe('Check Pagination with normal keyword for limit and offset', function()
     serviceLoader.loadService(app, new servicePagination());
 
     request(app)
-    .get('/pagination?limit=3&offset=0')
+    .get('/pagination?pageSize=3&pageIdx=0')
     .expect(function(res) {
       let expected = { _links:
         { self: {
-          href:"/pagination?limit=3&offset=0"}
+          href:"/pagination?pageSize=3&pageIdx=0"}
         }, data: [{firstName:"Peter", lastName:"Parker", secretIdentity: "Spiderman", offset:"0"},
         {firstName:"Bruce", lastName:"Wayne", secretIdentity: "Batman", offset:"1"},
         {firstName:"Clark", lastName:"Kent", secretIdentity: "Superman", offset:"2"}]}
@@ -110,11 +110,11 @@ describe('Check Pagination with normal keyword for limit and offset', function()
     serviceLoader.loadService(app, new servicePagination());
 
     request(app)
-    .get('/pagination?limit=2&offset=5')
+    .get('/pagination?pageSize=2&pageIdx=5')
     .expect(function(res) {
       let expected = { _links:
         { self: {
-          href:"/pagination?limit=2&offset=5"}
+          href:"/pagination?pageSize=2&pageIdx=5"}
         }, data: [{firstName:"Bruce", lastName:"Banner", secretIdentity: "Hulk", offset:"5"},
                 {firstName:"Natasha", lastName:"Romanoff", secretIdentity: "Black Widow", offset:"6"}]}
 

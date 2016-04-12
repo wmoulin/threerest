@@ -8,7 +8,7 @@ var SELF_LINK_PROP = "self";
  */
 export default class HalFlux {
 
-  constructor(data, bPaginate) {
+  constructor(data) {
 
     this._links = {};
     this.data = data;

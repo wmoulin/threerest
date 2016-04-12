@@ -14,9 +14,7 @@ var LAST_LINK_PROP = "last";
 export default class HalPaginateFlux extends HalFlux {
 
   constructor(data, paginationData) {
-    super();
-    this._links = {};
-    this.data = data;
+    super(data);
     this.paginationData = paginationData;
   }
 
@@ -38,10 +36,10 @@ export default class HalPaginateFlux extends HalFlux {
 
   updateLinks(currentUrl, baseUrl, paginateObject) {
     super.updateLinks(currentUrl);
-    let paginationMetadata = paginationData.getPageMetadata();
-    this.nextLink = result.nextLink = baseUrl + "?" + paginateObject.pageSize + "=" + paginationData.pageSize + "&" + paginateObject.pageIdx + "=" + paginationMetadata.nextIdx;
-    this.previousLink = baseUrl + "?" + paginateObject.pageSize + "=" + paginationData.pageSize + "&" + paginateObject.pageIdx + "=" + paginationMetadata.prevIdx;
-    this.firstLink = baseUrl + "?" + paginateObject.pageSize + "=" + paginationData.pageSize + "&" + paginateObject.pageIdx + "=0";
-    this.lastLink = baseUrl + "?" + paginateObject.pageSize + "=" + paginationData.pageSize + "&" + paginateObject.pageIdx + "=" + paginationMetadata.lastPage;
+    let paginationMetadata = this.paginationData.getPageMetadata();
+    this.nextLink = baseUrl + "?" + paginateObject.pageSize + "=" + paginationMetadata.pageSize + "&" + paginateObject.pageIdx + "=" + paginationMetadata.nextIdx;
+    this.previousLink = baseUrl + "?" + paginateObject.pageSize + "=" + paginationMetadata.pageSize + "&" + paginateObject.pageIdx + "=" + paginationMetadata.prevIdx;
+    this.firstLink = baseUrl + "?" + paginateObject.pageSize + "=" + paginationMetadata.pageSize + "&" + paginateObject.pageIdx + "=0";
+    this.lastLink = baseUrl + "?" + paginateObject.pageSize + "=" + paginationMetadata.pageSize + "&" + paginateObject.pageIdx + "=" + paginationMetadata.lastPage;
   }
 }

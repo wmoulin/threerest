@@ -41,17 +41,13 @@ export default class Hal {
 
         if (paginateObject) { // if paginate, extract the page and create hal paginate flux
           p = p.then((resultFct)=> {
-
-            try{
-              if (Array.isArray(resultFct)) {
-                let currentQuery = arguments[0].query || arguments[1].query;
-                let paginationData = Pagination.extractPaginationData(currentQuery, paginateObject.pageSize, paginateObject.pageIdx);
-                let dataPage = Pagination.managePagination(resultFct, currentQuery, paginateObject.pageSize, paginateObject.pageIdx);
-                return new HalPaginateFlux(dataPage, new PaginationData(paginationData.pageIdx, paginationData.pageSize, resultFct.length));
-              }
-            } catch(e){console.log(e)}
-              console.log("2");
-              return new HalFlux(resultFct);
+            if (Array.isArray(resultFct)) {
+              let currentQuery = arguments[1].query || arguments[0].query;
+              let paginationData = Pagination.extractPaginationData(currentQuery, paginateObject.pageSize, paginateObject.pageIdx);
+              let dataPage = Pagination.managePagination(resultFct, paginationData.pageSize, paginationData.pageIdx);
+              return new HalPaginateFlux(dataPage, new PaginationData(paginationData.pageIdx, paginationData.pageSize, resultFct.length));
+            }
+            return new HalFlux(resultFct);
           });
         } else { // if no paginate, create hal flux
           p = p.then((resultFct)=> {
@@ -72,12 +68,8 @@ export default class Hal {
           }
           return halFlux;
         }).then((halFlux)=> { // update link for all flux type
-          let currentRequest = arguments[0] || arguments[1];
-          try{
-          halFlux.updateLinks(currentRequest.originalUrl, currentRequest.baseUrl, paginateObject);
-        }  catch(e) {
-          console.log(e);
-        }
+          let currentRequest = arguments[1] || arguments[0];
+          halFlux.updateLinks(arguments[0].originalUrl || arguments[1].originalUrl, arguments[0].baseUrl || arguments[1].baseUrl, paginateObject);
           return halFlux;
         });
 
