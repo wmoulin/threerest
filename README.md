@@ -183,8 +183,6 @@ So when you add a author in your response, Threerest will add a structure with l
 
 If your service returns a given list, you can easily paginate the return using the decorator @Pagination.paginate()
 ```javascript
-import { Pagination } from "threerest";
-  ...
   @Methods.get("/")
   @Hal.halServiceMethod(true)
   getAll() {
@@ -207,8 +205,6 @@ This URI send the first 5 results from the position 2 of the list.
 If you want to use other terms that limit and offset , you can specify them in the decorator.
 
 ```javascript
-import { Pagination } from "threerest";
-  ...
   @Methods.get("/")
   @Hal.halServiceMethod({pageSize:"anotherlimit",pageIdx:"index"})
   getAll() {
