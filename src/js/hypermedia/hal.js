@@ -43,9 +43,10 @@ export default class Hal {
           p = p.then((resultFct)=> {
             if (Array.isArray(resultFct)) {
               let currentQuery = arguments[1].query || arguments[0].query;
-              let paginationData = Pagination.extractPaginationData(currentQuery, paginateObject.pageSize, paginateObject.pageIdx);
-              let dataPage = Pagination.managePagination(resultFct, paginationData.pageSize, paginationData.pageIdx);
-              return new HalPaginateFlux(dataPage, new PaginationData(paginationData.pageIdx, paginationData.pageSize, resultFct.length));
+              let paginationData = Pagination.extractPaginationData(currentQuery, paginateObject.pageSize, paginateObject.pageIdx, paginateObject.startIdx);
+              paginationData.length = resultFct.length;
+              let dataPage = Pagination.managePagination(resultFct, paginationData.pageSize, paginationData.pageIdx, paginationData.startIdx);
+              return new HalPaginateFlux(dataPage, paginationData);
             }
             return new HalFlux(resultFct);
           });
@@ -69,7 +70,8 @@ export default class Hal {
           return halFlux;
         }).then((halFlux)=> { // update link for all flux type
           let currentRequest = arguments[1] || arguments[0];
-          halFlux.updateLinks(arguments[0].originalUrl || arguments[1].originalUrl, arguments[0].baseUrl || arguments[1].baseUrl, paginateObject);
+          halFlux.updateLinks(arguments[0].originalUrl || arguments[1].originalUrl, arguments[0].baseUrl || arguments[1].baseUrl);
+          delete halFlux["paginationData"];
           return halFlux;
         });
 

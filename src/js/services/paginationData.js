@@ -1,24 +1,30 @@
 "use strict";
 
-export default class PaginationDate {
+export default class PaginationData {
 
-  constructor(currentIdx=0, pageSize, length) {
-    this.currentIdx = parseInt(currentIdx);
-    this.pageSize = parseInt(pageSize || length);
+  constructor(pageIdxKeyWord, pageSizeKeyWord, startIdxKeyWord, pageIdx=0, pageSize=0, startIdx=0, length=0) {
+    this.startIdx = parseInt(startIdx);
+    this.pageIdx = parseInt(pageIdx);
+    this.pageSize = parseInt(pageSize);
+    this.pageIdxKeyWord = pageIdxKeyWord;
+    this.pageSizeKeyWord = pageSizeKeyWord;
+    this.startIdxKeyWord = startIdxKeyWord;
     this.length = parseInt(length);
 
-    if (pageSize <= 0) {
-      throw new Error("pageSize must be greater than zéro.");
+    if (pageSize < 0) {
+      throw new RangeError("pageSize must be greater or equal than zéro.");
     }
   }
 
   getPageMetadata() {
     let metaData = {};
-    metaData.currentIdx = this.currentIdx
-    metaData.pageSize = this.pageSize
-    metaData.length = this.length
-    metaData.nextIdx = this.currentIdx + this.pageSize;
-    metaData.prevIdx = this.currentIdx + this.pageSize;
+
+    if (this.pageSize == 0) {
+      this.pageSize = this.length;
+    }
+
+    metaData.nextIdx = this.pageIdx + 1;
+    metaData.prevIdx = this.pageIdx - 1;
 
     if (this.prevIdx < 0) {
       metaData.prevIdx = undefined;
@@ -27,10 +33,15 @@ export default class PaginationDate {
     if (this.nextPage > this.length) {
       metaData.nextIdx = undefined;
     }
-    metaData.lastPage = this.length / this.pageSize;
+
+    metaData.lastPage = Math.trunc(this.length / this.pageSize);
     if(this.length % this.pageSize == 0) {
       metaData.lastPage++;
     }
+    metaData.pageSize = this.pageSize;
+    metaData.pageIdxKeyWord = this.pageIdxKeyWord;
+    metaData.pageSizeKeyWord = this.pageSizeKeyWord;
+    metaData.startIdxKeyWord = this.startIdxKeyWord;
     return metaData;
   }
 

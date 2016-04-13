@@ -10,7 +10,7 @@ import Param from "../param";
 export default class ServicePaginationCustom {
 
   @Method.get("/:id")
-  @Hal.halServiceMethod({pageSize:"limite", pageIdx:"index"})
+  @Hal.halServiceMethod({pageSize:"limite", pageIdx:"index", startIdx:"offsetIndex"})
   @convert(Param)
   testGet(value) {
     return DataHelper.getTestData();

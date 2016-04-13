@@ -62,11 +62,11 @@ describe('Check Pagination with custom keyword for limit and offset', function()
     serviceLoader.loadService(app, new serviceCustomPagination());
 
     request(app)
-    .get('/paginationCustom/666?index=8')
+    .get('/paginationCustom/666?offsetIndex=8')
     .expect(function(res) {
       let expected = { _links:
         { self: {
-          href:"/paginationCustom/666?index=8"}
+          href:"/paginationCustom/666?offsetIndex=8"}
         }, data: [{firstName:"Matt", lastName:"Murdock", secretIdentity: "Daredevil", offset:"8"},
         {firstName:"Wade", lastName:"Wilson", secretIdentity: "Deadpool", offset:"9"},
         {firstName:"Elektra", lastName:"Natchios", secretIdentity: "Elektra", offset:"10"},
@@ -95,7 +95,6 @@ describe('Check Pagination with custom keyword for limit and offset', function()
         }, data: [{firstName:"Peter", lastName:"Parker", secretIdentity: "Spiderman", offset:"0"},
         {firstName:"Bruce", lastName:"Wayne", secretIdentity: "Batman", offset:"1"},
         {firstName:"Clark", lastName:"Kent", secretIdentity: "Superman", offset:"2"}]}
-
       assert.equal(res.body._links.self.href, expected._links.self.href);
       assert.equal(res.body.data.length, expected.data.length);
 
