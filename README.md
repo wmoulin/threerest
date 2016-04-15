@@ -68,7 +68,7 @@ In the example, the service method will be execute using the  url ``` http:\\loc
 + request
 + response
 
-Without convert, the method will call with :
+With convert, the method will call with :
 + convert object with the request parameters
 + request
 + response
@@ -181,10 +181,8 @@ So when you add a author in your response, Threerest will add a structure with l
 
 #### Work with pagination
 
-If your service returns a given list, you can easily paginate the return using the decorator @Pagination.paginate()
+If your service returns a given list, you can easily paginate the return by adding a boolean true to the decorator.  @Pagination.paginate()
 ```javascript
-import { Pagination } from "threerest";
-  ...
   @Methods.get("/")
   @Hal.halServiceMethod(true)
   getAll() {
@@ -196,7 +194,7 @@ In this case, threerest react when tou add the parameter pageSize and/or pageIdx
   myAPI/authors?pageSize=5
 ```
 With the decorator, the pagination will be automatical executed.
-If you want to start to any other position, you must use offet
+If you want to start to any other position, you must use pageIdx
 ```
   myAPI/authors?pageSize=5&pageIdx=2
 ```
@@ -204,11 +202,9 @@ This URI send the first 5 results from the position 2 of the list.
 
 ##### Configure pagination
 
-If you want to use other terms that limit and offset , you can specify them in the decorator.
+If you want to use other terms that pageSize and pageIdx , you can specify them in the decorator.
 
 ```javascript
-import { Pagination } from "threerest";
-  ...
   @Methods.get("/")
   @Hal.halServiceMethod({pageSize:"anotherlimit",pageIdx:"index"})
   getAll() {

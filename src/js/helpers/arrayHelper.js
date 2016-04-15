@@ -5,23 +5,25 @@ export default class ArrayHelper {
    * The value of limit and/or offset determine how we can
    *
    * @method
-   * @param {json} result - The result from the service.
-   * @param {String} limit - The keyword for limit. It can be null.
-   * @param {String} offset - The keyword for offset. It can be null.
-   * @returns {json}
+   * @param {Array} result - The Array for extact.
+   * @param {String} limit - The number of element to extract.
+   * @param {String} offset - The index of the page to extract.
+   * @param {String} startIdx - the index of the object to start extract.
+   * @returns {Array}
    */
-  static paginatesList(result, limit, offset) {
-    if (limit && offset) {
-      // TODO gestion du code retour
-      //res.status(206);
-      return result.slice(offset, parseInt(offset) + parseInt(limit));
-    } else if (limit) {
-      //res.status(206);
-      return result.slice(0, limit);
-    } else if (offset) {
-      return result.slice(offset);
-    } else {
-      return result;
+  static paginatesList(result, limit, offset, startIdx) {
+    let tmpArray = result;
+
+    if (startIdx) {
+      tmpArray = tmpArray.slice(startIdx);
     }
+
+    if (limit && offset) {
+      tmpArray = tmpArray.slice(offset * limit, offset * limit + limit);
+    } else if (limit) {
+      tmpArray = tmpArray.slice(0, limit);
+    }
+
+    return tmpArray;
   }
 }

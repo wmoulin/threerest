@@ -1,6 +1,7 @@
 "use strict";
 
 import ArrayHelper from "../helpers/arrayHelper";
+import PaginationData from "./paginationData";
 
 export default class Pagination {
 
@@ -41,37 +42,34 @@ export default class Pagination {
    * Then the result is slicing by this two params.
    *
    * @method
-   * @param {json} result - The result from the service.
-   * @param {String} [pageSize=result.length] - The keyword for pageSize. It can be null.
-   * @param {String} [pageIdx=0] - The keyword for pageIdx. It can be null.
-   * @returns {json}
+   * @param {Array} result - The result from the service.
+   * @param {String} [pageSize=result.length] - the page size.
+   * @param {String} [pageIdx=0] - the index of the page to extract.
+   * @param {String} [startIdx=0] - the index of the object to start ectract.
+   * @returns {Array}
    */
-  static managePagination(result, pageSize, pageIdx =  0) {
+  static managePagination(result, pageSize, pageIdx =  0, startIdx =  0) {
     if (result) {
-      result = ArrayHelper.paginatesList(result, pageSize || result.length, pageIdx);
+      result = ArrayHelper.paginatesList(result, pageSize || result.length, pageIdx, startIdx);
     }
     return result;
   }
 
   /**
-   * Manage if pagination is neeccessary or not.
-   * If there are pagination, the keywords for the pageSize and the
-   * pageIdx must be set.
-   * Then the result is slicing by this two params.
+   * Extract paginatino data from request.
    *
    * @method
-   * @param {json} result - The result from the service.
-   * @param {json} query - The query to the service.
-   * @param {String} [pageSize=pageSize] - The keyword for pageSize. It can be null.
-   * @param {String} [pageIdx=pageIdx] - The keyword for pageIdx. It can be null.
-   * @returns {json}
+   * @param {object} query - The query to the service.
+   * @param {String} [pageSizeKeyWord=pageSize] - The keyword for pageSize. It can be null.
+   * @param {String} [pageIdxKeyWord=pageIdx] - The keyword for pageIdx. It can be null.
+   * @returns {PaginationData}
    */
-  static extractPaginationData(query, pageSize = "pageSize", pageIdx =  "pageIdx") {
+  static extractPaginationData(query, pageSizeKeyWord = "pageSize", pageIdxKeyWord =  "pageIdx", startIdxKeyWord =  "startIdx") {
 
     if (query) {
-      return {pageSize: query[pageSize], pageIdx: query[pageIdx]};
+      return new PaginationData(pageIdxKeyWord, pageSizeKeyWord, startIdxKeyWord, query[pageIdxKeyWord], query[pageSizeKeyWord], query[startIdxKeyWord]);
     }
-    return {};
+    return undefined;
 
   }
 }
