@@ -37,7 +37,7 @@ export default class Hal {
         let p = new Promise((resolve) => { resolve(true); });
         p = p.then(()=> {
           return oldFunct.apply(this, arguments);
-        })
+        });
 
         if (paginateObject) { // if paginate, extract the page and create hal paginate flux
           p = p.then((resultFct)=> {

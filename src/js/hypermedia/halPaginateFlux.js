@@ -1,6 +1,6 @@
 "use strict";
 
-import HalFlux from "./halFlux"
+import HalFlux from "./halFlux";
 
 var NEXT_LINK_PROP = "nextLink";
 var PREVIOUS_LINK_PROP = "previousLink";

@@ -14,9 +14,9 @@ export default class PaginationDate {
 
   getPageMetadata() {
     let metaData = {};
-    metaData.currentIdx = this.currentIdx
-    metaData.pageSize = this.pageSize
-    metaData.length = this.length
+    metaData.currentIdx = this.currentIdx;
+    metaData.pageSize = this.pageSize;
+    metaData.length = this.length;
     metaData.nextIdx = this.currentIdx + this.pageSize;
     metaData.prevIdx = this.currentIdx + this.pageSize;
 
