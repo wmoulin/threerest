@@ -3,7 +3,7 @@
 import Service from "../service";
 
 /**
-* Classe for all verbs HTTP decorator.
+* Class for all verbs HTTP decorator.
 * @class
 */
 export default class Method {
@@ -70,7 +70,7 @@ export default class Method {
       applyOnFunction(target, key, descriptor, "patch", path);
     };
   }
-};
+};path
 
 /**
 * Add REST decorator on function.

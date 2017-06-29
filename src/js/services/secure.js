@@ -3,93 +3,43 @@
 import Service from "../service";
 
 /**
-* Classe for all verbs HTTP decorator.
+* Class for Secure decorator.
 * @class
 */
-export default class Method {
-
-  static METHODS = {
-    get: true,
-    post: true,
-    delete: true,
-    put: true,
-    patch: true
-  };
+export default class Secure {
 
   /**
   * Decorator for 'GET' method.
   * @method
-  * @param {string} path - path for Rest service.
+  * @param {array<string>} roles - liste des roles.
   */
-  static get(path) {
+  static secure(roles) {
     return function (target, key, descriptor) {
-      applyOnFunction(target, key, descriptor, "get", path);
+      descriptor.value.secure = function(obj) {
+          console.log("Roles authorized", roles);
+      }
     };
   }
 
-  /**
-  * Decorator for 'POST' method.
-  * @method
-  * @param {string} path - path for Rest service.
-  */
-  static post(path) {
-    return function (target, key, descriptor) {
-      applyOnFunction(target, key, descriptor, "post", path);
-    };
-  }
-
-  /**
-  * Decorator for 'PUT' method.
-  * @method
-  * @param {string} path - path for Rest service.
-  */
-  static put(path) {
-    return function (target, key, descriptor) {
-      applyOnFunction(target, key, descriptor, "put", path);
-    };
-  }
-
-  /**
-  * Decorator for 'DELETE' method.
-  * @method
-  * @param {string} path - path for Rest service.
-  */
-  static delete(path) {
-    return function (target, key, descriptor) {
-      applyOnFunction(target, key, descriptor, "delete", path);
-    };
-  }
-
-  /**
-  * Decorator for 'PATCH' method.
-  * @method
-  * @param {string} path - path for Rest service.
-  */
-  static patch(path) {
-    return function (target, key, descriptor) {
-      applyOnFunction(target, key, descriptor, "patch", path);
-    };
-  }
-};
+}
 
 /**
-* Add REST decorator on function.
+* Add Secure decorator on function.
 * @method
-* @param {Object|function} target - instance to decorate.
+* @param {Object|functionmethodName} target - instance to decorate.
 * @param {string} key - attribute name.
 * @param {Object} descriptor - property descriptor.
-* @param {string} methodName - HTTP method name.
-* @param {string} path - Url for REST service.
+* @param {string} roles - Roles authorized.
 */
-function applyOnFunction(target, key, descriptor, methodName, path) {
+function applyOnFunction(target, key, descriptor, roles) {
 
-  let methodHttp = methodName;
   if (!target[Service.globalKey]) {
     target[Service.globalKey] = {};
   }
-  if(!target[Service.globalKey][methodHttp]) {target[Service.globalKey][methodHttp] = {}};
-  target[Service.globalKey][methodHttp][key] = {};
-  target[Service.globalKey][methodHttp][key][Service.pathKey] = path;
-  target[Service.globalKey][methodHttp][key][Service.fctKey] = descriptor.value;
+
+  if(!target[Service.globalKey][Service.secureKey]) {target[Service.globalKey][Service.secureKey] = {}};
+  
+  target[Service.globalKey][Service.secureKey][key] = {value: descriptor.value, roles: roles};
 
 };
+

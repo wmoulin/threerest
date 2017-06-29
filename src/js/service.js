@@ -1,6 +1,6 @@
 "use strict";
 
-import {Router} from "express";
+import { Router } from "express";
 import Method from "./services/methods";
 import RestError from "./exceptions/restError";
 import NotFoundError from "./exceptions/notFoundError";
@@ -14,7 +14,7 @@ export default class Service {
   static pathKey = "__path__";
   static fctKey = "__call__";
   static loadFct = "__load__";
-
+  static secureKey = "__secure__";
 
   /**
   * Decorator for REST service class. Must use with method decorators.
