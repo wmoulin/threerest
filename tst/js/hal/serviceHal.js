@@ -3,7 +3,7 @@ import Service from "../../../src/js/service";
 import Method from "../../../src/js/services/methods";
 import convert from "../../../src/js/convert";
 import Param from "../param";
-import NotFoundError from "../../../src/js/exceptions/NotFoundError";
+import NotFoundError from "../../../src/js/exceptions/notFoundError";
 
 @Service.path("/hal")
 export default class ServiceTest {

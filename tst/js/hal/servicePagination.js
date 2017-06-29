@@ -4,7 +4,7 @@ import Methods from "../../../src/js/services/methods";
 import convert from "../../../src/js/convert";
 import Param from "../param";
 import Pagination from "../../../src/js/services/pagination";
-import NotFoundError from "../../../src/js/exceptions/NotFoundError";
+import NotFoundError from "../../../src/js/exceptions/notFoundError";
 import DataHelper from "../helpers/dataHelper";
 
 @Service.path("/pagination")

@@ -42,19 +42,29 @@ export default class Service {
                 for (var fctName in target.prototype[Service.globalKey][attrib]) {
                   let fct = target.prototype[Service.globalKey][attrib][fctName][Service.fctKey];
                   router[attrib](target.prototype[Service.globalKey][attrib][fctName][Service.pathKey], (req, res, next) => {
-                    let p = new Promise((resolve) => { resolve(req.params||true); });
+                    let p;
+                    if (fct.secure) {
+                      p = new Promise((resolve, reject) => {
+                        try {
+                          fct.secure(req);
+                           resolve(Service.getParams(req));
+                        } catch(e) {
+                          reject(e);
+                        }
+                      });
+                    } else {
+                      p = new Promise((resolve) => { resolve(Service.getParams(req)); });
+                    }
+
                     if (fct.convertBefore) {
                       p = p.then((params)=> {
                         return fct.convertBefore(params);
-                      }).then((value) => {
-                        return fct.call(this, value, req, res);
                       });
-                    } else {
-                      p = p.then((params) => {
-                        return fct.call(this, params, req, res);
-                      });
-                    }
-                    p = p.then((value) => {
+                    } 
+                    
+                    p = p.then((params) => {
+                      return fct.call(this, params, req, res);
+                    }).then((value) => {
                       res.send(value);
                     })
                     .catch((e) => {
@@ -74,4 +84,17 @@ export default class Service {
       }
     }
   }
+
+  /**
+  * Renvoit les paramètres suivant la méthode.
+  * @method
+  * @param {IncomingMessage} requete - requête http
+  * @return paramètre envoyé au service req.body ou req.params
+  */
+  static getParams(requete) {
+    return requete.method == "post" ? requete.body : requete.params || true;
+  }
+
 };
+
+

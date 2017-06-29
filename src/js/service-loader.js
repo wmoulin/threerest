@@ -14,7 +14,7 @@ export function loadServices(expressInst, serviceDirPath) {
        //do something
       let Service = require(path.join(relativeServicesDirPath, file));
       let service = new Service();
-      loadService(express, service);
+      loadService(expressInst, service);
     }
   });
 
