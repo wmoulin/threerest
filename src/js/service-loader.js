@@ -1,5 +1,6 @@
 "use strict";
 import Service from "./service";
+import * as path from "path";
 
 /**
 * load all services in directory.
@@ -9,12 +10,13 @@ import Service from "./service";
 */
 export function loadServices(expressInst, serviceDirPath) {
   let relativeServicesDirPath = path.join(__dirname, serviceDirPath);
-  require("fs").readdirSync(relativeServicesDirPath).forEach(function(file) {
+  require("fs").readdirSync(serviceDirPath).forEach((file) => {
     if(path.extname(file) === ".js") {
-       //do something
-      let Service = require(path.join(relativeServicesDirPath, file));
-      let service = new Service();
-      loadService(expressInst, service);
+      let Service = require(path.join(serviceDirPath, file));
+      if (Service.default) {
+        let service = new Service.default();
+        loadService(expressInst, service);
+      }
     }
   });
 

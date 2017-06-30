@@ -63,14 +63,14 @@ export default class Method {
   /**
   * Decorator for 'PATCH' method.
   * @method
-  * @param {string} path - path for Rest service.
+  * @param {string} path - path for Rpathest service.
   */
   static patch(path) {
     return function (target, key, descriptor) {
       applyOnFunction(target, key, descriptor, "patch", path);
     };
   }
-};path
+};
 
 /**
 * Add REST decorator on function.

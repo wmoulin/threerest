@@ -1,10 +1,9 @@
 'use strict';
-
 var express = require('express');
 var request = require('supertest');
 
-import serviceOne from"./serviceOne";
-var serviceLoader = require("../../src/js/service-loader");
+import serviceOne from"./service/serviceOne";
+var serviceLoader = require("../../../src/js/service-loader");
 var assert = require("assert");
 
 describe('Laod simple service rest', function(){
@@ -14,12 +13,12 @@ describe('Laod simple service rest', function(){
     serviceLoader.loadService(app, new serviceOne());
 
     request(app)
-    .get('/test/12')
+    .get('/one/12')
     .expect('{"id":"12"}', done);
   });
 
   it('should return the value', function(done){
-    var app = express();
+    let app = express();
 
     app.route('/:foo')
     .get(function(req, res) {
@@ -29,6 +28,21 @@ describe('Laod simple service rest', function(){
     request(app)
     .get('/test')
     .expect('test', done);
+  });
+
+  it('should return a new route', function(done){
+    let path = require("path");
+    let app = express();
+    serviceLoader.loadServices(app, path.join(__dirname, "./service"));
+
+    request(app)
+    .get('/one/12')
+    .expect('{"id":"12"}', () => {
+      request(app)
+      .get('/two/12')
+      .expect('{"id":"12"}', done);
+    });
+
   });
 
 });
