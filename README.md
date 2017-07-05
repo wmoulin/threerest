@@ -93,6 +93,19 @@ export default class Param {
 ```
 And the first parameter method contain an object ```Param``` with the property id witch contain the value of the request parameter.
 
+#### Secure decorator
+
+##### generate with ssh-keygen
+
+		// GENERATE PRIVATE KEY in PKCS#1 format
+		//openssl genrsa -f4 -out private.txt 4096 
+		// EXPORT PUBLIC KEY
+		//openssl rsa -in private.txt -outform PEM -pubout -out public.txt
+		// EXPORT PRIVATE KEY to PKCS#8 format
+		//openssl pkcs8 -topk8 -inform pem -in private.txt -outform PEM -nocrypt -out private8.txt
+
+
+
 ### REST level 3
 
   When you add a Hal decorator, the response of your service is compose like that :
@@ -188,7 +201,13 @@ If your service returns a given list, you can easily paginate the return by addi
   getAll() {
     ....
   }
-```
+```		// generate with ssh-keygen
+		// GENERATE PRIVATE KEY in PKCS#1 format
+		//openssl genrsa -f4 -out private.txt 4096 
+		// EXPORT PUBLIC KEY
+		//openssl rsa -in private.txt -outform PEM -pubout -out public.txt
+		// EXPORT PRIVATE KEY to PKCS#8 format
+		//openssl pkcs8 -topk8 -inform pem -in private.txt -outform PEM -nocrypt -out private8.txt
 In this case, threerest react when tou add the parameter pageSize and/or pageIdx in your request. For example, the URI myAPI/authors send all the authors. If you want only the first 5 results, you just add have to send this request
 ```
   myAPI/authors?pageSize=5
@@ -212,7 +231,13 @@ If you want to use other terms that pageSize and pageIdx , you can specify them 
   }
 ```
 
-The URI becomes
+The URI becomes		// generate with ssh-keygen
+		// GENERATE PRIVATE KEY in PKCS#1 format
+		//openssl genrsa -f4 -out private.txt 4096 
+		// EXPORT PUBLIC KEY
+		//openssl rsa -in private.txt -outform PEM -pubout -out public.txt
+		// EXPORT PRIVATE KEY to PKCS#8 format
+		//openssl pkcs8 -topk8 -inform pem -in private.txt -outform PEM -nocrypt -out private8.txt
 ```
   myAPI/authors?anotherlimit=5&index=2
 ```

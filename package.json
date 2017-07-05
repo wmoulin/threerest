@@ -2,11 +2,11 @@
   "name": "threerest",
   "version": "1.0.4",
   "description": "Module de developpement de services REST",
-  "repository" : {
-        "type" : "git",
-        "url" : "https://github.com/wmoulin/threerest.git"
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/wmoulin/threerest.git"
   },
-  "licenses" : "SEE LICENSE IN https://github.com/wmoulin/threerest/blob/master/LICENSE",
+  "licenses": "SEE LICENSE IN https://github.com/wmoulin/threerest/blob/master/LICENSE",
   "keywords": [
     "framework",
     "service",
@@ -16,6 +16,7 @@
   ],
   "dependencies": {
     "bluebird": "^3.2.1",
+    "jsonwebtoken": "^7.4.1",
     "path-to-regexp": "^1.2.1"
   },
   "devDependencies": {

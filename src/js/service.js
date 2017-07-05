@@ -47,7 +47,7 @@ export default class Service {
                       p = new Promise((resolve, reject) => {
                         try {
                           fct.secure(req);
-                           resolve(Service.getParams(req));
+                          resolve(Service.getParams(req));
                         } catch(e) {
                           reject(e);
                         }

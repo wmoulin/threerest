@@ -9,14 +9,14 @@ export default class ServiceTest {
 
   @Method.get("/user/:id")
   @convert(Param)
-  @Secure.secure(["user"])
+  @Secure.secure(["USER"])
   testGetUser(value) {
     return value;
   }
 
-  @Method.get("/admin/:id")
+  @Method.get("/adminuser/:id")
   @convert(Param)
-  @Secure.secure(["admin"])
+  @Secure.secure(["USER", "ADMIN"])
   testGetAdmin(value) {
     return value;
   }

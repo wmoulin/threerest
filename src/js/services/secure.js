@@ -1,6 +1,7 @@
 "use strict";
 
 import Service from "../service";
+import UnauthorizedError from "../exceptions/unauthorizedError";
 
 /**
 * Class for Secure decorator.
@@ -9,37 +10,57 @@ import Service from "../service";
 export default class Secure {
 
   /**
-  * Decorator for 'GET' method.
+  * Decorator for secure method service.
   * @method
   * @param {array<string>} roles - liste des roles.
   */
   static secure(roles) {
+    let rolesList = []
+    
+    if (typeof roles === 'string' || roles instanceof String) {
+      rolesList = [roles];
+    } else if (Array.isArray(roles)) {
+      rolesList = roles;
+    }
+
     return function (target, key, descriptor) {
-      descriptor.value.secure = function(obj) {
-          console.log("Roles authorized", roles);
+      descriptor.value.secure = function(request) {
+          if (request) {
+            if(isAllowed(request.user, rolesList)) {
+              return ;
+            }
+          }
+          throw new UnauthorizedError();
+          
+
       }
     };
   }
 
-}
-
-/**
-* Add Secure decorator on function.
-* @method
-* @param {Object|functionmethodName} target - instance to decorate.
-* @param {string} key - attribute name.
-* @param {Object} descriptor - property descriptor.
-* @param {string} roles - Roles authorized.
-*/
-function applyOnFunction(target, key, descriptor, roles) {
-
-  if (!target[Service.globalKey]) {
-    target[Service.globalKey] = {};
-  }
-
-  if(!target[Service.globalKey][Service.secureKey]) {target[Service.globalKey][Service.secureKey] = {}};
-  
-  target[Service.globalKey][Service.secureKey][key] = {value: descriptor.value, roles: roles};
-
 };
 
+Secure.BEARER_HEADER = "Bearer ";
+Secure.HEADER_AUTH = "Authorization";
+
+/**
+ * Verify access allowed
+ * @param user User with roles
+ * @param roles Role or role liste allowed
+ * @return {boolean}
+ */
+function isAllowed(user, roles) {
+  var ok = false;
+  // Si pas de roles à tester, on est autorisé
+  if (!roles || roles.length === 0 || user && roles[0] == "*") ok = true;
+  else {
+    if (user && Array.isArray(user.roles)) {
+      ok = roles.some((role) => {
+        return user.roles.some((userRole) => {
+          return role === userRole;
+        });
+      });
+    }
+  }
+
+  return ok;
+};
