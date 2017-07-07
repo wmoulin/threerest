@@ -3,8 +3,7 @@
 import ArrayHelper from "../helpers/arrayHelper";
 import PaginationData from "./paginationData";
 
-export default class Pagination {
-
+ export default class Pagination {
   /**
    * Orchester pagination based on keywords parameter.
    *
@@ -17,14 +16,14 @@ export default class Pagination {
     return function decorate(target, key, descriptor) {
       let oldFunct = descriptor.value;
 
-      descriptor.value = function() {
+      descriptor.value = function () {
         let p = new Promise((resolve) => { resolve(true); });
-        p = p.then(()=> {
+        p = p.then(() => {
           return oldFunct.apply(this, arguments);
-        }).then((array)=> {
+        }).then((array) => {
           let currentQuery = arguments[0].query || arguments[1].query;
           let paginationData = Pagination.extractPaginationData(currentQuery, pageSize, pageIdx);
-          return Pagination.managePagination(array, paginationData.pageSize, paginationData.pageIdx);
+          return {data: Pagination.managePagination(array, paginationData.pageSize, paginationData.pageIdx, paginationData.startIdx), pagination: paginationData};
         });
         return p;
       };
@@ -32,7 +31,7 @@ export default class Pagination {
       if (oldFunct.convertBefore) {
         descriptor.value.convertBefore = oldFunct.convertBefore;
       }
-    };
+    }
   }
 
   /**
@@ -48,7 +47,7 @@ export default class Pagination {
    * @param {String} [startIdx=0] - the index of the object to start ectract.
    * @returns {Array}
    */
-  static managePagination(result, pageSize, pageIdx =  0, startIdx =  0) {
+  static managePagination(result, pageSize, pageIdx = 0, startIdx = 0) {
     if (result) {
       result = ArrayHelper.paginatesList(result, pageSize || result.length, pageIdx, startIdx);
     }
@@ -64,12 +63,12 @@ export default class Pagination {
    * @param {String} [pageIdxKeyWord=pageIdx] - The keyword for pageIdx. It can be null.
    * @returns {PaginationData}
    */
-  static extractPaginationData(query, pageSizeKeyWord = "pageSize", pageIdxKeyWord =  "pageIdx", startIdxKeyWord =  "startIdx") {
+  static extractPaginationData(query, pageSizeKeyWord = "pageSize", pageIdxKeyWord = "pageIdx", startIdxKeyWord = "startIdx") {
 
     if (query) {
       return new PaginationData(pageIdxKeyWord, pageSizeKeyWord, startIdxKeyWord, query[pageIdxKeyWord], query[pageSizeKeyWord], query[startIdxKeyWord]);
     }
-    return undefined;
-
   }
-}
+
+};
+export default Pagination;

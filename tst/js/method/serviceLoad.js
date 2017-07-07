@@ -1,59 +1,55 @@
-'use strict';
-var express = require('express');
-var request = require('supertest');
+"use strict";
 
-import serviceTest from"./service/service";
-var serviceLoader = require("../../../src/js/service-loader");
-var assert = require("assert");
+import express from "express";
+import request from "supertest";
+import assert from "assert";
+import bodyParser from "body-parser";
+import multer from "multer";
 
-describe('Laod simple service rest', function(){
-  it('should return a get', function(done){
+import serviceTest from "./service/service";
+import * as ServiceLoader from "../../../src/js/service-loader";
 
-    var app = express();
-    serviceLoader.loadService(app, new serviceTest());
+
+describe("Laod simple service rest", function() {
+
+  let app = express();
+  app.use(bodyParser.urlencoded({extended : false}));
+  app.use(multer().array());  
+  ServiceLoader.loadService(app, new serviceTest());
+
+  it("should return a get", function(done) {
 
     request(app)
-    .get('/one/12')
-    .expect('{"id":"12","method":"get"}', done);
+    .get("/one/1")
+    .expect('{"id":"1","method":"get"}', done);
   });
 
-  it('should return a post', function(done){
-
-    var app = express();
-    serviceLoader.loadService(app, new serviceTest());
+  it("should return a post", function(done) {
 
     request(app)
-    .post('/one/12')
-    .expect('{"id":"12","method":"post"}', done);
+    .post("/one")
+    .field("id", 11)
+    .expect('{"id":"11","method":"post"}', done);
   });
 
-  it('should return a delete', function(done){
-
-    var app = express();
-    serviceLoader.loadService(app, new serviceTest());
+  it("should return a delete", function(done) {
 
     request(app)
-    .delete('/one/12')
-    .expect('{"id":"12","method":"delete"}', done);
+    .delete("/one/2")
+    .expect('{"id":"2","method":"delete"}', done);
   });
 
-  it('should return a put', function(done){
-
-    var app = express();
-    serviceLoader.loadService(app, new serviceTest());
+  it("should return a put", function(done) {
 
     request(app)
-    .put('/one/12')
-    .expect('{"id":"12","method":"put"}', done);
+    .put("/one/3")
+    .expect('{"id":"3","method":"put"}', done);
   });
 
-  it('should return a patch', function(done){
-
-    var app = express();
-    serviceLoader.loadService(app, new serviceTest());
+  it("should return a patch", function(done) {
 
     request(app)
-    .patch('/one/12')
-    .expect('{"id":"12","method":"patch"}', done);
+    .patch("/one/4")
+    .expect('{"id":"4","method":"patch"}', done);
   });
 });

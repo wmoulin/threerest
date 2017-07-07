@@ -1,28 +1,29 @@
-'use strict';
+"use strict";
 
-var express = require('express');
-var request = require('supertest');
+import express from "express";
+import request from "supertest";
+import assert from "assert";
 
-import serviceCustomPagination from"./serviceCustomPagination";
+import serviceCustomPagination from "./serviceCustomPagination";
 import DataHelper from "../helpers/dataHelper";
+import * as ServiceLoader from "../../../src/js/service-loader";
 
-var serviceLoader = require("../../../src/js/service-loader");
-var assert = require("assert");
+describe("Check Pagination with custom keyword for limit and offset", function(){
 
-describe('Check Pagination with custom keyword for limit and offset', function(){
+  let app = express();
+  ServiceLoader.loadService(app, new serviceCustomPagination());
 
-  it('should return all the result', function(done){
+  it("should return all the result", function(done){
 
-    var app = express();
-    serviceLoader.loadService(app, new serviceCustomPagination());
     var data = DataHelper.getTestData();
     request(app)
-    .get('/paginationCustom/666')
+    .get("/paginationCustom/666")
     .expect(function(res) {
       let expected = { _links:
         { self: {
           href:"/paginationCustom/666"}
         }, data: data}
+      assert(res.body._links);
       assert.equal(res.body._links.self.href, expected._links.self.href);
       assert.equal(res.body.data.length, expected.data.length);
 
@@ -32,13 +33,10 @@ describe('Check Pagination with custom keyword for limit and offset', function()
   });
 
 
-  it('should return the four first result', function(done){
-
-    var app = express();
-    serviceLoader.loadService(app, new serviceCustomPagination());
+  it("should return the four first result", function(done){
 
     request(app)
-    .get('/paginationCustom/666?limite=4')
+    .get("/paginationCustom/666?limite=4")
     .expect(function(res) {
       let expected = { _links:
         { self: {
@@ -56,13 +54,10 @@ describe('Check Pagination with custom keyword for limit and offset', function()
     }).end(done);
   });
 
-  it('should return all the result from offset 8', function(done){
-
-    var app = express();
-    serviceLoader.loadService(app, new serviceCustomPagination());
+  it("should return all the result from offset 8", function(done){
 
     request(app)
-    .get('/paginationCustom/666?offsetIndex=8')
+    .get("/paginationCustom/666?offsetIndex=8")
     .expect(function(res) {
       let expected = { _links:
         { self: {
@@ -81,13 +76,10 @@ describe('Check Pagination with custom keyword for limit and offset', function()
     }).end(done);
   });
 
-  it('should return the first three result', function(done){
-
-    var app = express();
-    serviceLoader.loadService(app, new serviceCustomPagination());
+  it("should return the first three result", function(done){
 
     request(app)
-    .get('/paginationCustom/666?limite=3&index=0')
+    .get("/paginationCustom/666?limite=3&index=0")
     .expect(function(res) {
       let expected = { _links:
         { self: {
@@ -103,13 +95,10 @@ describe('Check Pagination with custom keyword for limit and offset', function()
     }).end(done);
   });
 
-  it('should return the two result start with offset 5', function(done){
-
-    var app = express();
-    serviceLoader.loadService(app, new serviceCustomPagination());
+  it("should return the two result start with offset 5", function(done){
 
     request(app)
-    .get('/paginationCustom/666?limite=2&index=5')
+    .get("/paginationCustom/666?limite=2&index=5")
     .expect(function(res) {
       let expected = { _links:
         { self: {

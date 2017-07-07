@@ -1,23 +1,25 @@
-'use strict';
+"use strict";
 
-var express = require('express');
-var request = require('supertest');
+import express from "express";
+import request from "supertest";
+import assert from "assert";
 
-import servicePagination from"./servicePagination";
+import servicePagination from "./servicePagination";
 import DataHelper from "../helpers/dataHelper";
 
-var serviceLoader = require("../../../src/js/service-loader");
-var assert = require("assert");
+import * as ServiceLoader from "../../../src/js/service-loader";
 
-describe('Check Pagination with normal keyword for limit and offset', function(){
 
-  it('should return all the result', function(done){
+describe("Check Hal Pagination with normal keyword for limit and offset", function(){
+  
+  let app = express();
+  ServiceLoader.loadService(app, new servicePagination());
+  
+  it("should return all the result", function(done){
 
-    var app = express();
-    serviceLoader.loadService(app, new servicePagination());
     var data = DataHelper.getTestData();
     request(app)
-    .get('/pagination')
+    .get("/pagination")
     .expect(function(res) {
       let expected = { _links:
         { self: {
@@ -32,13 +34,10 @@ describe('Check Pagination with normal keyword for limit and offset', function()
   });
 
 
-  it('should return the four first result', function(done){
-
-    var app = express();
-    serviceLoader.loadService(app, new servicePagination());
+  it("should return the four first result", function(done){
 
     request(app)
-    .get('/pagination?pageSize=4')
+    .get("/pagination?pageSize=4")
     .expect(function(res) {
       let expected = { _links:
         { self: {
@@ -55,13 +54,10 @@ describe('Check Pagination with normal keyword for limit and offset', function()
     }).end(done);
   });
 
-  it('should return all the result from offset 8', function(done){
-
-    var app = express();
-    serviceLoader.loadService(app, new servicePagination());
+  it("should return all the result from offset 8", function(done){
 
     request(app)
-    .get('/pagination?startIdx=8')
+    .get("/pagination?startIdx=8")
     .expect(function(res) {
       let expected = { _links:
         { self: {
@@ -79,13 +75,10 @@ describe('Check Pagination with normal keyword for limit and offset', function()
     }).end(done);
   });
 
-  it('should return the first three result', function(done){
-
-    var app = express();
-    serviceLoader.loadService(app, new servicePagination());
+  it("should return the first three result", function(done){
 
     request(app)
-    .get('/pagination?pageSize=3&pageIdx=0')
+    .get("/pagination?pageSize=3&pageIdx=0")
     .expect(function(res) {
       let expected = { _links:
         { self: {
@@ -93,6 +86,7 @@ describe('Check Pagination with normal keyword for limit and offset', function()
         }, data: [{firstName:"Peter", lastName:"Parker", secretIdentity: "Spiderman", offset:"0"},
         {firstName:"Bruce", lastName:"Wayne", secretIdentity: "Batman", offset:"1"},
         {firstName:"Clark", lastName:"Kent", secretIdentity: "Superman", offset:"2"}]}
+
       assert.equal(res.body._links.self.href, expected._links.self.href);
       assert.equal(res.body.data.length, expected.data.length);
 
@@ -101,13 +95,10 @@ describe('Check Pagination with normal keyword for limit and offset', function()
     }).end(done);
   });
 
-  it('should return the two result start with offset 5', function(done){
-
-    var app = express();
-    serviceLoader.loadService(app, new servicePagination());
+  it("should return the two result start with offset 5", function(done){
 
     request(app)
-    .get('/pagination?pageSize=2&pageIdx=5')
+    .get("/pagination?pageSize=2&pageIdx=5")
     .expect(function(res) {
       let expected = { _links:
         { self: {

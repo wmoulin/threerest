@@ -1,5 +1,4 @@
-var assert = require("assert");
-var assert = require("assert");
+import assert from "assert";
 
 export default class DataHelper {
 

@@ -1,47 +1,50 @@
-'use strict';
-var express = require('express');
-var request = require('supertest');
+"use strict";
 
-import serviceOne from"./service/serviceOne";
-var serviceLoader = require("../../../src/js/service-loader");
-var assert = require("assert");
+import express from "express";
+import request from "supertest";
+import assert from "assert";
 
-describe('Laod simple service rest', function(){
-  it('should return a new route', function(done){
+import serviceOne from "./service/serviceOne";
+import * as ServiceLoader from "../../../src/js/service-loader";
 
-    var app = express();
-    serviceLoader.loadService(app, new serviceOne());
+describe("Laod simple service rest", function () {
+  it("should return a new route", function (done) {
 
-    request(app)
-    .get('/one/12')
-    .expect('{"id":"12"}', done);
-  });
-
-  it('should return the value', function(done){
     let app = express();
-
-    app.route('/:foo')
-    .get(function(req, res) {
-      res.send(req.params.foo);
-    });
+    ServiceLoader.loadService(app, new serviceOne());
 
     request(app)
-    .get('/test')
-    .expect('test', done);
+      .get("/one/12")
+      .expect('{"id":"12"}', done);
   });
 
-  it('should return a new route', function(done){
+  it("should return the value", function (done) {
+    
+    let app = express();
+    app.route("/:foo")
+      .get(function (req, res) {
+        res.send(req.params.foo);
+      });
+
+    request(app)
+      .get("/test")
+      .expect("test", done);
+  });
+    
+
+  it("should return a new route", function (done) {
+
     let path = require("path");
     let app = express();
-    serviceLoader.loadServices(app, path.join(__dirname, "./service"));
+    ServiceLoader.loadServices(app, path.join(__dirname, "./service"));
 
     request(app)
-    .get('/one/12')
-    .expect('{"id":"12"}', () => {
-      request(app)
-      .get('/two/12')
-      .expect('{"id":"12"}', done);
-    });
+      .get("/one/12")
+      .expect('{"id":"12"}', () => {
+        request(app)
+          .get("/two/12")
+          .expect('{"id":"12"}', done);
+      });
 
   });
 

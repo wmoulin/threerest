@@ -13,7 +13,7 @@ export default class ServiceTest {
     return value;
   }
 
-  @Method.post("/:id")
+  @Method.post("")
   @convert(Param)
   testPost(value) {
     value.method = "post"

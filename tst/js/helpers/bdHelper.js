@@ -1,8 +1,8 @@
-var assert = require("assert");
+const assert = require("assert");
 
 import Author from "../models/author";
 import Serie from "../models/serie";
-var db = require('../hal/database');
+const db = require('../hal/database');
 
 export default class BdHelper {
 
@@ -11,8 +11,8 @@ export default class BdHelper {
    * auteur de la base de donnée en suite d'objet Author
    */
   static getAuthors(json) {
-    var arr = [];
-    var len = json["authors"].length;
+    let arr = [];
+    let len = json["authors"].length;
     for (var i = 0; i < len; i++) {
         arr.push(BdHelper.getAuthor(json["authors"][i], i));
     }
@@ -24,7 +24,7 @@ export default class BdHelper {
    * Chaque objet Serie est crée et ajouté à l'Author.
    */
   static getAuthor(json, id) {
-    var series = [];
+    let series = [];
     for (var i=0 ; i < json["series"].length ; i++)
     {
       series.push(BdHelper.getSerie(db, json["series"][i]["id"]));

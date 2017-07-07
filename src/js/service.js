@@ -92,7 +92,7 @@ export default class Service {
   * @return paramètre envoyé au service req.body ou req.params
   */
   static getParams(requete) {
-    return requete.method == "post" ? requete.body : requete.params || true;
+    return requete.method.toLowerCase() == "post" ? requete.body : requete.params || true;
   }
 
 };
