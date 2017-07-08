@@ -4,7 +4,7 @@ import HalFlux from "./halFlux";
 import HalPaginateFlux from "./halPaginateFlux";
 import Pagination from "../services/pagination";
 import PaginationData from "../services/paginationData";
-var pathToRegexp = require("path-to-regexp");
+import * as pathToRegexp from "path-to-regexp";
 
 /**
 * Hal decorators

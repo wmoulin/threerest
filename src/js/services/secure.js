@@ -12,7 +12,7 @@ export default class Secure {
   /**
   * Decorator for secure method service.
   * @method
-  * @param {array<string>} roles - liste des roles.
+  * @param {array<string>} roles - roles list.
   */
   static secure(roles) {
     let rolesList = []
@@ -45,7 +45,7 @@ Secure.HEADER_AUTH = "Authorization";
 /**
  * Verify access allowed
  * @param user User with roles
- * @param roles Role or role liste allowed
+ * @param roles Role or roles liste allowed
  * @return {boolean}
  */
 function isAllowed(user, roles) {
