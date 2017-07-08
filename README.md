@@ -95,14 +95,46 @@ And the first parameter method contain an object ```Param``` with the property i
 
 #### Secure decorator
 
+#####
+
+For secure some methods service, use the 'secure' decorator. He take the user from the request and compare the role property on this one with roles parameters passed to the decorator :
+
+```javascript
+@Service.path("/one")
+export default class ServiceTest {
+
+  @Method.get("/user/:id")
+  @convert(Param)
+  @Secure.secure(["USER"])
+  testGetUser(value) {
+    return value;
+  }
+
+  @Method.get("/adminuser/:id")
+  @convert(Param)
+  @Secure.secure(["USER", "ADMIN"])
+  testGetAdmin(value) {
+    return value;
+  }
+}
+```
+
+You just must have a middleware for write userproperty on the request.
+
 ##### generate with ssh-keygen
 
 		// GENERATE PRIVATE KEY in PKCS#1 format
-		//openssl genrsa -f4 -out private.txt 4096 
+```shell
+openssl genrsa -f4 -out private.txt 4096 
+```
 		// EXPORT PUBLIC KEY
-		//openssl rsa -in private.txt -outform PEM -pubout -out public.txt
+```shell
+openssl rsa -in private.txt -outform PEM -pubout -out public.pem
+```
 		// EXPORT PRIVATE KEY to PKCS#8 format
-		//openssl pkcs8 -topk8 -inform pem -in private.txt -outform PEM -nocrypt -out private8.txt
+```shell
+openssl pkcs8 -topk8 -inform pem -in private.txt -outform PEM -nocrypt -out private.pem
+```
 
 
 

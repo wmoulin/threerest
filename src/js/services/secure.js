@@ -2,6 +2,7 @@
 
 import Service from "../service";
 import UnauthorizedError from "../exceptions/unauthorizedError";
+import NotFoundError from "../exceptions/notFoundError";
 
 /**
 * Class for Secure decorator.
@@ -18,7 +19,7 @@ export default class Secure {
     let rolesList = []
     
     if (typeof roles === 'string' || roles instanceof String) {
-      rolesList = [roles];
+      rolesList = [roles];UnauthorizedError
     } else if (Array.isArray(roles)) {
       rolesList = roles;
     }
@@ -29,6 +30,9 @@ export default class Secure {
             if(isAllowed(request.user, rolesList)) {
               return ;
             }
+          }
+          if(process.env.NODE_ENV == "production") {
+            throw new NotFoundError();
           }
           throw new UnauthorizedError();
           
