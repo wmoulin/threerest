@@ -26,11 +26,11 @@ export default class PaginationData {
     metaData.nextIdx = this.pageIdx + 1;
     metaData.prevIdx = this.pageIdx - 1;
 
-    if (this.prevIdx < 0) {
+    if (metaData.prevIdx < 0) {
       metaData.prevIdx = undefined;
     }
 
-    if (this.nextPage > this.length) {
+    if (metaData.nextIdx > this.length) {
       metaData.nextIdx = undefined;
     }
 

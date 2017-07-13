@@ -71,4 +71,4 @@ import PaginationData from "./paginationData";
   }
 
 };
-export default Pagination;
+
