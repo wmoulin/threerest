@@ -45,4 +45,6 @@ export default class PaginationData {
     return metaData;
   }
 
-}
+};
+
+
