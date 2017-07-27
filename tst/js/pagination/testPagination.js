@@ -6,7 +6,7 @@ import assert from "assert";
 
 import servicePagination from "./service/servicePagination";
 import DataHelper from "../helpers/dataHelper";
-const serviceLoader = require("../../../src/js/threerest").ServiceLoader;
+const serviceLoader = require("../../../src/ts/threerest").ServiceLoader;
 
 
 describe("Check Pagination with normal keyword for limit and offset", function () {

@@ -23,11 +23,13 @@ export default class HalFlux {
   }
 
   static decorateSimpleObject(object: any, requestParameters: any) {
+        
     if (object) {
       if (object.halLink) {
         object._links = {};
         object._links[SELF_LINK_PROP] = {href: object.halLink.call(object, requestParameters)};
       }
+      
       for (let attrib in object) {
         if (object[attrib] && Array.isArray(object[attrib])) {
           object[attrib].forEach((elt: any, index: number) => {

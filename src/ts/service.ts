@@ -78,7 +78,7 @@ export default class Service {
                 }
                 expressInst.use(target.prototype[Service.globalKey][Service.pathKey], router);
               }
-            }getParams
+            }
           }
         };
       }

@@ -18,7 +18,7 @@ export default class Hal {
    * @param {boolean} bPaginate - activate le hal pagination metadata
    * @returns {json} the result with the hal links
    */
-  static halServiceMethod(pagination:IPaginationData|boolean) {
+  static halServiceMethod(pagination?:IPaginationData|boolean) {
     return function decorate(target: any, key: string, descriptor: PropertyDescriptor) {
       let oldFunct = descriptor.value;
       let paginateObject:IPaginationData = undefined;
@@ -40,6 +40,7 @@ export default class Hal {
         if (paginateObject) { // if paginate, extract the page and create hal paginate flux
           p = p.then((resultFct)=> {
             if (Array.isArray(resultFct)) {
+              
               let currentQuery = arguments[1].query || arguments[0].query;
               let paginationData:PaginationData = Pagination.extractPaginationData(currentQuery, paginateObject.pageSizeKeyWord, paginateObject.pageIdxKeyWord, paginateObject.startIdxKeyWord);
               paginationData.length = resultFct.length;
@@ -68,7 +69,7 @@ export default class Hal {
           return halFlux;
         }).then((halFlux: HalFlux)=> { // update link for all flux type
           let currentRequest = arguments[1] || arguments[0];
-          halFlux.updateLinks(<string>(arguments[0].originalUrl || arguments[1].originalUrl, arguments[0].baseUrl || arguments[1].baseUrl));
+          halFlux.updateLinks(<string>(arguments[0].originalUrl || arguments[1].originalUrl), <string>(arguments[0].baseUrl || arguments[1].baseUrl));
           delete (<any> halFlux).paginationData; //pour les HalPaginateFlux
           return halFlux;
         });
@@ -99,9 +100,9 @@ export default class Hal {
         target.prototype.halLink = function(requestParameters: any) {
           let params = requestParameters || {};
           let paramId = paramName || "id";
-          params[paramId] = this.halRessourceId();
-          requestParameters[paramId] = this.halRessourceId();
-          return target.pathToRhalServiceMethodegexp(params);
+          params[paramId] = this.halRessourceId.call(this);
+          requestParameters[paramId] = this.halRessourceId.call(this);
+          return target.pathToRegexp(params);
         };
       }
     };
@@ -114,7 +115,7 @@ export default class Hal {
    * @returns {function} the decorator
    */
   static resourceId() {
-    return function decorate(target: any, key: string, descriptor: PropertyDescriptor) {
+    return function decorate(target: any, key: string) {
       if (!target.halRessourceId) {
         target.halRessourceId = function() {
           return this[key];

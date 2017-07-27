@@ -7,7 +7,7 @@ import bodyParser from "body-parser";
 import multer from "multer";
 
 import serviceTest from "./service/service";
-import * as ServiceLoader from "../../../src/js/service-loader";
+import * as ServiceLoader from "../../../src/ts/service-loader";
 
 
 describe("Laod simple service rest", function() {

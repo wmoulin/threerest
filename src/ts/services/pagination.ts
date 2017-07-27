@@ -11,7 +11,7 @@ import { Request } from "express";
    * @param {String} [pageIdxKeyWord] - The keyword for pageIdx. It can be null.
    * @returns {json} the result with pagination
    */
-  static paginate(pageSizeKeyWord:string, pageIdxKeyWord:string) {
+  static paginate(pageSizeKeyWord?:string, pageIdxKeyWord?:string) {
     return function decorate(target: any, key: string, descriptor: PropertyDescriptor) {
       let oldFunct = descriptor.value;
 
@@ -65,7 +65,7 @@ import { Request } from "express";
   static extractPaginationData(query: any, pageSizeKeyWord: string = "pageSize", pageIdxKeyWord: string = "pageIdx", startIdxKeyWord: string = "startIdx") {
 
     if (query) {
-      return new PaginationData(pageIdxKeyWord, pageSizeKeyWord, startIdxKeyWord, query[pageIdxKeyWord], query[pageSizeKeyWord], query[startIdxKeyWord]);
+      return new PaginationData(pageIdxKeyWord, pageSizeKeyWord, startIdxKeyWord, parseInt(query[pageIdxKeyWord]), parseInt(query[pageSizeKeyWord]), parseInt(query[startIdxKeyWord]));
     }
   }
 

@@ -8,9 +8,9 @@ import fs from "fs";
 import path from "path";
 
 import serviceOne from "./service/service";
-import * as ServiceLoader from "../../../src/js/service-loader";
-import Secure from "../../../src/js/services/secure";
-import UnauthorizedError from "../../../src/js/exceptions/unauthorizedError";
+import * as ServiceLoader from "../../../src/ts/service-loader";
+import Secure from "../../../src/ts/services/secure";
+import UnauthorizedError from "../../../src/ts/exceptions/unauthorizedError";
 
 
 

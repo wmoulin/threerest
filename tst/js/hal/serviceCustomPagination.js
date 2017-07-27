@@ -1,7 +1,7 @@
-import Hal from "../../../src/js/hypermedia/hal";
-import Service from "../../../src/js/service";
-import Method from "../../../src/js/services/methods";
-import convert from "../../../src/js/convert";
+import Hal from "../../../src/ts/hypermedia/hal";
+import Service from "../../../src/ts/service";
+import Method from "../../../src/ts/services/methods";
+import convert from "../../../src/ts/convert";
 import DataHelper from "../helpers/dataHelper";
 import Param from "../param";
 

@@ -6,7 +6,7 @@ import assert from "assert";
 
 import serviceCustomPagination from "./serviceCustomPagination";
 import DataHelper from "../helpers/dataHelper";
-import * as ServiceLoader from "../../../src/js/service-loader";
+import * as ServiceLoader from "../../../src/ts/service-loader";
 
 describe("Check Pagination with custom keyword for limit and offset", function(){
 

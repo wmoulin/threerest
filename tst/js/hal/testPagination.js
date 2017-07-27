@@ -7,7 +7,7 @@ import assert from "assert";
 import servicePagination from "./servicePagination";
 import DataHelper from "../helpers/dataHelper";
 
-import * as ServiceLoader from "../../../src/js/service-loader";
+import * as ServiceLoader from "../../../src/ts/service-loader";
 
 
 describe("Check Hal Pagination with normal keyword for limit and offset", function(){

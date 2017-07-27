@@ -17,11 +17,11 @@ export default class Secure {
   * @method
   * @param {array<string>} roles - roles list.
   */
-  static secure(roles: string) {
+  static secure(roles: string|Array<string>) {
     let rolesList: Array<string> = []
     
     if (typeof roles === 'string' || roles instanceof String) {
-      rolesList = [roles];
+      rolesList = [roles as string];
     } else if (Array.isArray(roles)) {
       rolesList = roles;
     }

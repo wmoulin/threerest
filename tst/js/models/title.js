@@ -1,4 +1,4 @@
-import Hal from "../../../src/js/hypermedia/hal";
+import Hal from "../../../src/ts/hypermedia/hal";
 
 @Hal.halEntity("/titles/:id")
 export default class Title {

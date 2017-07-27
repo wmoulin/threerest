@@ -19,7 +19,7 @@ export default class ArrayHelper {
     }
 
     if (limit && offset) {
-      tmpArray = tmpArray.slice(offset * limit, offset * limit + limit);
+      tmpArray = tmpArray.slice(offset * limit, (offset*limit) + limit);
     } else if (limit) {
       tmpArray = tmpArray.slice(0, limit);
     }

@@ -5,7 +5,7 @@ import request from "supertest";
 import assert from "assert";
 
 import serviceOne from "./service/serviceOne";
-import * as ServiceLoader from "../../../src/js/service-loader";
+import * as ServiceLoader from "../../../src/ts/service-loader";
 
 describe("Laod simple service rest", function () {
   it("should return a new route", function (done) {

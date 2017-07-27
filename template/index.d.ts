@@ -19,7 +19,7 @@ export namespace Service {
 }
 
 export namespace Hal {
-    export function halServiceMethod(pagination: IPaginationData | boolean): (target: any, key: string, descriptor: PropertyDescriptor) => void;
+    export function halServiceMethod(pagination?: IPaginationData | boolean): (target: any, key: string, descriptor: PropertyDescriptor) => void;
     export function halEntity(link: string, paramName?: string): (target: any) => void;
     export function resourceId(): (target: any, key: string, descriptor: PropertyDescriptor) => void;
 }
@@ -43,7 +43,7 @@ export namespace Methods {
 export function convert(ConvertClass: new () => any): Function;
 
 export namespace Pagination {
-    function paginate(pageSizeKeyWord: string, pageIdxKeyWord: string): (target: any, key: string, descriptor: PropertyDescriptor) => void;
+    function paginate(pageSizeKeyWord?: string, pageIdxKeyWord?: string): (target: any, key: string, descriptor: PropertyDescriptor) => void;
     function managePagination(result: Array<any>, pageSize: number, pageIdx?: number, startIdx?: number): any[];
     function extractPaginationData(query: any, pageSizeKeyWord?: string, pageIdxKeyWord?: string, startIdxKeyWord?: string): PaginationData;
 }

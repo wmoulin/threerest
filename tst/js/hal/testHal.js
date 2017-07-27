@@ -5,7 +5,7 @@ import request from "supertest";
 import assert from "assert";
 
 import serviceHal from "./serviceHal";
-import * as ServiceLoader from "../../../src/js/service-loader";
+import * as ServiceLoader from "../../../src/ts/service-loader";
 
 describe("Load service rest", function(){
 
