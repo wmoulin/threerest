@@ -16,6 +16,7 @@ export namespace ServiceLoader {
 export namespace Service {
     export function path(path: string): (target: any) => void;
     export function getParams(requete: Request): any;
+    export function manageStatus(requete: Request, value:any)
 }
 
 export namespace Hal {
@@ -33,11 +34,15 @@ export namespace Methods {
         patch: boolean;
         [key: string]: boolean;
     };
-    function get(path: string): (target: any, key: string, descriptor: PropertyDescriptor) => void;
-    function post(path: string): (target: any, key: string, descriptor: PropertyDescriptor) => void;
-    function put(path: string): (target: any, key: string, descriptor: PropertyDescriptor) => void;
-    function del(path: string): ((target: any, key: string, descriptor: PropertyDescriptor) => void);
-    function patch(path: string): (target: any, key: string, descriptor: PropertyDescriptor) => void;
+    function get(path: string, httpStatus?: number): (target: any, key: string, descriptor: PropertyDescriptor) => void;
+    function post(path: string, httpStatus?: number): (target: any, key: string, descriptor: PropertyDescriptor) => void;
+    function put(path: string, httpStatus?: number): (target: any, key: string, descriptor: PropertyDescriptor) => void;
+    function del(path: string, httpStatus?: number): ((target: any, key: string, descriptor: PropertyDescriptor) => void);
+    function patch(path: string, httpStatus?: number): (target: any, key: string, descriptor: PropertyDescriptor) => void;
+}
+
+export class RestResult<T> {
+    constructor(code:number, data?:T);
 }
 
 export function convert(ConvertClass: new () => any): Function;

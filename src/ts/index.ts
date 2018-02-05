@@ -1,6 +1,7 @@
 export * from "./hypermedia/hal";
 export * from "./service";
 export * from "./services/methods";
+export * from "./services/rest-result";
 export * from "./convert";
 export * from "./services/pagination";
 export * from "./service-loader";

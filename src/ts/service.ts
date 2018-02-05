@@ -2,6 +2,7 @@
 
 import { Router, Request, Response, Application, NextFunction } from "express";
 import Method from "./services/methods";
+import RestResult from "./services/rest-result";
 import RestError from "./exceptions/restError";
 import NotFoundError from "./exceptions/notFoundError";
 /**
@@ -15,6 +16,7 @@ export default class Service {
   static fctKey = "__call__";
   static loadFct = "__load__";
   static secureKey = "__secure__";
+  static httpStatusKey = "__http_status__";
 
   /**
   * Decorator for REST service class. Must use with method decorators.
@@ -41,6 +43,7 @@ export default class Service {
                 let router: any = Router();
                 for (var fctName in target.prototype[Service.globalKey][attrib]) {
                   let fct = target.prototype[Service.globalKey][attrib][fctName][Service.fctKey];
+                  let status = target.prototype[Service.globalKey][attrib][fctName][Service.httpStatusKey];
                   router[attrib](target.prototype[Service.globalKey][attrib][fctName][Service.pathKey], (req: Request, res: Response, next: NextFunction) => {
                     let p;
                     if (fct.secure) {
@@ -65,6 +68,16 @@ export default class Service {
                     p = p.then((params) => {
                       return fct.call(this, params, req, res);
                     }).then((value) => {
+                      if(value instanceof RestResult && (value as RestResult<any>).code) {
+                        res.status((value as RestResult<any>).code);
+                      }
+                      if(status) {
+                        res.status(status);
+                      } else if(target.prototype.manageStatus && typeof target.prototype.manageStatus  === 'function'){
+                        res.status(target.prototype.call(this, res, value));
+                      } else {
+                        res.status(Service.manageStatus(req, value));
+                      }
                       res.send(value);
                     })
                     .catch((e) => {
@@ -93,6 +106,19 @@ export default class Service {
   */
   static getParams(requete: Request) {
     return requete.method.toLowerCase() == "post" ? requete.body : requete.params || true;
+  }
+
+  /**
+  * Renvoit le statut http à renvoyer
+  * @method
+  * @param {IncomingMessage} requete - requête http
+  * @param {any} result - résultat retourné par le service
+  * @return le status http à renvoyer
+  */
+  static manageStatus(requete: Request, value:any): number {
+    if(value && requete.method.toUpperCase() == "POST") return 201;
+    else if(!value && requete.method.toUpperCase() == "POST") return 204;
+    else if(!value && requete.method.toUpperCase() == "GET") return 404;
   }
 
 };

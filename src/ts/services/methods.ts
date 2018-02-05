@@ -25,10 +25,11 @@ export default class Method {
   * Decorator for 'GET' method.
   * @method
   * @param {string} path - path for Rest service.
+  * @param {number} httpStatus - http status for response.
   */
-  static get(path: string) {
+  static get(path: string, httpStatus?: number) {
     return function (target: any, key: string, descriptor: PropertyDescriptor) {
-      applyOnFunction(target, key, descriptor, "get", path);
+      applyOnFunction(target, key, descriptor, "get", path, httpStatus);
     };
   }
 
@@ -36,10 +37,11 @@ export default class Method {
   * Decorator for 'POST' method.
   * @method
   * @param {string} path - path for Rest service.
+  * @param {number} httpStatus - http status for response.
   */
-  static post(path: string) {
+  static post(path: string, httpStatus?: number) {
     return function (target: any, key: string, descriptor: PropertyDescriptor) {
-      applyOnFunction(target, key, descriptor, "post", path);
+      applyOnFunction(target, key, descriptor, "post", path, httpStatus);
     };
   }
 
@@ -47,10 +49,11 @@ export default class Method {
   * Decorator for 'PUT' method.
   * @method
   * @param {string} path - path for Rest service.
+  * @param {number} httpStatus - http status for response.
   */
-  static put(path: string) {
+  static put(path: string, httpStatus?: number) {
     return function (target: any, key: string, descriptor: PropertyDescriptor) {
-      applyOnFunction(target, key, descriptor, "put", path);
+      applyOnFunction(target, key, descriptor, "put", path, httpStatus);
     };
   }
 
@@ -58,10 +61,11 @@ export default class Method {
   * Decorator for 'DELETE' method.
   * @method
   * @param {string} path - path for Rest service.
+  * @param {number} httpStatus - http status for response.
   */
-  static del(path: string) {
+  static del(path: string, httpStatus?: number) {
     return function (target: any, key: string, descriptor: PropertyDescriptor) {
-      applyOnFunction(target, key, descriptor, "delete", path);
+      applyOnFunction(target, key, descriptor, "delete", path, httpStatus);
     };
   }
 
@@ -69,10 +73,11 @@ export default class Method {
   * Decorator for 'PATCH' method.
   * @method
   * @param {string} path - path for Rpathest service.
+  * @param {number} httpStatus - http status for response.
   */
-  static patch(path: string) {
+  static patch(path: string, httpStatus?: number) {
     return function (target: any, key: string, descriptor: PropertyDescriptor) {
-      applyOnFunction(target, key, descriptor, "patch", path);
+      applyOnFunction(target, key, descriptor, "patch", path, httpStatus);
     };
   }
 };
@@ -85,8 +90,9 @@ export default class Method {
 * @param {Object} descriptor - property descriptor.
 * @param {string} methodName - HTTP method name.
 * @param {string} path - Url for REST service.
+* @param {number} httpStatus - http status for response.
 */
-function applyOnFunction(target: any, key: string, descriptor: PropertyDescriptor, methodName: string, path: string) {
+function applyOnFunction(target: any, key: string, descriptor: PropertyDescriptor, methodName: string, path: string, httpStatus?: number) {
 
   let methodHttp = methodName;
   if (!target[Service.globalKey]) {
@@ -96,5 +102,5 @@ function applyOnFunction(target: any, key: string, descriptor: PropertyDescripto
   target[Service.globalKey][methodHttp][key] = {};
   target[Service.globalKey][methodHttp][key][Service.pathKey] = path;
   target[Service.globalKey][methodHttp][key][Service.fctKey] = descriptor.value;
-
+  target[Service.globalKey][methodHttp][key][Service.httpStatusKey] = httpStatus;
 };
