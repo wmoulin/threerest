@@ -95,7 +95,7 @@ And the first parameter method contain an object ```Param``` with the property i
 
 #### Secure decorator
 
-#####
+##### Presentation
 
 For secure some methods service, use the 'secure' decorator. He take the user from the request and compare the role property on this one with roles parameters passed to the decorator :
 
@@ -136,7 +136,17 @@ openssl rsa -in private.txt -outform PEM -pubout -out public.pem
 openssl pkcs8 -topk8 -inform pem -in private.txt -outform PEM -nocrypt -out private.pem
 ```
 
+#### HTTP status management
 
+There's multiple solution for this:
+1. If the method return a RestResult instance, the code from this instance and the data will return.
+2. We can use the Method decorator that take a status in second parameter
+3. The service class can implement a method named ```manageStatus```. this method take the request objet and the service return value in parameter and must return the status.
+4. Use the default static method ```manageStatus``` from Service class. You can overhide it if you need :
+    1. return value and post request return 201
+    2. no return value and post request return 204
+    3. no return value and get request return 404
+    4. otherwise return 200
 
 ### REST level 3
 
