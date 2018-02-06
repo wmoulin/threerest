@@ -17,7 +17,6 @@ describe("Load service rest Authors", function(){
     request(app)
     .get("/authors")
     .expect(function(res) {
-
       assert.equal(res.body._links.self.href, "/authors");
       assert.equal(res.body.data[0]._links.self.href, "/authors/0");
       assert.equal(res.body.data[1]._links.self.href, "/authors/1");

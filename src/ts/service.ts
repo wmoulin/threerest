@@ -71,7 +71,7 @@ export default class Service {
                       if(value instanceof RestResult && (value as RestResult<any>).code) {
                         res.status((value as RestResult<any>).code);
                       }
-                      if(status) {
+                      else if(status) {
                         res.status(status);
                       } else if(target.prototype.manageStatus && typeof target.prototype.manageStatus  === 'function'){
                         res.status(target.prototype.call(this, res, value));
@@ -119,6 +119,7 @@ export default class Service {
     if(value && requete.method.toUpperCase() == "POST") return 201;
     else if(!value && requete.method.toUpperCase() == "POST") return 204;
     else if(!value && requete.method.toUpperCase() == "GET") return 404;
+    return 200;
   }
 
 };
