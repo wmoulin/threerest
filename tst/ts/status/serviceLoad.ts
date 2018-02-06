@@ -71,6 +71,6 @@ describe("Load simple service rest", function() {
     request(app)
     .get("/two/1")
     .expect(222)
-    .expect('{"code":222,"data":{"id":"1"}}', done);
+    .expect('{"id":"1"}', done);
   });
 });

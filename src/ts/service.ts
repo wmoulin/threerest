@@ -70,15 +70,17 @@ export default class Service {
                     }).then((value) => {
                       if(value instanceof RestResult && (value as RestResult<any>).code) {
                         res.status((value as RestResult<any>).code);
-                      }
-                      else if(status) {
-                        res.status(status);
-                      } else if(target.prototype.manageStatus && typeof target.prototype.manageStatus  === 'function'){
-                        res.status(target.prototype.call(this, res, value));
+                        res.send((value as RestResult<any>).data);
                       } else {
-                        res.status(Service.manageStatus(req, value));
+                        if(status) {
+                          res.status(status);
+                        } else if(target.prototype.manageStatus && typeof target.prototype.manageStatus  === 'function'){
+                          res.status(target.prototype.call(this, req, value));
+                        } else {
+                          res.status(Service.manageStatus(req, value));
+                        }
+                        res.send(value);
                       }
-                      res.send(value);
                     })
                     .catch((e) => {
                       if (e.code) {
