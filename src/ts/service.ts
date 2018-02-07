@@ -75,7 +75,7 @@ export default class Service {
                         if(status) {
                           res.status(status);
                         } else if(target.prototype.manageStatus && typeof target.prototype.manageStatus  === 'function'){
-                          res.status(target.prototype.call(this, req, value));
+                          res.status(target.prototype.manageStatus.call(this, req, value));
                         } else {
                           res.status(Service.manageStatus(req, value));
                         }

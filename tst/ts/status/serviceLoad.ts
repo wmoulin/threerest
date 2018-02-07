@@ -9,6 +9,7 @@ import * as multer from "multer";
 
 import ServiceTest from "./service/service";
 import ServiceTestRestResult from "./service/service-rest-result";
+import ServiceManageStatus from "./service/service-manage-status";
 import * as ServiceLoader from "../../../src/ts/service-loader";
 
 
@@ -19,6 +20,7 @@ describe("Load simple service rest", function() {
   app.use(multer().array());  
   ServiceLoader.loadService(app, new ServiceTest());
   ServiceLoader.loadService(app, new ServiceTestRestResult());
+  ServiceLoader.loadService(app, new ServiceManageStatus());
 
   it("should return a get", function(done) {
 
@@ -72,5 +74,14 @@ describe("Load simple service rest", function() {
     .get("/two/1")
     .expect(222)
     .expect('{"id":"1"}', done);
+  });
+
+
+  it("should return a get with status 222 from RestResult", function(done) {
+
+    request(app)
+    .get("/three/1")
+    .expect(222)
+    .expect('{"id":"1","method":"get"}', done);
   });
 });
