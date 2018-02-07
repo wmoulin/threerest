@@ -1,6 +1,6 @@
 # Threerest -  A Hypermedia Framework#
 
-  Threerest is a light and powerful framework for creating hypermedia API for [node](http://nodejs.org). For the moment, only HAL concept is implement.
+  Threerest is a light and powerful framework for creating hypermedia API for [node](http://nodejs.org). For the moment, only HAL concept is implement fir level 3.
 
 ## Installation
 
@@ -92,6 +92,21 @@ export default class Param {
 };
 ```
 And the first parameter method contain an object ```Param``` with the property id witch contain the value of the request parameter.
+```javascript
+@Service.path("/three")
+export default class ServiceManageStatus {
+
+  @Method.get("/:id")
+  @convert(Param)
+  testGet(value) {
+    value.method = "get"
+    return value;
+  }
+
+}
+```
+
+In this example, the parameter *value* will be type of ```Param```, and his id attribut will be set with the request parameter exctract from the URL.
 
 #### Secure decorator
 
@@ -119,19 +134,40 @@ export default class ServiceTest {
 }
 ```
 
-You just must have a middleware for write userproperty on the request.
+You just must have a middleware for write userproperty on the request. This example parse a token JWT that contain the user
+
+```javascript
+/* Express middleware for extract user from JWT Token */
+function jwtMiddleWare(request, response, next) {
+  if (request && request.get && request.get(Secure.HEADER_AUTH) && request.get(Secure.HEADER_AUTH).slice(0, Secure.BEARER_HEADER.length) == Secure.BEARER_HEADER) {
+    let token = request.get(Secure.HEADER_AUTH).substring(Secure.BEARER_HEADER.length);
+    var cert = fs.readFileSync(path.join(__dirname, "./cert/pub.pem"));  // get public key
+    jwt.verify(token, cert, { algorithms: ["RS256"] }, function (err, decoded) {
+
+      request.user = decoded.user;
+      if (err) {
+        next(err);
+      } else {
+        next();
+      }
+    });
+  } else {
+    next();
+  }
+}
+```
 
 ##### generate with ssh-keygen
 
-		// GENERATE PRIVATE KEY in PKCS#1 format
+1. generate private key in PKCS#1 format
 ```shell
 openssl genrsa -f4 -out private.txt 4096 
 ```
-		// EXPORT PUBLIC KEY
+2. export public key
 ```shell
 openssl rsa -in private.txt -outform PEM -pubout -out public.pem
 ```
-		// EXPORT PRIVATE KEY to PKCS#8 format
+3. export private key to PKCS#8 format
 ```shell
 openssl pkcs8 -topk8 -inform pem -in private.txt -outform PEM -nocrypt -out private.pem
 ```
@@ -139,9 +175,42 @@ openssl pkcs8 -topk8 -inform pem -in private.txt -outform PEM -nocrypt -out priv
 #### HTTP status management
 
 There's multiple solution for this:
-1. If the method return a RestResult instance, the code from this instance and the data will return.
+1. If the method return a RestResult instance, the code from this instance and the data will return :
+```javascript
+  @Method.get("/:id")
+  @convert(Param)
+  testGet(value) {
+    return new RestResult(222, value);
+  }
+```
 2. We can use the Method decorator that take a status in second parameter
-3. The service class can implement a method named ```manageStatus```. this method take the request objet and the service return value in parameter and must return the status.
+```javascript
+  @Method.get("/status/:id", 222)
+  @convert(Param)
+  testGetStatus(value) {
+    value.method = "get"
+    return value;
+  }
+```
+3. The service class can implement a method named ```manageStatus```. this method take the request objet and the service return value in parameter and must return the status
+```javascript
+@Service.path("/three")
+export default class ServiceManageStatus {
+
+  @Method.get("/:id")
+  @convert(Param)
+  testGet(value) {
+    value.method = "get"
+    return value;
+  }
+
+  manageStatus(request, valueToReturn) {
+    if(!valueToReturn && request.method.toUpperCase() == "GET") return 404;
+    return 222;
+  }
+
+}
+```
 4. Use the default static method ```manageStatus``` from Service class. You can overhide it if you need :
     1. return value and post request return 201
     2. no return value and post request return 204
