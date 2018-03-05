@@ -1,12 +1,18 @@
-# Threerest -  A Hypermedia Framework#
+# Threerest -  A Hypermedia Framework
 
-  Threerest is a light and powerful framework for creating hypermedia API for [node](http://nodejs.org). For the moment, only HAL concept is implement fir level 3.
+  Threerest is a light and powerful framework for creating hypermedia API for [node](http://nodejs.org). For the moment, only HAL concept is implement for level 3.
 
 ## Installation
 
   Threerest is a npm module so you have just add it to your project like this :
+  
+  if npm < 5
   ```
   npm install threerest --save
+  ```
+  if npm > 5  
+  ```
+  npm i threerest
   ```
   or manually add the dependency in ```package.json```
 
@@ -19,11 +25,11 @@
   import { Methods } from "threerest";
   import { Hal } from "threerest";
 
-  @Service.path("/authors")
+  @Service.path("/authors")  // To set a part of the path of the API
   export default class ServiceAuthors {
 
-    @Methods.get("/")
-    @Hal.halServiceMethod()
+    @Methods.get("/") // To set the verb 
+    @Hal.halServiceMethod() // To add hypermedia
     getAll() {
       .....
     }
@@ -242,7 +248,7 @@ export default class ServiceManageStatus {
 
 If you want to add link to entity, you must decorate the entity class like that :
 ```javascript
-@Hal.halEntity("/authors/:id")
+@Hal.halEntity("/authors/:id") // To set the path of the API, that's link id of the path with the id of the model
 export default class Author {
 
   @Hal.resourceId()
@@ -316,13 +322,7 @@ If your service returns a given list, you can easily paginate the return by addi
   getAll() {
     ....
   }
-```		// generate with ssh-keygen
-		// GENERATE PRIVATE KEY in PKCS#1 format
-		//openssl genrsa -f4 -out private.txt 4096 
-		// EXPORT PUBLIC KEY
-		//openssl rsa -in private.txt -outform PEM -pubout -out public.txt
-		// EXPORT PRIVATE KEY to PKCS#8 format
-		//openssl pkcs8 -topk8 -inform pem -in private.txt -outform PEM -nocrypt -out private8.txt
+```		
 In this case, threerest react when tou add the parameter pageSize and/or pageIdx in your request. For example, the URI myAPI/authors send all the authors. If you want only the first 5 results, you just add have to send this request
 ```
   myAPI/authors?pageSize=5
@@ -346,13 +346,7 @@ If you want to use other terms that pageSize and pageIdx , you can specify them 
   }
 ```
 
-The URI becomes		// generate with ssh-keygen
-		// GENERATE PRIVATE KEY in PKCS#1 format
-		//openssl genrsa -f4 -out private.txt 4096 
-		// EXPORT PUBLIC KEY
-		//openssl rsa -in private.txt -outform PEM -pubout -out public.txt
-		// EXPORT PRIVATE KEY to PKCS#8 format
-		//openssl pkcs8 -topk8 -inform pem -in private.txt -outform PEM -nocrypt -out private8.txt
+The URI becomes		
 ```
   myAPI/authors?anotherlimit=5&index=2
 ```
