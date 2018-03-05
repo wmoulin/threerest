@@ -143,7 +143,7 @@ export default class ServiceTest {
   @Method.get("/adminuser/:id")
   @convert(Param)
   @Secure.secure(["USER", "ADMIN"])
-  testGetAdmin(value) {exa
+  testGetAdmin(value) {
     return value;
   }
 }
