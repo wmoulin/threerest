@@ -118,7 +118,16 @@ In this example, the parameter *value* will be type of ```Param```, and his id a
 
 ##### Presentation
 
-For secure some methods service, use the 'secure' decorator. He take the user from the request and compare the **roles property** on this one with roles parameters passed to the decorator :
+For secure some methods service, use the 'secure' decorator. He take the user from the request and compare the **roles property** on this one with roles parameters passed to the decorator.
+
+
+![alt text][secure]
+
+[secure]: ./doc_resources/threerest.jpg "secure presentation diagram"
+
+###### Example
+
+A service that allow call `testGetUser` for *USER* role and `testGetAdmin` for *USER* or *ADMIN* role :
 
 ```javascript
 @Service.path("/one")
@@ -134,7 +143,7 @@ export default class ServiceTest {
   @Method.get("/adminuser/:id")
   @convert(Param)
   @Secure.secure(["USER", "ADMIN"])
-  testGetAdmin(value) {
+  testGetAdmin(value) {exa
     return value;
   }
 }
@@ -163,11 +172,7 @@ function jwtMiddleWare(request, response, next) {
 }
 ```
 
-![alt text][secure]
-
-[secure]: ./doc_resources/threerest.jpg "secure presentation diagram"
-
-##### generate with ssh-keygen
+##### tips : generate with ssh-keygen
 
 1. generate private key in PKCS#1 format
 ```shell
