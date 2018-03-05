@@ -112,7 +112,7 @@ In this example, the parameter *value* will be type of ```Param```, and his id a
 
 ##### Presentation
 
-For secure some methods service, use the 'secure' decorator. He take the user from the request and compare the role property on this one with roles parameters passed to the decorator :
+For secure some methods service, use the 'secure' decorator. He take the user from the request and compare the **roles property** on this one with roles parameters passed to the decorator :
 
 ```javascript
 @Service.path("/one")
@@ -134,7 +134,7 @@ export default class ServiceTest {
 }
 ```
 
-You just must have a middleware for write userproperty on the request. This example parse a token JWT that contain the user
+You just must have a middleware for write user property on the request. This example parse a token JWT that contain the user
 
 ```javascript
 /* Express middleware for extract user from JWT Token */
@@ -156,6 +156,10 @@ function jwtMiddleWare(request, response, next) {
   }
 }
 ```
+
+![alt text][secure]
+
+[secure]: ./doc_resources/threerest.jpg "secure presentation diagram"
 
 ##### generate with ssh-keygen
 
@@ -276,7 +280,7 @@ So when you add a author in your response, Threerest will add a structure with l
           "self": {
             "href": "/series/6"
           }
-        },
+        },types
         "idSerie": 6,
         "name": "Expérience mort"
       },

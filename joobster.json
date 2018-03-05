@@ -2,6 +2,7 @@
   "typescript": {
     "compile" : {
       "activeMap": true
-    }
+    },
+    "packageIncludeFilters": ["index.d.ts"]
   }
 }

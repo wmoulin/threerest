@@ -3,8 +3,7 @@
 import { Router, Request, Response, Application, NextFunction } from "express";
 import Method from "./services/methods";
 import RestResult from "./services/rest-result";
-import RestError from "./exceptions/restError";
-import NotFoundError from "./exceptions/notFoundError";
+
 /**
  * Class for Decorator REST service (entrypoint).
  * @class

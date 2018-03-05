@@ -6,7 +6,8 @@ import pagination from "./services/pagination";
 import * as ServiceLoader from"./service-loader";
 import NotFoundError from"./exceptions/notFoundError";
 import RestError from"./exceptions/restError";
-
+import ForbiddenError from "./exceptions/forbiddenError";
+import UnauthorizedError from "./exceptions/unauthorizedError";
 /**
  * @project threerest
  * @author Wilfried Moulin
@@ -20,5 +21,7 @@ export {
   Convert,
   pagination,
   NotFoundError,
-  RestError
+  RestError,
+  ForbiddenError,
+  UnauthorizedError
 };

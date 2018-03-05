@@ -25,6 +25,13 @@ describe("Laod secure service rest", function () {
 
     request(app)
       .get("/one/user/12")
+      .expect(403, done);
+  });
+
+  it("should authorized for role user", function (done) {
+
+    request(app)
+      .get("/one/user/12")
       .set("Authorization", Secure.BEARER_HEADER + generateToken(["USER"]))
       .expect(200, '{"id":"12"}', done);
   });
@@ -41,7 +48,6 @@ describe("Laod secure service rest", function () {
     it("ADMIN roles", function (done) {
       request(app)
         .get("/one/adminuser/12")
-        .set("Authorization", "Bearer application/json")
         .set("Authorization", Secure.BEARER_HEADER + generateToken(["ADMIN"]))
         .expect(200, '{"id":"12"}', done);
     });
@@ -49,7 +55,6 @@ describe("Laod secure service rest", function () {
     it("USER roles", function (done) {
       request(app)
         .get("/one/adminuser/12")
-        .set("Authorization", "Bearer application/json")
         .set("Authorization", Secure.BEARER_HEADER + generateToken(["USER"]))
         .expect(200, '{"id":"12"}', done);
     });

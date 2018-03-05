@@ -1,6 +1,7 @@
 import Service from "../service";
 import UnauthorizedError from "../exceptions/unauthorizedError";
 import NotFoundError from "../exceptions/notFoundError";
+import ForbiddenError from "../exceptions/forbiddenError";
 import { Router, Request, Response, Application, NextFunction } from "express";
 
 /**
@@ -29,16 +30,14 @@ export default class Secure {
     return function (target: any, key: string, descriptor: PropertyDescriptor) {
       descriptor.value.secure = function(request: Request) {
           if (request) {
+            if(!(<any> request).user) {
+              throw new ForbiddenError();
+            }
             if(isAllowed((<any> request).user, rolesList)) {
               return ;
             }
           }
-          if(process.env.NODE_ENV == "production") {
-            throw new NotFoundError();
-          }
           throw new UnauthorizedError();
-          
-
       }
     };
   }
