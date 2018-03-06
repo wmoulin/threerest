@@ -1,13 +1,15 @@
 import Hal from "./hypermedia/hal";
 import Service from "./service";
 import Methods from "./services/methods";
+import Secure from "./services/secure";
 import Convert from "./convert";
-import pagination from "./services/pagination";
+import Pagination from "./services/pagination";
+import { PaginationData } from "./services/pagination-data";
 import * as ServiceLoader from"./service-loader";
-import NotFoundError from"./exceptions/notFoundError";
-import RestError from"./exceptions/restError";
-import ForbiddenError from "./exceptions/forbiddenError";
-import UnauthorizedError from "./exceptions/unauthorizedError";
+import NotFoundError from"./exceptions/not-found-error";
+import RestError from"./exceptions/rest-error";
+import ForbiddenError from "./exceptions/forbidden-error";
+import UnauthorizedError from "./exceptions/unauthorized-error";
 /**
  * @project threerest
  * @author Wilfried Moulin
@@ -18,8 +20,9 @@ export {
   Service,
   Hal,
   Methods,
+  Secure,
   Convert,
-  pagination,
+  Pagination,
   NotFoundError,
   RestError,
   ForbiddenError,

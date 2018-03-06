@@ -3,7 +3,7 @@ import Service from "../../../src/ts/service";
 import Method from "../../../src/ts/services/methods";
 import convert from "../../../src/ts/convert";
 import Param from "../param";
-import NotFoundError from "../../../src/ts/exceptions/notFoundError";
+import NotFoundError from "../../../src/ts/exceptions/not-found-error";
 
 @Service.path("/hal")
 export default class ServiceTest {

@@ -41,6 +41,9 @@ export namespace Methods {
     function patch(path: string, httpStatus?: number): (target: any, key: string, descriptor: PropertyDescriptor) => void;
 }
 
+export namespace Secure {
+    function secure(roles: string|Array<string>): (target: any, key: string, descriptor: PropertyDescriptor) => void;
+}
 export class RestResult<T> {
     constructor(code:number, data?:T);
 }

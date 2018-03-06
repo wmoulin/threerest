@@ -1,7 +1,3 @@
-import ArrayHelper from "../helpers/arrayHelper";
-import { PaginationData } from "./paginationData";
-import { Request } from "express";
-
  export default class RestResult<T> {
 
   public code:number;

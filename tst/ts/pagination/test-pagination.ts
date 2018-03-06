@@ -4,8 +4,8 @@ import * as assert from "assert";
 
 import "mocha";
 
-import servicePagination from "./service/servicePagination";
-import DataHelper from "../helpers/dataHelper";
+import servicePagination from "./service/service-pagination";
+import DataHelper from "../helpers/data-helper";
 const serviceLoader = require("../../../src/ts/threerest").ServiceLoader;
 
 

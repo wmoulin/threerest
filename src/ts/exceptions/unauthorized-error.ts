@@ -1,4 +1,4 @@
-import RestError from "./restError";
+import RestError from "./rest-error";
 
 /**
 * Not Found Rest service error

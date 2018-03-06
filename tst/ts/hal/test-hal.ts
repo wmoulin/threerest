@@ -1,10 +1,10 @@
-"use strict";
+import * as express from "express";
+import * as request from "supertest";
+import * as assert from "assert";
 
-import express from "express";
-import request from "supertest";
-import assert from "assert";
+import "mocha";
 
-import serviceHal from "./serviceHal";
+import serviceHal from "./service-hal";
 import * as ServiceLoader from "../../../src/ts/service-loader";
 
 describe("Load service rest", function(){

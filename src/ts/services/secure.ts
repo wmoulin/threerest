@@ -1,7 +1,7 @@
 import Service from "../service";
-import UnauthorizedError from "../exceptions/unauthorizedError";
-import NotFoundError from "../exceptions/notFoundError";
-import ForbiddenError from "../exceptions/forbiddenError";
+import UnauthorizedError from "../exceptions/unauthorized-error";
+import NotFoundError from "../exceptions/not-found-error";
+import ForbiddenError from "../exceptions/forbidden-error";
 import { Router, Request, Response, Application, NextFunction } from "express";
 
 /**

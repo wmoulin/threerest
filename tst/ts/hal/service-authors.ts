@@ -1,8 +1,8 @@
 import Hal from "../../../src/ts/hypermedia/hal";
 import Service from "../../../src/ts/service";
 import Methods from "../../../src/ts/services/methods";
-import NotFoundError from "../../../src/ts/exceptions/notFoundError";
-import BdHelper from "../helpers/bdHelper";
+import NotFoundError from "../../../src/ts/exceptions/not-found-error";
+import BdHelper from "../helpers/bd-helper";
 
 
 var db = require("./database");

@@ -1,5 +1,5 @@
-import HalFlux from "./halFlux";
-import { PaginationData } from "../services/paginationData";
+import HalFlux from "./hal-flux";
+import { PaginationData } from "../services/pagination-data";
 
 var NEXT_LINK_PROP = "nextLink";
 var PREVIOUS_LINK_PROP = "previousLink";

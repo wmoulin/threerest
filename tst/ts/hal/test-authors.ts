@@ -4,7 +4,7 @@ import * as assert from "assert";
 
 import "mocha";
 
-import ServiceAuthors from "./serviceAuthors";
+import ServiceAuthors from "./service-authors";
 import * as ServiceLoader from "../../../src/ts/service-loader";
 
 describe("Load service rest Authors", function(){
