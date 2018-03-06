@@ -11,7 +11,7 @@ export default class ArrayHelper {
    * @param {number} startIdx - the index of the object to start extract.
    * @returns {Array}
    */
-  static paginatesList(result: Array<any>, limit: number, offset: number, startIdx: number) {
+  static paginatesList(result: Array<any>, limit: number, offset: number, startIdx: number): Array<any> {
     let tmpArray = result;
 
     if (startIdx) {

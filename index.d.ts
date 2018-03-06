@@ -44,17 +44,8 @@ export namespace Methods {
 export namespace Secure {
     function secure(roles: string|Array<string>): (target: any, key: string, descriptor: PropertyDescriptor) => void;
 }
-export class RestResult<T> {
-    constructor(code:number, data?:T);
-}
 
 export function convert(ConvertClass: new () => any): Function;
-
-export namespace Pagination {
-    function paginate(pageSizeKeyWord?: string, pageIdxKeyWord?: string): (target: any, key: string, descriptor: PropertyDescriptor) => void;
-    function managePagination(result: Array<any>, pageSize: number, pageIdx?: number, startIdx?: number): any[];
-    function extractPaginationData(query: any, pageSizeKeyWord?: string, pageIdxKeyWord?: string, startIdxKeyWord?: string): PaginationData;
-}
 
 export class NotFoundError extends RestError {
     constructor(message?: string);
@@ -72,6 +63,16 @@ export class RestError extends Error {
     message: string;
     code: number;
     constructor(message: string, code: number);
+}
+
+export class RestResult<T> {
+    constructor(code:number, data?:T);
+}
+
+export namespace Pagination {
+    function paginate(pageSizeKeyWord?: string, pageIdxKeyWord?: string): (target: any, key: string, descriptor: PropertyDescriptor) => void;
+    function manaclientgePagination(result: Array<any>, pageSize: number, pageIdx?: number, startIdx?: number): any[];
+    function extractPaginationData(query: any, pageSizeKeyWord?: string, pageIdxKeyWord?: string, startIdxKeyWord?: string): PaginationData;
 }
 
 interface IPaginationData {
@@ -95,6 +96,7 @@ declare class PaginationData {
     constructor(pageIdxKeyWord: string, pageSizeKeyWord: string, startIdxKeyWord: string, pageIdx?: number, pageSize?: number, startIdx?: number, length?: number);
     getPageMetadata(): MetaData;
 }
+
 interface MetaData {
     nextIdx?: number;
     prevIdx?: number;
@@ -104,4 +106,10 @@ interface MetaData {
     pageIdxKeyWord?: string;
     pageSizeKeyWord?: string;
     startIdxKeyWord?: string;
+}
+
+declare module "threerest/js/helpers/array-helper" {
+    export namespace ArrayHelper {
+        function paginatesList(result: Array<any>, limit: number, offset: number, startIdx: number): Array<any>;
+    }
 }
