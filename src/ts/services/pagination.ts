@@ -1,5 +1,5 @@
-import ArrayHelper from "../helpers/arrayHelper";
-import { PaginationData } from "./paginationData";
+import ArrayHelper from "../helpers/array-helper";
+import { PaginationData } from "./pagination-data";
 import { Request } from "express";
 
  export default class Pagination {

@@ -1,7 +1,7 @@
-import HalFlux from "./halFlux";
-import HalPaginateFlux from "./halPaginateFlux";
+import HalFlux from "./hal-flux";
+import HalPaginateFlux from "./hal-paginate-flux";
 import Pagination from "../services/pagination";
-import { PaginationData, IPaginationData} from "../services/paginationData";
+import { PaginationData, IPaginationData} from "../services/pagination-data";
 const pathToRegexp = require("path-to-regexp");
 
 /**

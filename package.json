@@ -31,5 +31,6 @@
     "supertest": "1.1.0"
   },
   "author": "wilfried Moulin",
-  "main": "./src/ts/threerest.js"
+  "main": "./js/threerest.js",
+  "types": "./index.d.ts"
 }
