@@ -1,12 +1,18 @@
-# Threerest -  A Hypermedia Framework#
+# Threerest -  A Hypermedia Framework
 
-  Threerest is a light and powerful framework for creating hypermedia API for [node](http://nodejs.org). For the moment, only HAL concept is implement.
+  Threerest is a light and powerful framework for creating hypermedia API for [node](http://nodejs.org). For the moment, only HAL concept is implement for level 3.
 
 ## Installation
 
   Threerest is a npm module so you have just add it to your project like this :
+  
+  if npm < 5
   ```
   npm install threerest --save
+  ```
+  if npm > 5  
+  ```
+  npm i threerest
   ```
   or manually add the dependency in ```package.json```
 
@@ -19,11 +25,11 @@
   import { Methods } from "threerest";
   import { Hal } from "threerest";
 
-  @Service.path("/authors")
+  @Service.path("/authors")  // To set a part of the path of the API
   export default class ServiceAuthors {
 
-    @Methods.get("/")
-    @Hal.halServiceMethod()
+    @Methods.get("/") // To set the verb 
+    @Hal.halServiceMethod() // To add hypermedia
     getAll() {
       .....
     }
@@ -92,6 +98,139 @@ export default class Param {
 };
 ```
 And the first parameter method contain an object ```Param``` with the property id witch contain the value of the request parameter.
+```javascript
+@Service.path("/three")
+export default class ServiceManageStatus {
+
+  @Method.get("/:id")
+  @convert(Param)
+  testGet(value) {
+    value.method = "get"
+    return value;
+  }
+
+}
+```
+
+In this example, the parameter *value* will be type of ```Param```, and his id attribut will be set with the request parameter exctract from the URL.
+
+#### Secure decorator
+
+##### Presentation
+
+For secure some methods service, use the 'secure' decorator. He take the user from the request and compare the **roles property** on this one with roles parameters passed to the decorator.
+
+
+![alt text][secure]
+
+[secure]: ./doc_resources/threerest.jpg "secure presentation diagram"
+
+###### Example
+
+A service that allow call `testGetUser` for *USER* role and `testGetAdmin` for *USER* or *ADMIN* role :
+
+```javascript
+@Service.path("/one")
+export default class ServiceTest {
+
+  @Method.get("/user/:id")
+  @convert(Param)
+  @Secure.secure(["USER"])
+  testGetUser(value) {
+    return value;
+  }
+
+  @Method.get("/adminuser/:id")
+  @convert(Param)
+  @Secure.secure(["USER", "ADMIN"])
+  testGetAdmin(value) {
+    return value;
+  }
+}
+```
+
+You just must have a middleware for write user property on the request. This example parse a token JWT that contain the user
+
+```javascript
+/* Express middleware for extract user from JWT Token */
+function jwtMiddleWare(request, response, next) {
+  if (request && request.get && request.get(Secure.HEADER_AUTH) && request.get(Secure.HEADER_AUTH).slice(0, Secure.BEARER_HEADER.length) == Secure.BEARER_HEADER) {
+    let token = request.get(Secure.HEADER_AUTH).substring(Secure.BEARER_HEADER.length);
+    var cert = fs.readFileSync(path.join(__dirname, "./cert/pub.pem"));  // get public key
+    jwt.verify(token, cert, { algorithms: ["RS256"] }, function (err, decoded) {
+
+      request.user = decoded.user;
+      if (err) {
+        next(err);
+      } else {
+        next();
+      }
+    });
+  } else {
+    next();
+  }
+}
+```
+
+##### tips : generate with ssh-keygen
+
+1. generate private key in PKCS#1 format
+```shell
+openssl genrsa -f4 -out private.txt 4096 
+```
+2. export public key
+```shell
+openssl rsa -in private.txt -outform PEM -pubout -out public.pem
+```
+3. export private key to PKCS#8 format
+```shell
+openssl pkcs8 -topk8 -inform pem -in private.txt -outform PEM -nocrypt -out private.pem
+```
+
+#### HTTP status management
+
+There's multiple solution for this:
+1. If the method return a RestResult instance, the code from this instance and the data will return :
+```javascript
+  @Method.get("/:id")
+  @convert(Param)
+  testGet(value) {
+    return new RestResult(222, value);
+  }
+```
+2. We can use the Method decorator that take a status in second parameter
+```javascript
+  @Method.get("/status/:id", 222)
+  @convert(Param)
+  testGetStatus(value) {
+    value.method = "get"
+    return value;
+  }
+```
+3. The service class can implement a method named ```manageStatus```. this method take the request objet and the service return value in parameter and must return the status
+```javascript
+@Service.path("/three")
+export default class ServiceManageStatus {
+
+  @Method.get("/:id")
+  @convert(Param)
+  testGet(value) {
+    value.method = "get"
+    return value;
+  }
+
+  manageStatus(request, valueToReturn) {
+    if(!valueToReturn && request.method.toUpperCase() == "GET") return 404;
+    return 222;
+  }
+
+}
+```
+4. Use the default static method ```manageStatus``` from Service class. You can overhide it if you need :
+    1. return value and post request return 201
+    2. no return value and post request return 204
+    3. no return value and get request return 404
+    4. otherwise return 200
 
 ### REST level 3
 
@@ -114,7 +253,7 @@ And the first parameter method contain an object ```Param``` with the property i
 
 If you want to add link to entity, you must decorate the entity class like that :
 ```javascript
-@Hal.halEntity("/authors/:id")
+@Hal.halEntity("/authors/:id") // To set the path of the API, that's link id of the path with the id of the model
 export default class Author {
 
   @Hal.resourceId()
@@ -152,7 +291,7 @@ So when you add a author in your response, Threerest will add a structure with l
           "self": {
             "href": "/series/6"
           }
-        },
+        },types
         "idSerie": 6,
         "name": "Expérience mort"
       },
@@ -188,7 +327,7 @@ If your service returns a given list, you can easily paginate the return by addi
   getAll() {
     ....
   }
-```
+```		
 In this case, threerest react when tou add the parameter pageSize and/or pageIdx in your request. For example, the URI myAPI/authors send all the authors. If you want only the first 5 results, you just add have to send this request
 ```
   myAPI/authors?pageSize=5
@@ -212,7 +351,7 @@ If you want to use other terms that pageSize and pageIdx , you can specify them 
   }
 ```
 
-The URI becomes
+The URI becomes		
 ```
   myAPI/authors?anotherlimit=5&index=2
 ```
