@@ -22,7 +22,7 @@ export namespace Service {
 export namespace Hal {
     export function halServiceMethod(pagination?: IPaginationData | boolean): (target: any, key: string, descriptor: PropertyDescriptor) => void;
     export function halEntity(link: string, paramName?: string): (target: any) => void;
-    export function resourceId(): (target: any, key: string, descriptor: PropertyDescriptor) => void;
+    export function resourceId(): (target: any, key: string, descriptor?: PropertyDescriptor) => void;
 }
 
 export namespace Methods {
@@ -108,8 +108,3 @@ interface MetaData {
     startIdxKeyWord?: string;
 }
 
-declare module "threerest/js/helpers/array-helper" {
-    export namespace ArrayHelper {
-        function paginatesList(result: Array<any>, limit: number, offset: number, startIdx: number): Array<any>;
-    }
-}
