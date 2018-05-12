@@ -82,11 +82,7 @@ export default class Service {
                       }
                     })
                     .catch((e) => {
-                      if (e.code) {
-                        res.status(e.code as number).send(e.message);
-                      } else {
-                        res.status(500).send(e);
-                      }
+                        res.status(e.code ? e.code : 500).send({message: e.message});
                     });
                   });
                 }
@@ -106,7 +102,7 @@ export default class Service {
   * @return paramètre envoyé au service req.body ou req.params
   */
   static getParams(requete: Request) {
-    return requete.method.toLowerCase() == "post" ? requete.body : requete.params || true;
+    return requete.method.toLowerCase() == "post" || requete.method.toLowerCase() == "patch" ? Object.assign(requete.body, requete.params) : requete.params || {};
   }
 
   /**
@@ -118,8 +114,8 @@ export default class Service {
   */
   static manageStatus(requete: Request, value:any): number {
     if(value && requete.method.toUpperCase() == "POST") return 201;
-    else if(!value && requete.method.toUpperCase() == "POST") return 204;
-    else if(!value && requete.method.toUpperCase() == "GET") return 404;
+    else if(value == undefined && (requete.method.toUpperCase() == "POST" || requete.method.toUpperCase() == "PATCH")) return 204;
+    else if(value == undefined && requete.method.toUpperCase() == "GET") return 404;
     return 200;
   }
 
