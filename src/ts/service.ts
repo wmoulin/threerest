@@ -31,7 +31,7 @@ export default class Service {
       target.prototype[Service.globalKey][Service.pathKey] = path;
 
       if (!target.prototype[Service.loadFct]) {
-        target.prototype[Service.loadFct] = function(expressInst: Application) {
+        target.prototype[Service.loadFct] = function(expressInst: Application, callNextError?: boolean) {
 
           let childsValidate = [];
           if (target.prototype[Service.globalKey]) {
@@ -82,7 +82,11 @@ export default class Service {
                       }
                     })
                     .catch((e) => {
-                        res.status(e.code ? e.code : 500).send({message: e.message});
+                      if(callNextError) {
+                        next(e);
+                      } else {
+                        res.status(e.code ? e.code : 500).send(e.sendMessage ? e.sendMessage() : { message: e.message });
+                      }
                     });
                   });
                 }
