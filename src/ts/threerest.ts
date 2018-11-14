@@ -1,6 +1,6 @@
 import Hal from "./hypermedia/hal";
 import Service from "./service";
-import Methods from "./services/methods";
+import { Methods } from "./services/methods";
 import Secure from "./services/secure";
 import Convert from "./convert";
 import Pagination from "./services/pagination";

@@ -1,8 +1,12 @@
 /// <reference types="express" />
+import "reflect-metadata";
 
 import { Router, Request, Response, Application, NextFunction } from "express";
-import Method from "./services/methods";
+import { Methods } from "./services/methods";
+import { INJECT_PARAMETER_METADATA_KEY } from "./services/parameter";
 import RestResult from "./services/rest-result";
+import { Template } from "./template";
+declare var Reflect: any;
 
 /**
  * Class for Decorator REST service (entrypoint).
@@ -16,6 +20,10 @@ export default class Service {
   static loadFct = "__load__";
   static secureKey = "__secure__";
   static httpStatusKey = "__http_status__";
+  static paramKey = "__param__";
+  static bodyKey = "__body__";
+  static queryKey = "__query__";
+  static headerKey = "__header__";
 
   /**
   * Decorator for REST service class. Must use with method decorators.
@@ -38,9 +46,9 @@ export default class Service {
 
             for (let attrib in target.prototype[Service.globalKey]) {
 
-              if (Method.METHODS[attrib]) {
+              if (Methods.METHODS[attrib]) {
                 let router: any = Router();
-                for (var fctName in target.prototype[Service.globalKey][attrib]) {
+                for (let fctName in target.prototype[Service.globalKey][attrib]) {
                   let fct = target.prototype[Service.globalKey][attrib][fctName][Service.fctKey];
                   let status = target.prototype[Service.globalKey][attrib][fctName][Service.httpStatusKey];
                   router[attrib](target.prototype[Service.globalKey][attrib][fctName][Service.pathKey], (req: Request, res: Response, next: NextFunction) => {
@@ -49,23 +57,23 @@ export default class Service {
                       p = new Promise((resolve, reject) => {
                         try {
                           fct.secure(req);
-                          resolve(Service.getParams(req));
+                          resolve(Service.getParams(req, target, fct.name));
                         } catch(e) {
                           reject(e);
                         }
                       });
                     } else {
-                      p = new Promise((resolve) => { resolve(Service.getParams(req)); });
+                      p = new Promise((resolve) => { resolve(Service.getParams(req, target, fctName)); });
                     }
 
                     if (fct.convertBefore) {
                       p = p.then((params)=> {
-                        return fct.convertBefore(params);
+                        return [fct.convertBefore(params[0])];
                       });
                     } 
                     
                     p = p.then((params) => {
-                      return fct.call(this, params, req, res);
+                      return fct.apply(this, params ? (params as Array<any>).concat([req, res]) : []);
                     }).then((value) => {
                       if(value instanceof RestResult && (value as RestResult<any>).code) {
                         res.status((value as RestResult<any>).code);
@@ -105,8 +113,31 @@ export default class Service {
   * @param {IncomingMessage} requete - requête http
   * @return paramètre envoyé au service req.body ou req.params
   */
-  static getParams(requete: Request) {
-    return requete.method.toLowerCase() == "post" || requete.method.toLowerCase() == "patch" ? Object.assign(requete.body, requete.params) : requete.params || {};
+  static getParams(requete: Request, target: any, propertyKey: string | symbol) {
+    const injectParameters: { index: number, type: any, parameterType: string, name: string }[] = Reflect.getMetadata(INJECT_PARAMETER_METADATA_KEY, target.prototype, propertyKey);
+    if (injectParameters) {
+      let allArguments = [];
+
+      injectParameters.forEach((injectParameter) => {
+        allArguments[ injectParameter.index ] = ((type: string, name: string)=>{
+          switch(type) {
+            case Service.paramKey :
+              return name ? new Template("${" + name + "}").process(requete.params) : requete.params;
+            case Service.bodyKey :
+              return name ? new Template("${" + name + "}").process(requete.body) : requete.body;
+            case Service.queryKey :
+              return name ? new Template("${" + name + "}").process(requete.query) : requete.query;
+            case Service.headerKey :
+              return name ? requete.get(name) : requete.headers;
+            default:
+              return undefined;
+          }
+        })(injectParameter.parameterType, injectParameter.name);
+      });
+      return allArguments;
+    } else {
+      return [requete.method.toLowerCase() == "post" || requete.method.toLowerCase() == "patch" ? Object.assign(requete.body, requete.params) : requete.params || {}];
+    }
   }
 
   /**
@@ -124,5 +155,7 @@ export default class Service {
   }
 
 };
+
+
 
 
