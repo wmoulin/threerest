@@ -22,7 +22,7 @@ describe("Laod simple service rest with parameter decorators", function() {
 
     request(app)
     .get("/one/1")
-    .expect('{"id":"1","body":{}}', done);
+    .expect('{"id":"1","body":{},"response":true,"request":true}', done);
   });
 
   it("should return a post body", function(done) {
@@ -30,7 +30,7 @@ describe("Laod simple service rest with parameter decorators", function() {
     request(app)
     .get("/one/1")
     .field("field", 11)
-    .expect('{"id":"1","body":{"field":"11"}}', done);
+    .expect('{"id":"1","body":{"field":"11"},"response":true,"request":true}', done);
   });
 
   it("should return a put", function(done) {

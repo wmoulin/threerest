@@ -1,15 +1,16 @@
 import Service from "../../../../src/ts/service";
 import { Methods } from "../../../../src/ts/services/methods";
-import { Query, Body, Params, Headers } from "../../../../src/ts/services/parameter"
+import { Query, Body, Params, Headers, Request, Response } from "../../../../src/ts/services/parameter"
 import convert from "../../../../src/ts/convert";
+import { request } from "https";
 ///import Param as Paramter from "../../param";
 
 @Service.path("/one")
 export default class ServiceTestParameter {
 
   @Methods.get("/:id")
-  testGet(@Params("id") id, @Body() body) {
-    return {id, body};
+  testGet(@Params("id") id, @Body() body, @Request() request, @Response() response) {
+    return {id, body, response: !!response.end, request: !!request.params["id"] };
   }
 
 
@@ -17,6 +18,7 @@ export default class ServiceTestParameter {
   testPut(@Headers("Custom") myHeader, @Query("coucou") query) {
     return {myHeader, query};
   }
+
 }
 
 

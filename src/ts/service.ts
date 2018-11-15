@@ -24,6 +24,8 @@ export default class Service {
   static bodyKey = "__body__";
   static queryKey = "__query__";
   static headerKey = "__header__";
+  static requestKey = "__request__";
+  static responseKey = "__response__";
 
   /**
   * Decorator for REST service class. Must use with method decorators.
@@ -57,13 +59,13 @@ export default class Service {
                       p = new Promise((resolve, reject) => {
                         try {
                           fct.secure(req);
-                          resolve(Service.getParams(req, target, fct.name));
+                          resolve(Service.getParams(req, res, target, fct.name));
                         } catch(e) {
                           reject(e);
                         }
                       });
                     } else {
-                      p = new Promise((resolve) => { resolve(Service.getParams(req, target, fctName)); });
+                      p = new Promise((resolve) => { resolve(Service.getParams(req, res, target, fctName)); });
                     }
 
                     if (fct.convertBefore) {
@@ -113,7 +115,7 @@ export default class Service {
   * @param {IncomingMessage} requete - requête http
   * @return paramètre envoyé au service req.body ou req.params
   */
-  static getParams(requete: Request, target: any, propertyKey: string | symbol) {
+  static getParams(requete: Request, reponse: Response, target: any, propertyKey: string | symbol) {
     const injectParameters: { index: number, type: any, parameterType: string, name: string }[] = Reflect.getMetadata(INJECT_PARAMETER_METADATA_KEY, target.prototype, propertyKey);
     if (injectParameters) {
       let allArguments = [];
@@ -129,6 +131,10 @@ export default class Service {
               return name ? new Template("${" + name + "}").process(requete.query) : requete.query;
             case Service.headerKey :
               return name ? requete.get(name) : requete.headers;
+            case Service.requestKey :
+              return requete
+            case Service.responseKey :
+              return reponse
             default:
               return undefined;
           }
