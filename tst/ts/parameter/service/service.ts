@@ -1,9 +1,6 @@
 import Service from "../../../../src/ts/service";
 import { Methods } from "../../../../src/ts/services/methods";
 import { Query, Body, Params, Headers, Request, Response } from "../../../../src/ts/services/parameter"
-import convert from "../../../../src/ts/convert";
-import { request } from "https";
-///import Param as Paramter from "../../param";
 
 @Service.path("/one")
 export default class ServiceTestParameter {
