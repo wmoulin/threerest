@@ -116,23 +116,23 @@ In this example, the parameter *value* will be type of ```Param```, and his id a
 
 #### Parameter decorators
 
-For all these decoratos with parameter, this one can be a chained attributs example "myFirstLevel.mySecondLevel.attribut" and you can use un table index accessor like "myObjecy.tab[0].attribut".
+For all these decorators with parameter, this one can be a chained attributs, example `myFirstLevel.mySecondLevel.attribut` and you can use un table index accessor like `myObjecy.tab[0].attribut`.
 
 ##### Params
 
-Use @Params() or @Params("id") for get all or only one field from param request object. 
+Use @Params() or @Params("id") for get all or only one field from request param object. 
 
 ##### Body
 
-Use @Body() or @Body("id") for get all or only one field from body request object. 
+Use @Body() or @Body("id") for get all or only one field from request body object. 
 
 ##### Headers
 
-Use @Headers() or @Headers("header") for get all or only one field from header request object. 
+Use @Headers() or @Headers("header") for get all or only one field from request header object. 
 
 ##### Query
 
-Use @Query() or @Query("header") for get all or only one field from query request object (query parameters). 
+Use @Query() or @Query("header") for get all or only one field from request query object (query parameters). 
 
 ##### Request
 
