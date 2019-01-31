@@ -22,7 +22,7 @@
     "path-to-regexp": "^1.2.1"
   },
   "devDependencies": {
-    "@types/mocha": "^2.2.41",
+    "@types/mocha": "^5.2.5",
     "body-parser": "^1.17.2",
     "express": "4.13.4",
     "jsonwebtoken": "^7.4.1",
