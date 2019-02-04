@@ -18,6 +18,16 @@ describe("Laod simple service rest", function () {
       .expect('{"id":"12"}', done);
   });
 
+  it("should return a new route", function (done) {
+
+    let app = express();
+    ServiceLoader.loadService(app, new serviceOne());
+
+    request(app)
+      .get("/one/13")
+      .expect('{"message":"13: bad luck"}', done);
+  });
+
   it("should return the value", function (done) {
     
     let app = express();

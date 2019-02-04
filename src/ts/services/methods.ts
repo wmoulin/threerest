@@ -4,7 +4,7 @@ import Service from "../service";
 * Class for all verbs HTTP decorator.
 * @class
 */
-export default class Method {
+export class Methods {
 
   public static METHODS: {
     get: boolean,

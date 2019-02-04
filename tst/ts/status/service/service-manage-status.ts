@@ -1,12 +1,12 @@
 import Service from "../../../../src/ts/service";
-import Method from "../../../../src/ts/services/methods";
+import { Methods } from "../../../../src/ts/services/methods";
 import convert from "../../../../src/ts/convert";
 import Param from "../../param";
 
 @Service.path("/three")
 export default class ServiceManageStatus {
 
-  @Method.get("/:id")
+  @Methods.get("/:id")
   @convert(Param)
   testGet(value) {
     value.method = "get"

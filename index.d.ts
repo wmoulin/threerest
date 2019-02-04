@@ -41,6 +41,13 @@ export namespace Methods {
     function patch(path: string, httpStatus?: number): (target: any, key: string, descriptor: PropertyDescriptor) => void;
 }
 
+export function Query(attrPath?: string): (target: Object, propertyKey: string | symbol, parameterIndex: number) => void;
+export function Body(attrPath?: string): (target: Object, propertyKey: string | symbol, parameterIndex: number) => void;
+export function Params(attrPath?: string): (target: Object, propertyKey: string | symbol, parameterIndex: number) => void;
+export function Headers(attrPath?: string): (target: Object, propertyKey: string | symbol, parameterIndex: number) => void;
+export function Request(): (target: Object, propertyKey: string | symbol, parameterIndex: number) => void;
+export function Response(): (target: Object, propertyKey: string | symbol, parameterIndex: number) => void;
+
 export namespace Secure {
     function secure(roles: string|Array<string>): (target: any, key: string, descriptor: PropertyDescriptor) => void;
 }

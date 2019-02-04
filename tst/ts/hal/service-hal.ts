@@ -1,6 +1,6 @@
 import Hal from "../../../src/ts/hypermedia/hal";
 import Service from "../../../src/ts/service";
-import Method from "../../../src/ts/services/methods";
+import { Methods } from "../../../src/ts/services/methods";
 import convert from "../../../src/ts/convert";
 import Param from "../param";
 import NotFoundError from "../../../src/ts/exceptions/not-found-error";
@@ -8,7 +8,7 @@ import NotFoundError from "../../../src/ts/exceptions/not-found-error";
 @Service.path("/hal")
 export default class ServiceTest {
 
-  @Method.get("/:id")
+  @Methods.get("/:id")
   @Hal.halServiceMethod()
   @convert(Param)
   testGet(value) {
@@ -18,7 +18,7 @@ export default class ServiceTest {
     throw new NotFoundError();
   }
 
-  @Method.get("/")
+  @Methods.get("/")
   @Hal.halServiceMethod()
   testGetAll() {
     return [new User(1, "firstName1", "lastName1"), new User(2, "firstName2", "lastName2")];
