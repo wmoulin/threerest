@@ -3,7 +3,7 @@
 
 ![alt text][logo]
 
-[logo]: ./logo.png "threerest logo"
+[logo]: ./logo.webp "threerest logo"
 
   Threerest is a light and powerful framework for creating hypermedia API for [node](http://nodejs.org). For the moment, only HAL concept is implement for level 3.
 
