@@ -119,6 +119,63 @@ export default class ServiceManageStatus {
 
 In this example, the parameter *value* will be type of ```Param```, and his id attribut will be set with the request parameter exctract from the URL.
 
+#### Parameter decorators
+
+For all these decorators with parameter, this one can be a chained attributs, example `myFirstLevel.mySecondLevel.attribut` and you can use un table index accessor like `myObjecy.tab[0].attribut`.
+
+##### Params
+
+Use @Params() or @Params("id") for get all or only one field from request param object. 
+
+##### Body
+
+Use @Body() or @Body("id") for get all or only one field from request body object. 
+
+##### Headers
+
+Use @Headers() or @Headers("header") for get all or only one field from request header object. 
+
+##### Query
+
+Use @Query() or @Query("header") for get all or only one field from request query object (query parameters). 
+
+##### Request
+
+Use @Request() for get request object. 
+
+##### Response
+
+Use @Response() for get response object. 
+
+###### Example
+
+```javascript
+@Service.path("/one")
+export default class ServiceTestParameter {
+
+  @Methods.get("/:id")
+  testGet(@Params("id") id, @Body() body, @Request() request, @Response() response) {
+    return {id, body, response: !!response.end, request: !!request.params["id"] };
+  }
+
+
+  @Methods.put("/:id")
+  testPut(@Headers("Custom") myHeader, @Query("coucou") query) {
+    return {myHeader, query};
+  }
+
+}
+```
+
+In this example :
++ @Params("id") get the id from the url parameter.
++ @Body() get all the body from the request
++ @Request is the request object (like express.Request)
++ @Response is the response object (like express.Response)
++ @Headers("Custom") get the value of the 'Custom' header request
++ @Query("coucou") get the value from the query parameter 'coucou' (http://domain/context/service?coucou=vale)
+
+
 #### Secure decorator
 
 ##### Presentation
@@ -296,7 +353,7 @@ So when you add a author in your response, Threerest will add a structure with l
           "self": {
             "href": "/series/6"
           }
-        },types
+        },
         "idSerie": 6,
         "name": "Expérience mort"
       },

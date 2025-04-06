@@ -22,7 +22,7 @@ export namespace Service {
 export namespace Hal {
     export function halServiceMethod(pagination?: IPaginationData | boolean): (target: any, key: string, descriptor: PropertyDescriptor) => void;
     export function halEntity(link: string, paramName?: string): (target: any) => void;
-    export function resourceId(): (target: any, key: string, descriptor: PropertyDescriptor) => void;
+    export function resourceId(): (target: any, key: string, descriptor?: PropertyDescriptor) => void;
 }
 
 export namespace Methods {
@@ -40,6 +40,13 @@ export namespace Methods {
     function del(path: string, httpStatus?: number): ((target: any, key: string, descriptor: PropertyDescriptor) => void);
     function patch(path: string, httpStatus?: number): (target: any, key: string, descriptor: PropertyDescriptor) => void;
 }
+
+export function Query(attrPath?: string): (target: Object, propertyKey: string | symbol, parameterIndex: number) => void;
+export function Body(attrPath?: string): (target: Object, propertyKey: string | symbol, parameterIndex: number) => void;
+export function Params(attrPath?: string): (target: Object, propertyKey: string | symbol, parameterIndex: number) => void;
+export function Headers(attrPath?: string): (target: Object, propertyKey: string | symbol, parameterIndex: number) => void;
+export function Request(): (target: Object, propertyKey: string | symbol, parameterIndex: number) => void;
+export function Response(): (target: Object, propertyKey: string | symbol, parameterIndex: number) => void;
 
 export namespace Secure {
     function secure(roles: string|Array<string>): (target: any, key: string, descriptor: PropertyDescriptor) => void;
@@ -108,8 +115,3 @@ interface MetaData {
     startIdxKeyWord?: string;
 }
 
-declare module "threerest/js/helpers/array-helper" {
-    export namespace ArrayHelper {
-        function paginatesList(result: Array<any>, limit: number, offset: number, startIdx: number): Array<any>;
-    }
-}

@@ -1,6 +1,6 @@
 import Hal from "../../../src/ts/hypermedia/hal";
 import Service from "../../../src/ts/service";
-import Methods from "../../../src/ts/services/methods";
+import { Methods } from "../../../src/ts/services/methods";
 import NotFoundError from "../../../src/ts/exceptions/not-found-error";
 import BdHelper from "../helpers/bd-helper";
 

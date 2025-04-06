@@ -1,6 +1,7 @@
 import Hal from "./hypermedia/hal";
 import Service from "./service";
-import Methods from "./services/methods";
+import { Methods } from "./services/methods";
+import { Query, Body, Params, Headers, Request, Response } from "./services/parameter"
 import Secure from "./services/secure";
 import Convert from "./convert";
 import Pagination from "./services/pagination";
@@ -20,6 +21,7 @@ export {
   Service,
   Hal,
   Methods,
+  Query, Body, Params, Headers, Request, Response,
   Secure,
   Convert,
   Pagination,

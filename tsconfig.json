@@ -8,6 +8,7 @@
     "alwaysStrict": true,
     "traceResolution": true,
     "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
     "sourceMap": true
   }, 
   "exclude": [
